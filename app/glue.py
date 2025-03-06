@@ -6,9 +6,7 @@ import glob
 import json
 
 import httpx
-
 from pydantic import BaseModel, computed_field
-
 
 # This file contains the result of the GraphQL query
 # {

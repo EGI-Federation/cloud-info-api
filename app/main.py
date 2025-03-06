@@ -6,11 +6,10 @@ needed by IM
 """
 
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException
-
-from pydantic import BaseModel
 
 from app.glue import SiteStore, VOStore
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 
 class Image(BaseModel):
@@ -58,9 +57,7 @@ def get_sites(vo_name: str = "") -> list[Site]:
 
 
 @app.get("/site/")
-def get_site(site_name: str = "", service_type: str = "openstack") -> Site:
-    if service_type != "openstack":
-        return None
+def get_site(site_name: str = "") -> list[Site]:
     site = site_store.get_site_by_name(site_name)
     if not site:
         raise HTTPException(status_code=404, detail=f"Site {site_name} not found")
@@ -68,7 +65,7 @@ def get_site(site_name: str = "", service_type: str = "openstack") -> Site:
 
 
 def _get_site(site_id: str, vo_name: str = ""):
-    site = site_store._get_site(site_id)
+    site = site_store.get_site_by_goc_id(site_id)
     if not site:
         raise HTTPException(status_code=404, detail=f"Site {site_id} not found")
     if vo_name and not site.supports_vo(vo_name):
@@ -79,9 +76,7 @@ def _get_site(site_id: str, vo_name: str = ""):
 
 
 @app.get("/site/{site_id}/")
-def get_site_by_goc(site_id: str, service_type: str = "openstack") -> Site:
-    if service_type != "openstack":
-        return None
+def get_site_by_goc(site_id: str) -> Site:
     return Site(**_get_site(site_id).summary())
 
 
