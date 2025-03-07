@@ -7,4 +7,5 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.115.11",
     "pydantic-settings>=2.8.1",
+    "watchfiles>=1.0.4",
 ]

@@ -9,6 +9,8 @@ import os.path
 
 import httpx
 from pydantic import BaseModel, computed_field
+from watchfiles import awatch, Change
+
 
 
 class VO(BaseModel):
@@ -46,7 +48,7 @@ class VOStore:
             self.update_vos()
         return self._vos
 
-    def start(self):
+    async def start(self):
         self.get_vos()
 
 
@@ -114,7 +116,7 @@ class GlueSite(BaseModel):
 
 class SiteStore:
     def __init__(self, appdb_images_file="", cloud_info_dir=""):
-        self._sites = []
+        self._sites = {}
         self.cloud_info_dir = cloud_info_dir
         try:
             # This file contains the result of the GraphQL query
@@ -133,9 +135,6 @@ class SiteStore:
         except OSError as e:
             logging.error(f"Not able to load image info: {e.strerror}")
             self._image_info = {}
-
-    def start(self):
-        self._update_sites()
 
     def appdb_image_data(self, image_url):
         return self._image_info.get(image_url, {})
@@ -198,25 +197,41 @@ class SiteStore:
         )
         return site
 
-    def _load_site_file(self, filename):
-        with open(filename) as f:
-            try:
+    def _load_site_file(self, path):
+        filename = os.path.basename(path)
+        try:
+            with open(path) as f:
                 s = self.create_site(json.loads(f.read()))
-                self._sites.append(s)
-            except Exception as e:
-                logging.error(f"Unable to load site {filename}: {e}")
+                self._sites[filename] = s
+        except Exception as e:
+            logging.error(f"Unable to load site {path}: {e}")
+
+    def _rm_site(self, path):
+        filename = os.path.basename(path)
+        try:
+            del self._sites[filename]
+        except KeyError as e:
+            logging.info(f"Site file {path} was not loaded")
+
+    async def start(self):
+        async for changes in awatch(self.cloud_info_dir):
+            for chg in changes:
+                if chg[0] == Change.deleted:
+                    self._rm_site(chg[1])
+                else:
+                    self._load_site_file(chg[1])
 
     def _update_sites(self):
         if not self._sites:
-            for json_file in glob.glob(os.path.join(self.cloud_info_dir, "*.json")):
+            for json_file in glob.glob(os.path.join(self.cloud_info_dir, "*")):
                 self._load_site_file(json_file)
 
     def get_sites(self, vo_name=None):
         self._update_sites()
         if vo_name:
-            sites = filter(lambda s: s.supports_vo(vo_name), self._sites)
+            sites = filter(lambda s: s.supports_vo(vo_name), self._sites.values())
         else:
-            sites = self._sites
+            sites = self._sites.values()
         return sites
 
     def get_site_by_goc_id(self, gocdb_id):

@@ -5,6 +5,7 @@ A simple wrapper around the cloud-info jsons to deliver the information
 needed by IM
 """
 
+import asyncio
 from contextlib import asynccontextmanager
 
 from app.glue import SiteStore, VOStore
@@ -46,8 +47,8 @@ vo_store = VOStore(settings.ops_portal_url, settings.ops_portal_token)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    vo_store.start()
-    site_store.start()
+    asyncio.create_task(vo_store.start())
+    asyncio.create_task(site_store.start())
     yield
 
 
