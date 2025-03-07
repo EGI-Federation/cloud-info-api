@@ -9,8 +9,7 @@ import os.path
 
 import httpx
 from pydantic import BaseModel, computed_field
-from watchfiles import awatch, Change
-
+from watchfiles import Change, awatch
 
 
 class VO(BaseModel):
@@ -210,7 +209,7 @@ class SiteStore:
         filename = os.path.basename(path)
         try:
             del self._sites[filename]
-        except KeyError as e:
+        except KeyError:
             logging.info(f"Site file {path} was not loaded")
 
     async def start(self):

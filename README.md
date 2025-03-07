@@ -15,6 +15,6 @@ to fetch the list of VOs.
 
 Both can be configured via env variables, that can be set on the command line:
 
-```
+```sh
 CLOUD_INFO_DIR="<directory>" OPS_PORTAL_TOKEN="<XXXX>" uv run fastapi dev --app app
 ```
