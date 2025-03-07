@@ -4,26 +4,11 @@ Glue Objects and the helpers to manage them
 
 import glob
 import json
+import logging
+import os.path
 
 import httpx
 from pydantic import BaseModel, computed_field
-
-# This file contains the result of the GraphQL query
-# {
-#  siteCloudComputingImages {
-#    totalCount
-#    count
-#    limit
-#    items {
-#      marketPlaceURL
-#      imageVAppCName
-#      imageVAppName
-#    }
-#  }
-# }
-# and then cleaned up
-APPDB_IMAGES_FILE = "appdb-images.json"
-OPS_PORTAL_URL = "https://operations-portal.egi.eu/api/vo-list/json"
 
 
 class VO(BaseModel):
@@ -32,27 +17,29 @@ class VO(BaseModel):
 
 
 class VOStore:
-    def __init__(self, ops_portal_url=OPS_PORTAL_URL, ops_portal_key=""):
+    def __init__(self, ops_portal_url="", ops_portal_key=""):
         self._vos = []
-        self._portal_url = ops_portal_url
-        self._portal_key = ops_portal_key
+        self.ops_portal_url = ops_portal_url
+        self.ops_portal_key = ops_portal_key
 
     def update_vos(self):
         try:
             r = httpx.get(
-                OPS_PORTAL_URL,
-                headers={"accept": "application/json", "X-API-Key": self._portal_key},
+                self.ops_portal_url,
+                headers={
+                    "accept": "application/json",
+                    "X-API-Key": self.ops_portal_key,
+                },
             )
+            r.raise_for_status()
             vos = []
             for vo_info in r.json()["data"]:
                 vo = VO(**vo_info)
                 vos.append(vo)
             self._vos = vos
-        except Exception as e:
-            # TODO: proper error handling
-            print("BU")
-            print(e)
-            pass
+        except httpx.HTTPStatusError as e:
+            logging.error(f"Unable to load VOs: {e}")
+            self._vos = []
 
     def get_vos(self):
         if not self._vos:
@@ -126,10 +113,26 @@ class GlueSite(BaseModel):
 
 
 class SiteStore:
-    def __init__(self, appdb_images_file=APPDB_IMAGES_FILE):
+    def __init__(self, appdb_images_file="", cloud_info_dir=""):
         self._sites = []
-        with open(appdb_images_file) as f:
-            self._image_info = json.loads(f.read())
+        self.cloud_info_dir = cloud_info_dir
+        try:
+            # This file contains the result of the GraphQL query
+            # {
+            #  siteCloudComputingImages {
+            #    items {
+            #      marketPlaceURL
+            #      imageVAppCName
+            #      imageVAppName
+            #    }
+            #  }
+            # }
+            # and then cleaned up
+            with open(appdb_images_file) as f:
+                self._image_info = json.loads(f.read())
+        except OSError as e:
+            logging.error(f"Not able to load image info: {e.strerror}")
+            self._image_info = {}
 
     def start(self):
         self._update_sites()
@@ -150,7 +153,7 @@ class SiteStore:
                     vo_name = policy["Associations"]["PolicyUserDomain"]
                     break
             else:
-                print("NO VO NAME!")
+                logging.warning("No VO Name!?")
                 continue
             images = []
             for image_info in info["CloudComputingImage"]:
@@ -201,13 +204,11 @@ class SiteStore:
                 s = self.create_site(json.loads(f.read()))
                 self._sites.append(s)
             except Exception as e:
-                # Do not care, but maybe log?
-                print(e)
-                print("HU")
+                logging.error(f"Unable to load site {filename}: {e}")
 
     def _update_sites(self):
         if not self._sites:
-            for json_file in glob.glob("jsons/*.json"):
+            for json_file in glob.glob(os.path.join(self.cloud_info_dir, "*.json")):
                 self._load_site_file(json_file)
 
     def get_sites(self, vo_name=None):
@@ -220,7 +221,6 @@ class SiteStore:
 
     def get_site_by_goc_id(self, gocdb_id):
         for site in self.get_sites():
-            print(site.gocdb_id, gocdb_id)
             if site.gocdb_id == gocdb_id:
                 return site
         return None

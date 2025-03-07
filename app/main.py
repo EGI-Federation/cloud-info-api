@@ -10,6 +10,7 @@ from contextlib import asynccontextmanager
 from app.glue import SiteStore, VOStore
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from pydantic_settings import BaseSettings
 
 
 class Image(BaseModel):
@@ -31,8 +32,16 @@ class Project(BaseModel):
     name: str
 
 
-site_store = SiteStore()
-vo_store = VOStore()
+class Settings(BaseSettings):
+    appdb_images_file: str = "appdb-images.json"
+    ops_portal_url: str = "https://operations-portal.egi.eu/api/vo-list/json"
+    ops_portal_token: str
+    cloud_info_dir: str = "."
+
+
+settings = Settings()
+site_store = SiteStore(settings.appdb_images_file, settings.cloud_info_dir)
+vo_store = VOStore(settings.ops_portal_url, settings.ops_portal_token)
 
 
 @asynccontextmanager
