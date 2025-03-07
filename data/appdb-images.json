@@ -1,0 +1,758 @@
+{
+  "https://appdb.egi.eu/store/vo/image/57bb9e4e-0d8d-5eff-aff1-57aa65e32c5c:15646/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/04d3146d-e26b-598f-a66b-8d2f3831b964:15740/": {
+    "imageVAppCName": "almalinux.server.8",
+    "imageVAppName": "AlmaLinux Server 8"
+  },
+  "https://appdb.egi.eu/store/vo/image/068b9f71-ce5a-57db-a80a-8bd6ec863d7f:15729/": {
+    "imageVAppCName": "fedora.core.40",
+    "imageVAppName": "Fedora Core 40"
+  },
+  "https://appdb.egi.eu/store/vo/image/faef143c-e743-551d-b83b-8ad398770f1b:15727/": {
+    "imageVAppCName": "almalinux.server.8",
+    "imageVAppName": "AlmaLinux Server 8"
+  },
+  "https://appdb.egi.eu/store/vo/image/3e81d3c7-1d91-5c72-b159-393e37244c10:15559/": {
+    "imageVAppCName": "debian.12",
+    "imageVAppName": "Debian 12"
+  },
+  "https://appdb.egi.eu/store/vo/image/9c9d87c8-85d5-5134-8b8b-92b0f29acd4b:15685/": {
+    "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
+    "imageVAppName": "EGI Small Ubuntu for Monitoring"
+  },
+  "https://appdb.egi.eu/store/vo/image/b150600c-45cb-5be2-9831-8fc624408ae4:14810/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/01e51a33-09b0-5d10-a29c-190ba0a4b5fc:13811/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/aa315eeb-aea5-557e-a8ae-41015ac0d87c:15045/": {
+    "imageVAppCName": "almalinux.server.8",
+    "imageVAppName": "AlmaLinux Server 8"
+  },
+  "https://appdb.egi.eu/store/vo/image/fe6f8013-433e-5302-9b0b-f443ee2a5132:13977/": {
+    "imageVAppCName": "vgcn",
+    "imageVAppName": "vgcn"
+  },
+  "https://appdb.egi.eu/store/vo/image/883777e7-dbaa-54e4-8948-0ad1e05a1165:14062/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/f5255956-5a28-505b-8afe-7cbdca70cb87:15792/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/59549e21-35e4-5cfa-8418-e6aa7d6b7b2e:14941/": {
+    "imageVAppCName": "ubuntu.server.22.04.lts",
+    "imageVAppName": "Ubuntu Server 22.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/1a5117e8-90ae-5807-bec2-b9a3c5be1bbe:14174/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/3ff54ea4-f33c-5de5-b350-e9b44a06dfe1:15843/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/296590ab-5a9a-55dd-bc58-025b27edd214:15688/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/9b698ead-9af4-5e95-9674-0405e742cdc4:7550/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/00f983e7-1586-595e-a730-31d31b3f1465:15687/": {
+    "imageVAppCName": "ubuntu.server.18.04.lts",
+    "imageVAppName": "Ubuntu Server 18.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/06c18cfc-a82c-5fd2-9a07-0566bf9a8102:15676/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/f74b321e-f1c2-5a6c-8952-2ad41d704a48:15645/": {
+    "imageVAppCName": "jupyter.datahub.vm",
+    "imageVAppName": "Jupyter DataHub VM"
+  },
+  "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/": {
+    "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
+    "imageVAppName": "EGI Small Ubuntu for Monitoring"
+  },
+  "https://appdb.egi.eu/store/vo/image/4db6bb80-74e2-5b14-a903-a56229f71060:15346/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/218cd70f-3058-5c9c-b3d0-50db8758e15f:7561/": {
+    "imageVAppCName": "egi.fedcloud.clients",
+    "imageVAppName": "EGI FedCloud Clients"
+  },
+  "https://appdb.egi.eu/store/vo/image/6c16bf36-827e-5a0b-9572-0a5dc3f6d94b:15548/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/3165b220-a6a3-550d-a720-607d890c5517:14798/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/15bcd9a5-e6d9-5b2c-945b-54a0419b2ec5:15531/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/e29454eb-d751-5bf8-9f81-91f5a4aac7ec:6614/": {
+    "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
+    "imageVAppName": "EGI Small Ubuntu for Monitoring"
+  },
+  "https://appdb.egi.eu/store/vo/image/1b24b00c-f6c9-5907-82c5-2188c5da1332:15004/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/15d0f968-861c-521a-af0c-910c574c1e1e:15725/": {
+    "imageVAppCName": "ubuntu.server.24.04.lts",
+    "imageVAppName": "Ubuntu Server 24.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/b8256c7d-26e9-5cb7-9309-268dd6963531:14627/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/f26e4fe1-9478-5f95-aae1-c5cc500900bc:15446/": {
+    "imageVAppCName": "ubuntu.server.22.04.lts",
+    "imageVAppName": "Ubuntu Server 22.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/81986c4e-0635-503d-9a60-47825eb394c3:15533/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/b5dacd02-6ac6-5b4f-b5a0-ccfb807cd629:15836/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/17f87cdd-2f7e-53e5-b1c7-4a2e358810a8:15791/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/866395c1-d064-5236-adb6-cb7bcc3d7a90:15641/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/60990dd6-2baf-53e1-88a4-474885a1826f:10838/": {
+    "imageVAppCName": "cernvm4",
+    "imageVAppName": "CernVM4"
+  },
+  "https://appdb.egi.eu/store/vo/image/73950b2a-0136-531c-bc01-c5025bd9f13e:8018/": {
+    "imageVAppCName": "developer.cloud.sandbox",
+    "imageVAppName": "Developer Cloud Sandbox"
+  },
+  "https://appdb.egi.eu/store/vo/image/269e0aab-2d2d-5f1c-b63d-340c6ea409be:11459/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/b2d79e1b-401b-5d38-889e-5bdb0315b022:15642/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/d314fbb8-cc21-5c2c-a099-e00b1cbae7d5:15689/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/824d9b37-6f82-52a2-87c8-4cd927689641:14822/": {
+    "imageVAppCName": "ubuntu.server.22.04.lts",
+    "imageVAppName": "Ubuntu Server 22.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/c3c1d2b6-6e05-5643-872f-7fb6227c913e:15445/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/dc9e9b07-35de-5d1c-bb6e-bfe219bcc47c:15316/": {
+    "imageVAppCName": "centos.server.7",
+    "imageVAppName": "CentOS Server 7-DELETED-2b7ec6e3-8fca-4989-9f46-0aa5af06b73b"
+  },
+  "https://appdb.egi.eu/store/vo/image/14348fd9-59f8-566a-a6e9-ad9f9cd72978:15535/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/8d396996-3651-5555-ae8d-104d3984eb30:13948/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/49feb86a-96f9-57b9-ac98-ff955432a39f:15276/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/112dce15-970e-54c1-a292-6a6bc6a9f2ce:15006/": {
+    "imageVAppCName": "debian.11",
+    "imageVAppName": "Debian 11"
+  },
+  "https://appdb.egi.eu/store/vo/image/a2724cd3-8252-5141-8ac9-11c0aafd6d36:15558/": {
+    "imageVAppCName": "ubuntu.server.24.04.lts",
+    "imageVAppName": "Ubuntu Server 24.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/c09e4d7d-b4ba-5a85-bab3-3d19b5f68c2f:15616/": {
+    "imageVAppCName": "ubuntu.server.22.04.lts",
+    "imageVAppName": "Ubuntu Server 22.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/ca494c7b-c7a7-5168-88f0-3a94ccefcf19:15718/": {
+    "imageVAppCName": "almalinux.server.9.aarch64",
+    "imageVAppName": "AlmaLinux Server 9 aarch64"
+  },
+  "https://appdb.egi.eu/store/vo/image/ef631811-62b9-526c-8dce-c90cba3949b5:7558/": {
+    "imageVAppCName": "egi.centos.6",
+    "imageVAppName": "EGI Centos 6"
+  },
+  "https://appdb.egi.eu/store/vo/image/b983b271-f5c2-5b40-b940-7b60e75fd99b:10314/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/dd5057e5-82ab-57ef-9500-9162b8e46363:15638/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/fa545133-efc7-5415-b8c1-e5cd9201e910:15739/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vm/image/c22f717b-1a4d-4f75-a547-f6d8ae368c77:7899/": {
+    "imageVAppCName": null,
+    "imageVAppName": null
+  },
+  "https://appdb.egi.eu/store/vo/image/75d30a4c-17a9-5501-bc7b-2f3e9682eda1:15382/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/a60d70bd-138f-5c3d-8008-00fb8febaa8b:7134/": {
+    "imageVAppCName": "egi.centos.7",
+    "imageVAppName": "EGI CentOS 7"
+  },
+  "https://appdb.egi.eu/store/vo/image/bdf842b5-cb39-526b-8a0b-f4ffadf6615e:15659/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/2e29dc7b-4221-5172-9f70-4f3a68ff1103:15401/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/6d56f818-9c35-50fb-bc3f-de00749f6c35:15018/": {
+    "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
+    "imageVAppName": "EGI Small Ubuntu for Monitoring"
+  },
+  "https://appdb.egi.eu/store/vo/image/268892c0-4c51-5635-a76a-8d89583fd1ae:14239/": {
+    "imageVAppCName": "ubuntu.server.22.04.lts",
+    "imageVAppName": "Ubuntu Server 22.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/dc46e131-2db2-5073-8f1d-aefc4a6c77c8:15399/": {
+    "imageVAppCName": "ubuntu.server.22.04.lts",
+    "imageVAppName": "Ubuntu Server 22.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/1cdefa56-396b-5d7b-b1e8-f25a2d5570d3:13494/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/b1267482-27e8-5121-afd6-4c20683ee7b2:15819/": {
+    "imageVAppCName": "almalinux.server.8",
+    "imageVAppName": "AlmaLinux Server 8"
+  },
+  "https://appdb.egi.eu/store/vo/image/f6f1c723-7b58-53af-8853-8e440f72aba6:15776/": {
+    "imageVAppCName": "almalinux.server.9.aarch64",
+    "imageVAppName": "AlmaLinux Server 9 aarch64"
+  },
+  "https://appdb.egi.eu/store/vo/image/e72b7551-f7a4-523b-8832-da8725e49fc3:7560/": {
+    "imageVAppCName": "egi.ubuntu.14.04",
+    "imageVAppName": "EGI Ubuntu 14.04-DELETED-7aee22d5-df4b-4ffd-ad7f-98a1c537bd0e"
+  },
+  "https://appdb.egi.eu/store/vo/image/866395c1-d064-5236-adb6-cb7bcc3d7a90:15640/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/49feb86a-96f9-57b9-ac98-ff955432a39f:15137/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/0cded8ad-3f8d-5c81-824e-dd00274e4e01:15611/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/17f87cdd-2f7e-53e5-b1c7-4a2e358810a8:15271/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/3cdac1d5-962a-57d3-a9f9-c494baf6900b:7576/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/d187ea70-3176-50a4-b036-f3f8b95cb9b4:11733/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/017e15f9-cd70-568a-baf7-f45ff3a0c099:15617/": {
+    "imageVAppCName": "ubuntu.server.24.04.lts",
+    "imageVAppName": "Ubuntu Server 24.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/a7c92224-2815-5196-8040-f2a615ec5a0d:15658/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/f6d98a01-87ea-5eed-8bd0-97558aa182e1:13167/": {
+    "imageVAppCName": "centos.server.7",
+    "imageVAppName": "CentOS Server 7-DELETED-2b7ec6e3-8fca-4989-9f46-0aa5af06b73b"
+  },
+  "https://appdb.egi.eu/store/vo/image/c71c048b-4b95-5873-bd10-a506631e39de:15612/": {
+    "imageVAppCName": "debian.11",
+    "imageVAppName": "Debian 11"
+  },
+  "https://appdb.egi.eu/store/vo/image/69a8fef0-5669-5f98-a91c-c2fcb2f5a74f:417/": {
+    "imageVAppCName": "drihm.vm",
+    "imageVAppName": "Drihm_VM"
+  },
+  "https://appdb.egi.eu/store/vo/image/268892c0-4c51-5635-a76a-8d89583fd1ae:15721/": {
+    "imageVAppCName": "ubuntu.server.22.04.lts",
+    "imageVAppName": "Ubuntu Server 22.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/8bbc5149-3ebd-5f3e-9325-fef18792a413:15775/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/b26c4027-6cd5-551a-9c0e-cd252218e3d4:15549/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/506260d7-8706-5f05-971a-4a1c8f85562e:15124/": {
+    "imageVAppCName": "debian.11",
+    "imageVAppName": "Debian 11"
+  },
+  "https://appdb.egi.eu/store/vo/image/6b0ac46b-8502-54fc-80bd-d2eb41e0fee6:15653/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/95b04d42-b813-5136-99f1-5fa1504d1b6f:13992/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/2debe3fb-3281-5c46-8929-b8a70b611384:12391/": {
+    "imageVAppCName": "egi.ubuntu.18.04",
+    "imageVAppName": "EGI Ubuntu 18.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/3dfa8d28-36b1-5458-a333-ab7caaaeb541:15773/": {
+    "imageVAppCName": "almalinux.server.8",
+    "imageVAppName": "AlmaLinux Server 8"
+  },
+  "https://appdb.egi.eu/store/vo/image/9c823318-d8a9-5414-bb30-8a4c939ca6be:15274/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/567be4c2-dac0-56b5-826d-3aa1a14d2baa:15850/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/c07a31bc-a2ab-570a-ab6e-cfdf1d9ae2b3:15398/": {
+    "imageVAppCName": "ubuntu.server.24.04.lts",
+    "imageVAppName": "Ubuntu Server 24.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/72002105-5e0f-5cac-a3f1-e734f4c92876:4921/": {
+    "imageVAppCName": "egi.fedcloud.clients",
+    "imageVAppName": "EGI FedCloud Clients"
+  },
+  "https://appdb.egi.eu/store/vo/image/7ab589e0-868f-57a8-9d72-39394d5c85fd:15493/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/01cd0904-626c-5ec3-b22f-423d9f6e6a1b:15260/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/a71ede9c-fedd-547a-8f77-26250120f2b4:15557/": {
+    "imageVAppCName": "ubuntu.server.22.04.lts",
+    "imageVAppName": "Ubuntu Server 22.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/543879d9-2db0-5de5-aa9f-6f51d4d7ce4a:14835/": {
+    "imageVAppCName": "nvidia.docker.centos.7",
+    "imageVAppName": "NVIDIA Docker (CentOS 7)-DELETED-e199f0d5-759e-4f79-9b6b-207ba0980f84"
+  },
+  "https://appdb.egi.eu/store/vo/image/07a98e84-5e3a-5edc-9f1d-4ed81b173994:4919/": {
+    "imageVAppCName": "egi.centos.7",
+    "imageVAppName": "EGI CentOS 7"
+  },
+  "https://appdb.egi.eu/store/vo/image/21ca84b3-e4c0-56fb-ad15-b1fa97268788:15614/": {
+    "imageVAppCName": "debian.12",
+    "imageVAppName": "Debian 12"
+  },
+  "https://appdb.egi.eu/store/vo/image/6b0ac46b-8502-54fc-80bd-d2eb41e0fee6:15787/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vm/image/7c702d68-19d8-4227-9e92-6fcf106c0836:7896/": {
+    "imageVAppCName": null,
+    "imageVAppName": null
+  },
+  "https://appdb.egi.eu/store/vo/image/a7c92224-2815-5196-8040-f2a615ec5a0d:13975/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/7b0e3f2a-022d-5001-b67a-bff39bfb6424:15571/": {
+    "imageVAppCName": "debian.12",
+    "imageVAppName": "Debian 12"
+  },
+  "https://appdb.egi.eu/store/vo/image/7f11371d-36a8-5b49-a6a5-99f46568c8db:15774/": {
+    "imageVAppCName": "almalinux.server.8.aarch64",
+    "imageVAppName": "AlmaLinux Server 8 aarch64"
+  },
+  "https://appdb.egi.eu/store/vo/image/dc606f40-0dc1-5a92-b5b8-04b60700943b:15639/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/548375fe-637c-5ad9-873b-8afb819679f1:7557/": {
+    "imageVAppCName": "egi.ubuntu.16.04.lts",
+    "imageVAppName": "EGI Ubuntu 16.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/4f609591-09e4-5ae2-8ae2-f0004e4f7304:15656/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/db495082-489e-5f7c-91b5-8e9c76d48c51:15314/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/729d4445-e412-5a60-b41b-b3fa879ed78e:15570/": {
+    "imageVAppCName": "debian.11",
+    "imageVAppName": "Debian 11"
+  },
+  "https://appdb.egi.eu/store/vo/image/fc5defb1-29e7-5005-a9bb-579d5c2cfd63:15818/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/e3516c5c-1eff-598c-a88c-3208fd603cb7:15722/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/57bb9e4e-0d8d-5eff-aff1-57aa65e32c5c:15494/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/f6d98a01-87ea-5eed-8bd0-97558aa182e1:11149/": {
+    "imageVAppCName": "centos.server.7",
+    "imageVAppName": "CentOS Server 7-DELETED-2b7ec6e3-8fca-4989-9f46-0aa5af06b73b"
+  },
+  "https://appdb.egi.eu/store/vo/image/ac80d3fa-8a57-5c2a-936d-68ccd6dade01:9946/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/d314fbb8-cc21-5c2c-a099-e00b1cbae7d5:15034/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/09c3e3bc-1fa8-52ac-952e-dd4784e79bc1:10544/": {
+    "imageVAppCName": "egi.ubuntu.18.04",
+    "imageVAppName": "EGI Ubuntu 18.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/f2ac87d7-e5b0-52e4-b331-f1a3b44b43cc:14133/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/019f313e-5ffc-5906-86fa-3f077a22b308:15728/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/bc600ce1-1423-5ac8-af00-0b6b40d9cdd5:15125/": {
+    "imageVAppCName": "ubuntu.server.22.04.lts",
+    "imageVAppName": "Ubuntu Server 22.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/3821b0df-470f-5dce-8ced-c9e53c45d71f:15556/": {
+    "imageVAppCName": "almalinux.server.8",
+    "imageVAppName": "AlmaLinux Server 8"
+  },
+  "https://appdb.egi.eu/store/vo/image/aeec37c6-81be-5c02-85ee-0ffa843c6fb7:14230/": {
+    "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
+    "imageVAppName": "EGI Small Ubuntu for Monitoring"
+  },
+  "https://appdb.egi.eu/store/vo/image/9ca03a66-9e46-5ffb-b133-9891bff1bd9e:15273/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/6c238fcf-3fee-5729-8432-c414baf2766d:14799/": {
+    "imageVAppCName": "ubuntu.server.18.04.lts",
+    "imageVAppName": "Ubuntu Server 18.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/7dce667d-70d2-5939-ac68-de3b5fe295ee:15020/": {
+    "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
+    "imageVAppName": "EGI Small Ubuntu for Monitoring"
+  },
+  "https://appdb.egi.eu/store/vo/image/7ef15983-1cf2-533a-9313-d8bc5bc2d9cd:11625/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/e0ced526-5866-5bc2-a3aa-fde6a40ac5c0:15719/": {
+    "imageVAppCName": "debian.12",
+    "imageVAppName": "Debian 12"
+  },
+  "https://appdb.egi.eu/store/vo/image/93c65691-9f19-579b-be0e-f201d3664ec9:15683/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/b1d02306-ea51-598d-824b-ecc871c29d6b:15440/": {
+    "imageVAppCName": "ubuntu.server.24.04.lts",
+    "imageVAppName": "Ubuntu Server 24.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/616957cf-7af0-5f48-9bf8-3db18d0b60e4:10692/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/03e48da3-64e0-531f-8dd7-7afa7e34e208:13007/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/85c40332-17b6-5b4d-b719-794bc42ef710:14228/": {
+    "imageVAppCName": "nvidia.docker.centos.7",
+    "imageVAppName": "NVIDIA Docker (CentOS 7)-DELETED-e199f0d5-759e-4f79-9b6b-207ba0980f84"
+  },
+  "https://appdb.egi.eu/store/vo/image/ac80d3fa-8a57-5c2a-936d-68ccd6dade01:14782/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/9c823318-d8a9-5414-bb30-8a4c939ca6be:14720/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/06c18cfc-a82c-5fd2-9a07-0566bf9a8102:15598/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/bce0edfb-d037-5415-9934-3c60f81bb5b6:4920/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/01a85073-f27d-510c-b1a4-c53cdb1153c6:14758/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/f74b321e-f1c2-5a6c-8952-2ad41d704a48:15325/": {
+    "imageVAppCName": "jupyter.datahub.vm",
+    "imageVAppName": "Jupyter DataHub VM"
+  },
+  "https://appdb.egi.eu/store/vo/image/87b0c1fc-dfd7-523f-aac3-90399ca2ebb6:14991/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vm/image/6991bebd-c53a-4ec2-b899-9245d58b89a2:7913/": {
+    "imageVAppCName": null,
+    "imageVAppName": null
+  },
+  "https://appdb.egi.eu/store/vo/image/257a3a04-ec87-59c9-ba17-8b798ad7f13b:9399/": {
+    "imageVAppCName": "egi.centos.7",
+    "imageVAppName": "EGI CentOS 7"
+  },
+  "https://appdb.egi.eu/store/vo/image/2f62d806-c093-5b7b-8335-62eb81506ca0:14800/": {
+    "imageVAppCName": "egi.centos.8",
+    "imageVAppName": "EGI CentOS 8"
+  },
+  "https://appdb.egi.eu/store/vo/image/e42cac2b-1c12-5e1f-8914-25d85eb6c9be:7559/": {
+    "imageVAppCName": "egi.centos.7",
+    "imageVAppName": "EGI CentOS 7"
+  },
+  "https://appdb.egi.eu/store/vo/image/9c823318-d8a9-5414-bb30-8a4c939ca6be:15785/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/4f05e7bb-5f5f-5e21-b0aa-cd25d858f093:13838/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/b9a7d6ff-1cb7-51d4-9f9f-99f652af398d:14628/": {
+    "imageVAppCName": "jupyter.datahub.vm",
+    "imageVAppName": "Jupyter DataHub VM"
+  },
+  "https://appdb.egi.eu/store/vo/image/ea3f1c3e-8a8c-591c-bd68-921383ff6909:15315/": {
+    "imageVAppCName": "cernvm4",
+    "imageVAppName": "CernVM4"
+  },
+  "https://appdb.egi.eu/store/vo/image/16980a2f-d7fd-5c12-85f0-865de0a327f5:15043/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/00f983e7-1586-595e-a730-31d31b3f1465:14746/": {
+    "imageVAppCName": "ubuntu.server.18.04.lts",
+    "imageVAppName": "Ubuntu Server 18.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/b2d79e1b-401b-5d38-889e-5bdb0315b022:15352/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/e961c705-b745-55df-b44d-ac20268de255:15275/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/da403dd5-6224-58d4-a807-536752888f50:15541/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/230c63c5-8711-5420-8d5e-8a78c742dd0f:11925/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/6bb1edc1-9bc2-5f47-bc0b-732182625140:15255/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/fe6f8013-433e-5302-9b0b-f443ee2a5132:15865/": {
+    "imageVAppCName": "vgcn",
+    "imageVAppName": "vgcn"
+  },
+  "https://appdb.egi.eu/store/vo/image/9c823318-d8a9-5414-bb30-8a4c939ca6be:14841/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/663d6a45-7688-5b74-b12a-ac673d1c12cf:15615/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vm/image/9d778a41-28b3-435e-8493-3bc6e513950a:7920/": {
+    "imageVAppCName": null,
+    "imageVAppName": null
+  },
+  "https://appdb.egi.eu/store/vo/image/e854d496-2ac3-539e-a12a-cfd2f1e0f860:14809/": {
+    "imageVAppCName": "ubuntu.server.18.04.lts",
+    "imageVAppName": "Ubuntu Server 18.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/a8faf38b-544d-5a97-9753-ca08f6d25b53:4918/": {
+    "imageVAppCName": "egi.ubuntu.16.04.lts",
+    "imageVAppName": "EGI Ubuntu 16.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/f4a2101f-ca19-5011-ab6c-98377b2b3de9:9740/": {
+    "imageVAppCName": "egi.ubuntu.18.04",
+    "imageVAppName": "EGI Ubuntu 18.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/4359ff64-5141-5388-810e-6a87f097f390:15528/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/296590ab-5a9a-55dd-bc58-025b27edd214:14747/": {
+    "imageVAppCName": "ubuntu.server.20.04.lts",
+    "imageVAppName": "Ubuntu Server 20.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/7bdae5f9-b95d-5ac4-8e56-fb5e13c8293b:15726/": {
+    "imageVAppCName": "almalinux.server.8.aarch64",
+    "imageVAppName": "AlmaLinux Server 8 aarch64"
+  },
+  "https://appdb.egi.eu/store/vo/image/a65a6495-3967-55c2-8280-034fb62ade8a:15826/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/f5255956-5a28-505b-8afe-7cbdca70cb87:14744/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/b83a646b-9073-5a00-a5d4-0a6616cc47e5:14794/": {
+    "imageVAppCName": "ubuntu.server.18.04.lts",
+    "imageVAppName": "Ubuntu Server 18.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/c8f9cbf9-00fb-5866-8b55-026206ac298f:15507/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/b58127fd-48b0-5b5b-8911-1028341508f1:15560/": {
+    "imageVAppCName": "debian.11",
+    "imageVAppName": "Debian 11"
+  },
+  "https://appdb.egi.eu/store/vo/image/4041fa13-cbdf-5ceb-b0cf-751d0cc11f2f:15788/": {
+    "imageVAppCName": "jupyter.datahub.vm",
+    "imageVAppName": "Jupyter DataHub VM"
+  },
+  "https://appdb.egi.eu/store/vo/image/8930b848-4304-557b-8e02-2d4878d89468:11456/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/f6d98a01-87ea-5eed-8bd0-97558aa182e1:13162/": {
+    "imageVAppCName": "centos.server.7",
+    "imageVAppName": "CentOS Server 7-DELETED-2b7ec6e3-8fca-4989-9f46-0aa5af06b73b"
+  },
+  "https://appdb.egi.eu/store/vo/image/dfaecc60-cd8a-5485-b2f3-ec318b7a1fa0:15143/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/4041fa13-cbdf-5ceb-b0cf-751d0cc11f2f:15332/": {
+    "imageVAppCName": "jupyter.datahub.vm",
+    "imageVAppName": "Jupyter DataHub VM"
+  },
+  "https://appdb.egi.eu/store/vo/image/5178ac26-eb49-5cd8-8816-36f3f9428525:15655/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/7180a4f2-2ea7-5f3c-96f3-92f723d96c15:15901/": {
+    "imageVAppCName": "demo.vm.image",
+    "imageVAppName": "demo VM image"
+  },
+  "https://appdb.egi.eu/store/vo/image/06c18cfc-a82c-5fd2-9a07-0566bf9a8102:15696/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/754f8a03-f304-58d7-9516-781f2b035e91:15636/": {
+    "imageVAppCName": "egi.ubuntu.24.04",
+    "imageVAppName": "EGI Ubuntu 24.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/fd75f6cd-2442-5935-8245-9bc7c788f29e:7133/": {
+    "imageVAppCName": "egi.ubuntu.16.04.lts",
+    "imageVAppName": "EGI Ubuntu 16.04 LTS"
+  },
+  "https://appdb.egi.eu/store/vo/image/384dfcf2-a4cc-5b6e-a124-883b187dafef:7556/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/4f140483-e3c0-569b-951d-1ceddac0e477:14061/": {
+    "imageVAppCName": "egi.centos.8",
+    "imageVAppName": "EGI CentOS 8"
+  },
+  "https://appdb.egi.eu/store/vo/image/1ca6e4e1-ff7e-5b86-aa3f-83702f8b080d:15491/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vm/image/1fc0aabe-3c2e-4e74-9bfb-7df506eef0c5:7910/": {
+    "imageVAppCName": null,
+    "imageVAppName": null
+  },
+  "https://appdb.egi.eu/store/vm/image/19de6d39-9897-4267-a040-8c0bf0ade42e:7908/": {
+    "imageVAppCName": null,
+    "imageVAppName": null
+  },
+  "https://appdb.egi.eu/store/vo/image/139f3e0a-efef-5abd-8bf1-2b215395b7e7:13665/": {
+    "imageVAppCName": "jupyter.datahub.vm",
+    "imageVAppName": "Jupyter DataHub VM"
+  },
+  "https://appdb.egi.eu/store/vo/image/0c0a1ffc-b936-5efd-920c-b648a02cccf4:13976/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/2a22310e-5572-506b-bfbf-0814ecf5659f:12988/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/b63c7e90-d9c6-53b1-85b5-0e672f5c4568:15790/": {
+    "imageVAppCName": "egi.docker",
+    "imageVAppName": "EGI Docker"
+  },
+  "https://appdb.egi.eu/store/vo/image/b37fcd92-1b86-5d7b-a916-8a6703de5b16:15439/": {
+    "imageVAppCName": "debian.12",
+    "imageVAppName": "Debian 12"
+  },
+  "https://appdb.egi.eu/store/vo/image/9c823318-d8a9-5414-bb30-8a4c939ca6be:15786/": {
+    "imageVAppCName": "almalinux.server.9",
+    "imageVAppName": "AlmaLinux Server 9"
+  },
+  "https://appdb.egi.eu/store/vo/image/7f0154f0-39bd-5efe-9843-46fe30b3a546:15862/": {
+    "imageVAppCName": "egi.ubuntu.22.04",
+    "imageVAppName": "EGI Ubuntu 22.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/0486ebd6-6e9c-5361-a811-a1195beecc16:15128/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/6b0ac46b-8502-54fc-80bd-d2eb41e0fee6:15483/": {
+    "imageVAppCName": "egi.ubuntu.20.04",
+    "imageVAppName": "EGI Ubuntu 20.04"
+  },
+  "https://appdb.egi.eu/store/vo/image/e0c2c136-8290-5e82-a1ac-f65b51e1a58d:15569/": {
+    "imageVAppCName": "almalinux.server.8",
+    "imageVAppName": "AlmaLinux Server 8"
+  }
+}
