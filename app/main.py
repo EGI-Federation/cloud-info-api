@@ -34,7 +34,7 @@ class Project(BaseModel):
 
 
 class Settings(BaseSettings):
-    appdb_images_file: str = "appdb-images.json"
+    appdb_images_file: str = "data/appdb-images.json"
     ops_portal_url: str = "https://operations-portal.egi.eu/api/vo-list/json"
     ops_portal_token: str = ""
     cloud_info_dir: str = "cloud-info"
