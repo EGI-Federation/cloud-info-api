@@ -201,6 +201,9 @@ class SiteStore:
         )
         return site
 
+    def _sites():
+        return []
+
     def get_sites(self, vo_name=None):
         if vo_name:
             sites = filter(lambda s: s.supports_vo(vo_name), self._sites())
@@ -273,7 +276,7 @@ class S3SiteStore(SiteStore):
         super().__init__(settings)
         self.s3_url = settings.s3_url
         self._sites_info = {}
-        self._update_period = 60 * 10 # 10 minutes
+        self._update_period = 60 * 10  # 10 minutes
 
     def _load_site(self, site):
         name = site["name"]
