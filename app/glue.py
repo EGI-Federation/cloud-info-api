@@ -23,7 +23,7 @@ class VOStore:
         self.ops_portal_url = settings.ops_portal_url
         self.ops_portal_token = settings.ops_portal_token
         self._vos = []
-        self._update_rate = 60 * 60 * 2  # Every 2 hours
+        self._update_period = 60 * 60 * 2  # Every 2 hours
 
     def update_vos(self):
         try:
@@ -52,7 +52,7 @@ class VOStore:
     async def start(self):
         while True:
             self.update_vos()
-            await asyncio.sleep(self._update_rate)
+            await asyncio.sleep(self._update_period)
 
 
 class GlueImage(BaseModel):
@@ -273,6 +273,7 @@ class S3SiteStore(SiteStore):
         super().__init__(settings)
         self.s3_url = settings.s3_url
         self._sites_info = {}
+        self._update_period = 60 * 10 # 10 minutes
 
     def _load_site(self, site):
         name = site["name"]
@@ -323,4 +324,4 @@ class S3SiteStore(SiteStore):
     async def start(self):
         while True:
             self._update_sites()
-            await asyncio.sleep(10 * 60)  # 10 minutes
+            await asyncio.sleep(self._update_period)
