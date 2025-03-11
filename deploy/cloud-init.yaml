@@ -18,3 +18,16 @@ users:
       - gh:sebastian-luna-valero
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEmO16+MOcZwomZUZ+68rcmXcCs95hVB6u1TD6y6bD7t cloud-info-api
+
+write_files:
+  - content: |
+      # Created by cloud-init according to:
+      #    https://github.com/EGI-Federation/fedcloud-dashboard/blob/main/deployment/cloud-init.yaml
+      #
+      # 1. Access is restricted to members of the vo.cloud.egi.eu VO with the auditor role
+      #    urn:mace:egi.eu:group:cloud.egi.eu:role=auditor#aai.egi.eu
+      #
+      # 2. Once logged in, they have unrestricted sudo power:
+      %egi-eu_cloud-egi-eu ALL=(ALL) NOPASSWD:ALL
+    path: /etc/sudoers.d/motley
+    permissions: "0644"

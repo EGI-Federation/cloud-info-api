@@ -1,5 +1,5 @@
 ---
-name: 'Deploy'
+name: "Deploy"
 
 on:
   push:
@@ -7,14 +7,14 @@ on:
       - main
   pull_request:
     paths:
-      - 'deploy/**'
+      - "deploy/**"
 
-permissions: 
+permissions:
   pull-requests: write
 
 jobs:
   terraform:
-    name: 'Terraform'
+    name: "Terraform"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,6 +24,8 @@ jobs:
         with:
           python-version: 3.x
       - name: Install environment
+        env:
+          MYTOKEN: ${{ secrets.MYTOKEN }}
         run: |
           curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-amd64 > jq
           chmod +x jq
@@ -34,11 +36,14 @@ jobs:
           curl https://raw.githubusercontent.com/oidc-mytoken/client/master/config/example-config.yaml \
             | sed 's/default_provider:/default_provider: "egi"/g' \
             > ~/.mytoken/config.yaml
+          # add PWD to the PATH
+          echo "$PWD" >> "$GITHUB_PATH"
+          # add OIDC access token to ENV
+          OIDC_TOKEN=$(./mytoken AT --MT-env MYTOKEN)
+          echo "::add-mask::$OIDC_TOKEN"
+          echo "OIDC_TOKEN=$OIDC_TOKEN" >> "$GITHUB_ENV"
       - name: Configure providers access
-        env:
-          MYTOKEN: ${{ secrets.MYTOKEN }}
         run: |
-          PATH="$PWD:$PATH"
           cd deploy
           ./site-config.sh
       - name: Setup Terraform
@@ -111,16 +116,17 @@ jobs:
                "https://nsupdate.fedcloud.eu/nic/update?myip=${{ steps.public_ip.outputs.stdout }}"
       - name: Configure with ansible
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: dawidd6/action-ansible-playbook@v2
+        uses: dawidd6/action-ansible-playbook@v3
         with:
           playbook: playbook.yaml
-          directory: ./deployment
+          directory: ./deploy
           key: ${{ secrets.SSH_KEY }}
           inventory: |
             [all]
             ${{ steps.public_ip.outputs.stdout }}
           requirements: galaxy-requirements.yaml
           options: |
+            --extra-vars ACCESS_TOKEN=${{ env.OIDC_TOKEN }}
             --extra-vars git_ref=${{ github.sha }}
             --ssh-common-args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
             -u egi
