@@ -6,6 +6,13 @@ terraform {
     container = "terraform-dashboard"
     cloud     = "backend"
   }
+
+  required_providers {
+    openstack = {
+      source  = "terraform-provider-openstack/openstack"
+      version = "~> 1.48"
+    }
+  }
 }
 
 # The provider where the deployment is actually performed
