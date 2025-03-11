@@ -127,6 +127,7 @@ jobs:
           requirements: galaxy-requirements.yaml
           options: |
             --extra-vars ACCESS_TOKEN=${{ env.OIDC_TOKEN }}
+            --extra-vars ops_portal_token=${{ secrets.OPS_PORTAL_TOKEN }}
             --extra-vars git_ref=${{ github.sha }}
             --ssh-common-args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
             -u egi
