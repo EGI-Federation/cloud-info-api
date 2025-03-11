@@ -39,7 +39,7 @@ jobs:
           MYTOKEN: ${{ secrets.MYTOKEN }}
         run: |
           PATH="$PWD:$PATH"
-          cd deployment
+          cd deploy
           ./site-config.sh
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -48,18 +48,18 @@ jobs:
       - name: Terraform Format
         id: fmt
         run: |
-          cd deployment
+          cd deploy
           terraform fmt -check
       - name: Terraform init
         id: init
         run: |
-          cd deployment
+          cd deploy
           terraform init
       - name: terraform plan
         id: plan
         if: github.event_name == 'pull_request'
         run: |
-          cd deployment
+          cd deploy
           terraform plan -no-color -var-file=deploy.tfvars
         continue-on-error: true
       - name: Update Pull Request
@@ -94,13 +94,13 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          cd deployment
+          cd deploy
           terraform apply -auto-approve -var-file=deploy.tfvars
       - name: Get IP
         id: public_ip
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          cd deployment
+          cd deploy
           terraform output -raw public_ip
       - name: Update IP in DNS
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
