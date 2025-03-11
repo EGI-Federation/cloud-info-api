@@ -66,6 +66,7 @@
         content: |
           API_HOSTNAME="is.ops.fedcloud.eu"
           TAG="sha-{{ git_ref[0:7] }}"
+          OPS_PORTAL_TOKEN="{{ ops_portal_token }}"
         dest: /cloud-info-api/.env
 
     - name: service file
