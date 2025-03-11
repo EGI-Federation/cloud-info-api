@@ -35,6 +35,8 @@ services:
       - "traefik.http.routers.api.rule=Host(`${API_HOSTNAME}`)"
       - "traefik.http.routers.api.entrypoints=websecure"
       - "traefik.http.routers.api.tls.certresolver=myresolver"
+    environment:
+      - OPS_PORTAL_TOKEN=${OPS_PORTAL_TOKEN}
     deploy:
       restart_policy:
         condition: any
