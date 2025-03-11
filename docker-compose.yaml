@@ -35,10 +35,6 @@ services:
       - "traefik.http.routers.api.rule=Host(`${API_HOSTNAME}`)"
       - "traefik.http.routers.api.entrypoints=websecure"
       - "traefik.http.routers.api.tls.certresolver=myresolver"
-    volumes_from:
-      - endpoint_updater
-    environment:
-      - INIT_ASSETS=0
     deploy:
       restart_policy:
         condition: any
