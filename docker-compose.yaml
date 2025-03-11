@@ -1,3 +1,4 @@
+---
 services:
   traefik:
     image: "traefik:v2.11"
@@ -14,7 +15,6 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
       - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
-      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.myresolver.acme.email=enol.fernandez@egi.eu"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
@@ -32,9 +32,9 @@ services:
     image: "ghcr.io/egi-federation/fedcloud-cloud-info-api:${TAG}"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`${API_HOSTNAME}`)"
-      - "traefik.http.routers.dashboard.entrypoints=websecure"
-      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
+      - "traefik.http.routers.api.rule=Host(`${API_HOSTNAME}`)"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
     volumes_from:
       - endpoint_updater
     environment:
