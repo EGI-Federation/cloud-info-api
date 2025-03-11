@@ -10,7 +10,7 @@ resource "openstack_compute_instance_v2" "cloud-api" {
 }
 
 resource "openstack_compute_secgroup_v2" "secgroup" {
-  name        = "HTTP"
+  name        = "HTTP-cloud-api"
   description = "HTTP and HTTPS access"
 
   rule {
