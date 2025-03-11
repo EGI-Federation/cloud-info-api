@@ -1,4 +1,4 @@
-resource "openstack_compute_instance_v2" "dashboard" {
+resource "openstack_compute_instance_v2" "cloud-api" {
   name      = "cloud-info-api"
   image_id  = var.image_id
   flavor_id = var.flavor_id
@@ -34,7 +34,7 @@ resource "openstack_networking_floatingip_v2" "fip" {
 
 resource "openstack_compute_floatingip_associate_v2" "fip" {
   floating_ip = openstack_networking_floatingip_v2.fip.address
-  instance_id = openstack_compute_instance_v2.dashboard.id
+  instance_id = openstack_compute_instance_v2.cloud-api.id
 }
 
 output "public_ip" {
