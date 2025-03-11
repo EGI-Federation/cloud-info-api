@@ -201,7 +201,7 @@ class SiteStore:
         )
         return site
 
-    def _sites():
+    def _sites(self):
         return []
 
     def get_sites(self, vo_name=None):
