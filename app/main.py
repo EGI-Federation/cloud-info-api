@@ -19,6 +19,7 @@ class Image(BaseModel):
     appdb_id: str
     id: str
     mpuri: str
+    version: str
 
 
 class Site(BaseModel):
