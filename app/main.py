@@ -56,26 +56,58 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan)
+tags_metadata = [
+    {
+        "name": "vos",
+        "description": "Discovery of VOs.",
+    },
+    {
+        "name": "sites",
+        "description": "Discovery of sites.",
+    },
+]
 
 
-@app.get("/vos/")
+app = FastAPI(
+    title="cloud-info-api",
+    summary="Fedcloud info API",
+    version="0.1.0",
+    contact={
+        "name": "EGI Cloud Compute",
+        "url": "https://www.egi.eu/service/cloud-compute/",
+    },
+    license_info={
+        "name": "MIT License",
+        "url": "https://github.com/EGI-Federation/cloud-info-api/blob/main/LICENSE",
+    },
+    lifespan=lifespan,
+    openapi_tags=tags_metadata,
+)
+
+
+@app.get("/vos/", tags=["vos"])
 def get_vos() -> list[str]:
+    """Get a list of available VOs."""
     vos = sorted([vo.name for vo in vo_store.get_vos()])
     return vos
 
 
-@app.get("/sites/")
-def get_sites(vo_name: str = "") -> list[Site]:
+@app.get("/sites/", tags=["sites"])
+def get_sites(vo_name: str = "", site_name: str = "") -> list[Site]:
+    """Get a list of available sites.
+
+    Optionally filter by VO or site name (as listed in GOCDB).
+    """
+    if site_name:
+        site = site_store.get_site_by_name(site_name)
+        if vo_name:
+            if site.supports_vo(vo_name):
+                return [Site(**site.summary())]
+            else:
+                return []
+        else:
+            return [Site(**site.summary())]
     return [Site(**s.summary()) for s in site_store.get_sites(vo_name)]
-
-
-@app.get("/site/")
-def get_site(site_name: str = "") -> list[Site]:
-    site = site_store.get_site_by_name(site_name)
-    if not site:
-        raise HTTPException(status_code=404, detail=f"Site {site_name} not found")
-    return Site(**site.summary())
 
 
 def _get_site(site_id: str, vo_name: str = ""):
@@ -89,24 +121,31 @@ def _get_site(site_id: str, vo_name: str = ""):
     return site
 
 
-@app.get("/site/{site_id}/")
-def get_site_by_goc(site_id: str) -> Site:
+@app.get("/site/{site_id}/", tags=["sites"])
+def get_site(site_id: str) -> Site:
+    """Get site information
+
+    Id matches the GOCDB id of the service
+    """
     return Site(**_get_site(site_id).summary())
 
 
-@app.get("/site/{site_id}/{vo_name}/images")
+@app.get("/site/{site_id}/{vo_name}/images", tags=["sites"])
 def get_images(site_id: str, vo_name: str) -> list[Image]:
+    """Get information about the images of a VO"""
     site = _get_site(site_id, vo_name)
     return [Image(**img) for img in site.vo_share(vo_name).image_list()]
 
 
-@app.get("/site/{site_id}/projects")
+@app.get("/site/{site_id}/projects", tags=["sites"])
 def get_site_project_ids(site_id: str) -> list[Project]:
+    """Get information about the projects supported at a site"""
     site = _get_site(site_id)
     return [Project(**share.get_project()) for share in site.shares]
 
 
-@app.get("/site/{site_id}/{vo_name}/project")
+@app.get("/site/{site_id}/{vo_name}/project", tags=["sites"])
 def get_project_id(site_id: str, vo_name: str) -> Project:
+    """Get information about the project supporting a VO at a site"""
     site = _get_site(site_id, vo_name)
     return Project(**site.vo_share(vo_name).get_project())
