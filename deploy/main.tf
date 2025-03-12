@@ -6,7 +6,7 @@ resource "openstack_compute_instance_v2" "cloud-info-api" {
   network {
     uuid = var.net_id
   }
-  security_groups = ["HTTP", "motley-cue"]
+  security_groups = ["HTTP-cloud-info-api", "motley-cue-cloud-info-api"]
 }
 
 resource "openstack_compute_secgroup_v2" "secgroup" {
@@ -29,7 +29,7 @@ resource "openstack_compute_secgroup_v2" "secgroup" {
 }
 
 resource "openstack_compute_secgroup_v2" "motley-cloud-info-api" {
-  name        = "motley-cue"
+  name        = "motley-cue-cloud-info-api"
   description = "Open access via ssh-oidc"
 
   rule {
