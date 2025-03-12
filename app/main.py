@@ -56,7 +56,19 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title="cloud-info-api",
+    summary="Fedcloud info API",
+    version="0.1.0",
+    contact={
+        "name": "EGI Cloud Compute",
+        "url": "https://www.egi.eu/service/cloud-compute/",
+    },
+    license_info={
+        "name": "MIT License",
+        "url": "https://github.com/EGI-Federation/cloud-info-api/blob/main/LICENSE"
+    },
+    lifespan=lifespan)
 
 
 @app.get("/vos/")
