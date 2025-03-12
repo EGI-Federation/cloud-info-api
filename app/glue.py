@@ -135,7 +135,11 @@ class SiteStore:
             # }
             with open(settings.appdb_images_file) as f:
                 all_images = json.loads(f.read())
-                for image in all_images.get("data", {}).get("siteCloudComputingImages", {}).get("items", []):
+                for image in (
+                    all_images.get("data", {})
+                    .get("siteCloudComputingImages", {})
+                    .get("items", [])
+                ):
                     self._image_info[image["marketPlaceURL"]] = image
         except OSError as e:
             logging.error(f"Not able to load image info: {e.strerror}")
