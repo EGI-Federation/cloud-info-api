@@ -79,6 +79,7 @@ class GlueShare(BaseModel):
                 id=img.image.get("ID", ""),
                 mpuri=img.image.get("MarketPlaceURL", ""),
                 name=img.image.get("imageVAppName", ""),
+                version=img.image.get("version", ""),
             )
             for img in self.images
         ]
@@ -119,6 +120,7 @@ class GlueSite(BaseModel):
 
 class SiteStore:
     def __init__(self, settings):
+        self._image_info = {}
         try:
             # This file contains the result of the GraphQL query
             # {
@@ -127,15 +129,20 @@ class SiteStore:
             #      marketPlaceURL
             #      imageVAppCName
             #      imageVAppName
+            #      version
             #    }
             #  }
             # }
-            # and then cleaned up
             with open(settings.appdb_images_file) as f:
-                self._image_info = json.loads(f.read())
+                all_images = json.loads(f.read())
+                for image in (
+                    all_images.get("data", {})
+                    .get("siteCloudComputingImages", {})
+                    .get("items", [])
+                ):
+                    self._image_info[image["marketPlaceURL"]] = image
         except OSError as e:
             logging.error(f"Not able to load image info: {e.strerror}")
-            self._image_info = {}
 
     async def start(self):
         return
