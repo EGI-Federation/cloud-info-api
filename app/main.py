@@ -133,6 +133,13 @@ def get_site(site_id: str) -> Site:
     return Site(**_get_site(site_id).summary())
 
 
+@app.get("/site/{site_id}/images", tags=["sites"])
+def get_site_images(site_id: str) -> list[Image]:
+    """Get all images from a site"""
+    site = _get_site(site_id)
+    return [Image(**img) for img in site.image_list()]
+
+
 @app.get("/site/{site_id}/{vo_name}/images", tags=["sites"])
 def get_images(site_id: str, vo_name: str) -> list[Image]:
     """Get information about the images of a VO"""

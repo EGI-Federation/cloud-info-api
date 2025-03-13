@@ -4,6 +4,7 @@ Glue Objects and the helpers to manage them
 
 import asyncio
 import glob
+import itertools
 import json
 import logging
 import os.path
@@ -113,6 +114,9 @@ class GlueSite(BaseModel):
     @computed_field
     def gocdb_id(self) -> str:
         return self.service["OtherInfo"]["gocdb_id"]
+
+    def image_list(self):
+        return itertools.chain.from_iterable(s.image_list() for s in self.shares)
 
     def summary(self):
         return dict(
