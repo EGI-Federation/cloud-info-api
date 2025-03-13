@@ -9,6 +9,7 @@ import logging
 import os.path
 
 import httpx
+import xmltodict
 from pydantic import BaseModel, computed_field
 from watchfiles import Change, awatch
 
@@ -97,6 +98,7 @@ class GlueSite(BaseModel):
     endpoint: dict
     endpoint_id: str
     shares: list[GlueShare]
+    hostname: str
 
     def supports_vo(self, vo_name):
         return any(share.vo == vo_name for share in self.shares)
@@ -114,12 +116,18 @@ class GlueSite(BaseModel):
 
     def summary(self):
         return dict(
-            id=self.gocdb_id, name=self.name, url=self.endpoint["URL"], state=""
+            id=self.gocdb_id,
+            name=self.name,
+            url=self.endpoint["URL"],
+            state="",
+            hostname=self.hostname,
         )
 
 
 class SiteStore:
     def __init__(self, settings):
+        self.gocdb_hostnames = {}
+        self.gocdb_url = settings.gocdb_url
         self._image_info = {}
         try:
             # This file contains the result of the GraphQL query
@@ -143,6 +151,27 @@ class SiteStore:
                     self._image_info[image["marketPlaceURL"]] = image
         except OSError as e:
             logging.error(f"Not able to load image info: {e.strerror}")
+
+    def _get_gocdb_hostname(self, gocid):
+        if not self.gocdb_hostnames:
+            try:
+                r = httpx.get(
+                    os.path.join(self.gocdb_url, "gocdbpi/public/"),
+                    params={
+                        "method": "get_service",
+                        "service_type": "org.openstack.nova",
+                    },
+                )
+                data = xmltodict.parse(r.text.replace("\n", ""))["results"]
+                for endpoint in data["SERVICE_ENDPOINT"]:
+                    self.gocdb_hostnames[endpoint["@PRIMARY_KEY"]] = endpoint[
+                        "HOSTNAME"
+                    ]
+            except httpx.HTTPStatusError as e:
+                logging.error(f"Unable to load site information: {e}")
+            except KeyError:
+                logging.error("Unable to load site information")
+        return self.gocdb_hostnames.get(gocid, "")
 
     async def start(self):
         return
@@ -205,6 +234,7 @@ class SiteStore:
             endpoint=ept,
             endpoint_id=ept["ID"],
             shares=shares,
+            hostname=self._get_gocdb_hostname(svc["OtherInfo"]["gocdb_id"]),
         )
         return site
 
@@ -323,7 +353,7 @@ class S3SiteStore(SiteStore):
             for site in r.json():
                 logging.error(f'Update site {site["name"]}')
                 new_sites.update(self._load_site(site))
-        except httpx.HTTPStatusError as e:
+        except Exception as e:
             logging.error(f"Unable to load Sites: {e}")
         # change all at once
         self._sites_info = new_sites

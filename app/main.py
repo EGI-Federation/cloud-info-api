@@ -27,6 +27,7 @@ class Site(BaseModel):
     name: str
     url: str
     state: str
+    hostname: str
 
 
 class Project(BaseModel):
@@ -43,6 +44,7 @@ class Settings(BaseSettings):
         "https://stratus-stor.ncg.ingrid.pt:8080/swift/v1/"
         "AUTH_bd5a81e1670b48f18af33b05512a9d77/cloud-info/"
     )
+    gocdb_url: str = "https://goc.egi.eu"
 
 
 settings = Settings()
