@@ -27,6 +27,7 @@ class Site(BaseModel):
     name: str
     url: str
     state: str
+    hostname: str
 
 
 class Project(BaseModel):
@@ -43,6 +44,7 @@ class Settings(BaseSettings):
         "https://stratus-stor.ncg.ingrid.pt:8080/swift/v1/"
         "AUTH_bd5a81e1670b48f18af33b05512a9d77/cloud-info/"
     )
+    gocdb_url: str = "https://goc.egi.eu"
 
 
 settings = Settings()
@@ -129,6 +131,13 @@ def get_site(site_id: str) -> Site:
     Id matches the GOCDB id of the service
     """
     return Site(**_get_site(site_id).summary())
+
+
+@app.get("/site/{site_id}/images", tags=["sites"])
+def get_site_images(site_id: str) -> list[Image]:
+    """Get all images from a site"""
+    site = _get_site(site_id)
+    return [Image(**img) for img in site.image_list()]
 
 
 @app.get("/site/{site_id}/{vo_name}/images", tags=["sites"])
