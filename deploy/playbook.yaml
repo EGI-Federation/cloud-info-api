@@ -76,6 +76,16 @@
           CLOUD_INFO_DIR="/var/lib/cloud-info"
         dest: /cloud-info-api/.env
 
+    - name: Install OpenStack client
+      ansible.builtin.apt:
+        name: python3-openstackclient
+        state: present
+
+    - name: Add OpenStack credentials
+      ansible.builtin.copy:
+        content: "{{ $clouds_yaml }}"
+      dest: /etc/opentack/clouds.yaml
+
     - name: Fetch cloud info regularly
       ansible.builtin.cron:
         name: cloud-info-fetcher
