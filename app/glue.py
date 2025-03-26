@@ -246,36 +246,33 @@ class FileSiteStore(SiteStore):
     def __init__(self, settings):
         super().__init__(settings)
         self.cloud_info_dir = settings.cloud_info_dir
-        self._sites_files = {}
+        self._site_store = []
 
     def _load_site_file(self, path):
         filename = os.path.basename(path)
         try:
             with open(path) as f:
-                s = self.create_site(json.loads(f.read()))
-                self._sites_files[filename] = s
+                return self.create_site(json.loads(f.read()))
         except Exception as e:
             logging.error(f"Unable to load site {path}: {e}")
 
-    def _rm_site(self, path):
-        filename = os.path.basename(path)
-        try:
-            del self._sites_files[filename]
-        except KeyError:
-            logging.info(f"Site file {path} was not loaded")
-
     def _sites(self):
-        return self._sites_files.values()
+        return self._site_store
+
+    def _load_sites(self):
+        sites = []
+        for file in glob.iglob(os.path.join(self.cloud_info_dir, "**"), recursive=True):
+            if os.path.isfile(file):
+                sites.append(self._load_site_file(file))
+                logging.debug(f"Loaded {file}")
+        logging.info(f"Re-loaded info about {len(sites)} sites")
+        self._site_store = sites
 
     async def start(self):
-        for json_file in glob.glob(os.path.join(self.cloud_info_dir, "*")):
-            self._load_site_file(json_file)
+        self._load_sites()
         async for changes in awatch(self.cloud_info_dir):
-            for chg in changes:
-                if chg[0] == Change.deleted:
-                    self._rm_site(chg[1])
-                else:
-                    self._load_site_file(chg[1])
+            # just reload everything
+            self._load_sites()
 
 
 class S3SiteStore(SiteStore):
