@@ -10,7 +10,7 @@ import os.path
 
 import httpx
 from pydantic import BaseModel, computed_field
-from watchfiles import Change, awatch
+from watchfiles import awatch
 
 
 class VO(BaseModel):
@@ -249,7 +249,6 @@ class FileSiteStore(SiteStore):
         self._site_store = []
 
     def _load_site_file(self, path):
-        filename = os.path.basename(path)
         try:
             with open(path) as f:
                 return self.create_site(json.loads(f.read()))

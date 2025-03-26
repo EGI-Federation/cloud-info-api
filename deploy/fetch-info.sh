@@ -13,7 +13,7 @@ for f in $(openstack --os-cloud "$CLOUD_INFO_CLOUD" \
 	object list "$CLOUD_INFO_CONTAINER" -f json | jq -r -n 'inputs[] | values[]'); do
   echo "Downloading: $f"
   openstack --os-cloud "$CLOUD_INFO_CLOUD" object save \
-	  "$CLOUD_INFO_CONTAINER" --file "$DIR/$(dirname $f).json" "$f"
+	  "$CLOUD_INFO_CONTAINER" --file "$DIR/$(dirname "$f").json" "$f"
 done
 
 rsync -a --delete-after "$DIR/" "$CLOUD_INFO_DIR"
