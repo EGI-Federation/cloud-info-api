@@ -8,7 +8,7 @@ needed by IM
 import asyncio
 from contextlib import asynccontextmanager
 
-from app.glue import S3SiteStore, VOStore
+from app.glue import FileSiteStore, VOStore
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
@@ -46,7 +46,7 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-site_store = S3SiteStore(settings)
+site_store = FileSiteStore(settings)
 vo_store = VOStore(settings)
 
 
