@@ -37,6 +37,9 @@ services:
       - "traefik.http.routers.api.tls.certresolver=myresolver"
     environment:
       - OPS_PORTAL_TOKEN=${OPS_PORTAL_TOKEN}
+      - CLOUD_INFO_DIR=/var/lib/cloud-info
+    volumes:
+      - "${CLOUD_INFO_DIR}:/var/lib/cloud-info"
     deploy:
       restart_policy:
         condition: any

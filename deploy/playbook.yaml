@@ -61,13 +61,28 @@
         version: "{{ git_ref }}"
         dest: /cloud-info-api
 
+    - name: Create a directory for storing cloud-info jsons
+      ansible.builtin.file:
+        path: /var/lib/cloud-info
+        state: directory
+        mode: '0755'
+
     - name: env file
       ansible.builtin.copy:
         content: |
           API_HOSTNAME="is.ops.fedcloud.eu"
           TAG="sha-{{ git_ref[0:7] }}"
           OPS_PORTAL_TOKEN="{{ ops_portal_token }}"
+          CLOUD_INFO_DIR="/var/lib/cloud-info"
         dest: /cloud-info-api/.env
+
+    - name: Fetch cloud info regularly
+      ansible.builtin.cron:
+        name: cloud-info-fetcher
+        minute: "*/10"
+        job: >
+          /cloud-info-api/deploy/fetch-info.sh /var/lib/cloud-info
+        cron_file: "cloud-info-fetcher"
 
     - name: service file
       ansible.builtin.copy:
