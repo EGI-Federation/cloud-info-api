@@ -18,3 +18,4 @@ done
 
 rsync -a --delete-after "$DIR/" "$CLOUD_INFO_DIR"
 
+rm -rf "$DIR"
