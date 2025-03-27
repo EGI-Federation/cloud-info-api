@@ -10,3 +10,8 @@ dependencies = [
     "watchfiles>=1.0.4",
     "xmltodict>=0.14.2",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
