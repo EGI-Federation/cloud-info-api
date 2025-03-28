@@ -81,6 +81,12 @@
         name: python3-openstackclient
         state: present
 
+    - name: Create a directory for storing OpenStack config
+      ansible.builtin.file:
+        path: /etc/openstack
+        state: directory
+        mode: '0755'
+
     - name: Add OpenStack credentials
       ansible.builtin.copy:
         content: "{{ clouds_yaml }}"
