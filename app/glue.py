@@ -11,7 +11,7 @@ import os.path
 
 import httpx
 import xmltodict
-from pydantic import BaseModel, computed_field
+from pydantic import BaseModel
 from watchfiles import awatch
 
 

@@ -1,20 +1,12 @@
 """Testing our glue component"""
 
-import json
-from unittest import mock
-from unittest import TestCase
+from unittest import TestCase, mock
 
-
-from http import HTTPStatus
+from app.glue import VO
+from app.main import _get_site, app, site_store, vo_store
+from app.test_fixtures import site_fixture
 from fastapi import HTTPException
-import httpx
-
 from fastapi.testclient import TestClient
-
-from app.main import app, vo_store, site_store, _get_site
-from app.glue import VO, GlueSite
-from app.test_fixtures import *
-
 
 bifi_summary = {
     "id": "12249G0",
@@ -82,13 +74,13 @@ class TestAPI(TestCase):
             assert s == site_fixture
             # unsupported VO
             with self.assertRaises(HTTPException):
-                s = _get_site("foo", "bar")
+                _get_site("foo", "bar")
 
     def test__get_site_not_found(self):
         with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
             m_get_site.return_value = None
             with self.assertRaises(HTTPException):
-                s = _get_site("foo")
+                _get_site("foo")
 
     def test_get_site(self):
         with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
@@ -97,7 +89,7 @@ class TestAPI(TestCase):
             assert response.status_code == 200
             assert response.json() == bifi_summary
 
-    def test_get_site(self):
+    def test_get_site_404(self):
         with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
             m_get_site.return_value = None
             response = self.client.get("/site/foo/")
@@ -112,7 +104,10 @@ class TestAPI(TestCase):
                 {
                     "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
                     "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
-                    "mpuri": "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
+                    "mpuri": (
+                        "https://appdb.egi.eu/store/vo/image/"
+                        "63fcad1c-b737-5091-9668-1342b6d4f84c:15705/"
+                    ),
                     "name": "EGI Small Ubuntu for Monitoring",
                     "version": "2024.11.18",
                 },
@@ -127,7 +122,10 @@ class TestAPI(TestCase):
                 {
                     "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
                     "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
-                    "mpuri": "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
+                    "mpuri": (
+                        "https://appdb.egi.eu/store/vo/image/"
+                        "63fcad1c-b737-5091-9668-1342b6d4f84c:15705/"
+                    ),
                     "name": "EGI Small Ubuntu for Monitoring",
                     "version": "2024.11.18",
                 },

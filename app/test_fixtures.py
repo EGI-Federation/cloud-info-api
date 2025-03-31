@@ -1,6 +1,6 @@
 """Testing our glue component"""
 
-from app.glue import GlueImage, GlueInstanceType, GlueSite, GlueShare
+from app.glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
 
 ops_portal_fixture = {
     "data": [
