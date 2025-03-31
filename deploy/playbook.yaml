@@ -98,7 +98,6 @@
         minute: "*/10"
         job: >
           /cloud-info-api/deploy/fetch-info.sh /var/lib/cloud-info
-        cron_file: "cloud-info-fetcher"
 
     - name: service file
       ansible.builtin.copy:
