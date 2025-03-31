@@ -1,5 +1,8 @@
 name: Python testing 
 
+on:
+  pull_request:
+
 jobs:
   test-code:
     name: tests 
