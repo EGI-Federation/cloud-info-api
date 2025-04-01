@@ -116,19 +116,20 @@ jobs:
                "https://nsupdate.fedcloud.eu/nic/update?myip=${{ steps.public_ip.outputs.stdout }}"
       - name: Configure with ansible
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: dawidd6/action-ansible-playbook@v3
-        with:
-          playbook: playbook.yaml
-          directory: ./deploy
-          key: ${{ secrets.SSH_KEY }}
-          inventory: |
-            [all]
-            ${{ steps.public_ip.outputs.stdout }}
-          requirements: galaxy-requirements.yaml
-          options: |
-            --extra-vars ACCESS_TOKEN="${{ env.OIDC_TOKEN }}"
-            --extra-vars ops_portal_token="${{ secrets.OPS_PORTAL_TOKEN }}"
-            --extra-vars clouds_yaml="${{ secrets.CLOUDS_YAML }}"
-            --extra-vars git_ref="${{ github.sha }}"
-            --ssh-common-args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-            -u egi
+        run: |
+          cd deploy
+          ansible-galaxy install -r galaxy-requirements.yaml
+          echo "${{ secrets.CLOUDS_YAML }}" > clouds.yaml
+          echo "${{ secrets.SSH_KEY }}" > ansible_key
+          cat << EOF > inventory
+          [all]
+          ${{ steps.public_ip.outputs.stdout }}
+          EOF
+          chmod 600 .ansible_key
+          ansible-playbook -i  inventory \
+            --extra-vars ACCESS_TOKEN="${{ env.OIDC_TOKEN }}" \
+            --extra-vars ops_portal_token="${{ secrets.OPS_PORTAL_TOKEN }}" \
+            --extra-vars git_ref="${{ github.sha }}" \
+            --ssh-common-args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+            -u egi --key-file ansible_key \
+            playbook.yaml

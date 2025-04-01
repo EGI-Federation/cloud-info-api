@@ -89,7 +89,7 @@
 
     - name: Add OpenStack credentials
       ansible.builtin.copy:
-        content: "{{ clouds_yaml }}"
+        src: clouds.yaml
         dest: /etc/openstack/clouds.yaml
 
     - name: Fetch cloud info regularly
