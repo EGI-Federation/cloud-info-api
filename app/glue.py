@@ -11,7 +11,7 @@ import os.path
 
 import httpx
 import xmltodict
-from pydantic import BaseModel, computed_field
+from pydantic import BaseModel
 from watchfiles import awatch
 
 
@@ -21,15 +21,21 @@ class VO(BaseModel):
 
 
 class VOStore:
-    def __init__(self, settings):
-        self.ops_portal_url = settings.ops_portal_url
-        self.ops_portal_token = settings.ops_portal_token
+    def __init__(
+        self, ops_portal_url="", ops_portal_token="", httpx_client=None, **kwargs
+    ):
+        self.ops_portal_url = ops_portal_url
+        self.ops_portal_token = ops_portal_token
         self._vos = []
         self._update_period = 60 * 60 * 2  # Every 2 hours
+        if httpx_client:
+            self.httpx_client = httpx_client
+        else:
+            self.httpx_client = httpx.Client()
 
     def update_vos(self):
         try:
-            r = httpx.get(
+            r = self.httpx_client.get(
                 self.ops_portal_url,
                 headers={
                     "accept": "application/json",
@@ -58,48 +64,37 @@ class VOStore:
 
 
 class GlueImage(BaseModel):
+    id: str
     name: str
-    image: dict
+    appdb_id: str
+    mpuri: str
+    version: str
 
 
 class GlueInstanceType(BaseModel):
     name: str
-    instance_type: dict
 
 
 class GlueShare(BaseModel):
     name: str
     vo: str
-    share: dict
+    project_id: str
     images: list[GlueImage]
     instancetypes: list[GlueInstanceType]
 
     def image_list(self):
-        return [
-            dict(
-                appdb_id=img.image.get("imageVAppCName", ""),
-                id=img.image.get("ID", ""),
-                mpuri=img.image.get("MarketPlaceURL", ""),
-                name=img.image.get("imageVAppName", ""),
-                version=img.image.get("version", ""),
-            )
-            for img in self.images
-        ]
+        return [img.model_dump() for img in self.images]
 
     def get_project(self):
-        return dict(id=self.share["ProjectID"], name=self.vo)
+        return dict(id=self.project_id, name=self.vo)
 
 
 class GlueSite(BaseModel):
     name: str
-    service: dict
-    service_id: str
-    manager: dict
-    manager_id: str
-    endpoint: dict
-    endpoint_id: str
+    url: str
     shares: list[GlueShare]
     hostname: str
+    gocdb_id: str
 
     def supports_vo(self, vo_name):
         return any(share.vo == vo_name for share in self.shares)
@@ -111,10 +106,6 @@ class GlueSite(BaseModel):
         else:
             return None
 
-    @computed_field
-    def gocdb_id(self) -> str:
-        return self.service["OtherInfo"]["gocdb_id"]
-
     def image_list(self):
         return itertools.chain.from_iterable(s.image_list() for s in self.shares)
 
@@ -122,17 +113,24 @@ class GlueSite(BaseModel):
         return dict(
             id=self.gocdb_id,
             name=self.name,
-            url=self.endpoint["URL"],
+            url=self.url,
             state="",
             hostname=self.hostname,
         )
 
 
 class SiteStore:
-    def __init__(self, settings):
+    def __init__(self, gocdb_url="", appdb_images_file="", httpx_client=None, **kwargs):
         self.gocdb_hostnames = {}
-        self.gocdb_url = settings.gocdb_url
-        self._image_info = {}
+        self.gocdb_url = gocdb_url
+        if httpx_client:
+            self.httpx_client = httpx_client
+        else:
+            self.httpx_client = httpx.Client()
+        self._image_info = self._get_image_info(appdb_images_file)
+
+    def _get_image_info(self, appdb_images_file):
+        image_info = {}
         try:
             # This file contains the result of the GraphQL query
             # {
@@ -145,21 +143,24 @@ class SiteStore:
             #    }
             #  }
             # }
-            with open(settings.appdb_images_file) as f:
+            with open(appdb_images_file) as f:
                 all_images = json.loads(f.read())
                 for image in (
                     all_images.get("data", {})
                     .get("siteCloudComputingImages", {})
                     .get("items", [])
                 ):
-                    self._image_info[image["marketPlaceURL"]] = image
+                    image_info[image["marketPlaceURL"]] = {
+                        k: v for k, v in image.items() if v
+                    }
         except OSError as e:
             logging.error(f"Not able to load image info: {e.strerror}")
+        return image_info
 
     def _get_gocdb_hostname(self, gocid):
         if not self.gocdb_hostnames:
             try:
-                r = httpx.get(
+                r = self.httpx_client.get(
                     os.path.join(self.gocdb_url, "gocdbpi/public/"),
                     params={
                         "method": "get_service",
@@ -167,7 +168,11 @@ class SiteStore:
                     },
                 )
                 data = xmltodict.parse(r.text.replace("\n", ""))["results"]
-                for endpoint in data["SERVICE_ENDPOINT"]:
+                # xmltodict may return just the dict if only one element
+                endpoints = data["SERVICE_ENDPOINT"]
+                if not isinstance(endpoints, list):
+                    endpoints = [endpoints]
+                for endpoint in endpoints:
                     self.gocdb_hostnames[endpoint["@PRIMARY_KEY"]] = endpoint[
                         "HOSTNAME"
                     ]
@@ -185,8 +190,6 @@ class SiteStore:
 
     def create_site(self, info):
         svc = info["CloudComputingService"][0]
-        # yet another incongruency here
-        mgr = info["CloudComputingManager"]
         ept = info["CloudComputingEndpoint"][0]
 
         shares = []
@@ -204,7 +207,15 @@ class SiteStore:
                     image_info.update(
                         self._appdb_image_data(image_info["MarketPlaceURL"])
                     )
-                    images.append(GlueImage(name=image_info["Name"], image=image_info))
+                    images.append(
+                        GlueImage(
+                            appdb_id=image_info.get("imageVAppCName", ""),
+                            id=image_info.get("ID"),
+                            mpuri=image_info.get("MarketPlaceURL", ""),
+                            name=image_info.get("imageVAppName", image_info["Name"]),
+                            version=image_info.get("version", ""),
+                        )
+                    )
             instances = []
             for instance_info in info["CloudComputingInstanceType"]:
                 if share_info["ID"] in instance_info["Associations"]["Share"]:
@@ -216,29 +227,22 @@ class SiteStore:
                         for acc in info["CloudComputingVirtualAccelerator"]:
                             if acc["ID"] == acc_id:
                                 instance_info.update({"accelerator": acc})
-                    instances.append(
-                        GlueInstanceType(
-                            name=instance_info["Name"], instance_type=instance_info
-                        )
-                    )
+                    instances.append(GlueInstanceType(name=instance_info["Name"]))
             share = GlueShare(
                 name=share_info["Name"],
-                share=share_info,
+                project_id=share_info["ProjectID"],
                 vo=vo_name,
                 images=images,
                 instancetypes=instances,
             )
             shares.append(share)
+        gocdb_id = svc["OtherInfo"]["gocdb_id"]
         site = GlueSite(
             name=svc["Associations"]["AdminDomain"][0],
-            service=svc,
-            service_id=svc["ID"],
-            manager=mgr,
-            manager_id=mgr["ID"],
-            endpoint=ept,
-            endpoint_id=ept["ID"],
+            gocdb_id=gocdb_id,
+            url=ept["URL"],
             shares=shares,
-            hostname=self._get_gocdb_hostname(svc["OtherInfo"]["gocdb_id"]),
+            hostname=self._get_gocdb_hostname(gocdb_id),
         )
         return site
 
@@ -247,7 +251,7 @@ class SiteStore:
 
     def get_sites(self, vo_name=None):
         if vo_name:
-            sites = filter(lambda s: s.supports_vo(vo_name), self._sites())
+            sites = list(filter(lambda s: s.supports_vo(vo_name), self._sites()))
         else:
             sites = self._sites()
         return sites
@@ -277,9 +281,9 @@ class FileSiteStore(SiteStore):
     Loads Site information from a directory that's watched for changes
     """
 
-    def __init__(self, settings):
-        super().__init__(settings)
-        self.cloud_info_dir = settings.cloud_info_dir
+    def __init__(self, cloud_info_dir="", **kwargs):
+        super().__init__(**kwargs)
+        self.cloud_info_dir = cloud_info_dir
         self._site_store = []
 
     def _load_site_file(self, path):
@@ -309,9 +313,9 @@ class FileSiteStore(SiteStore):
 
 
 class S3SiteStore(SiteStore):
-    def __init__(self, settings):
-        super().__init__(settings)
-        self.s3_url = settings.s3_url
+    def __init__(self, s3_url="", **kwargs):
+        super().__init__(**kwargs)
+        self.s3_url = s3_url
         self._sites_info = {}
         self._update_period = 60 * 10  # 10 minutes
 
@@ -323,7 +327,7 @@ class S3SiteStore(SiteStore):
                 logging.info(f"No update neeeded for {name}")
                 return {name: self._sites_info[name]}
         try:
-            r = httpx.get(
+            r = self.httpx_client.get(
                 os.path.join(self.s3_url, name),
                 headers={
                     "accept": "application/json",
@@ -343,7 +347,7 @@ class S3SiteStore(SiteStore):
     def _update_sites(self):
         new_sites = {}
         try:
-            r = httpx.get(
+            r = self.httpx_client.get(
                 self.s3_url,
                 headers={
                     "accept": "application/json",
@@ -359,7 +363,7 @@ class S3SiteStore(SiteStore):
         self._sites_info = new_sites
 
     def _sites(self):
-        return (site["info"] for site in self._sites_info.values())
+        return [site["info"] for site in self._sites_info.values()]
 
     async def start(self):
         while True:

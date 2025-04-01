@@ -48,8 +48,8 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-site_store = FileSiteStore(settings)
-vo_store = VOStore(settings)
+site_store = FileSiteStore(**settings.model_dump())
+vo_store = VOStore(**settings.model_dump())
 
 
 @asynccontextmanager
