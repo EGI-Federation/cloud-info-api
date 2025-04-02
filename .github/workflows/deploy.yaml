@@ -125,7 +125,7 @@ jobs:
           [all]
           ${{ steps.public_ip.outputs.stdout }}
           EOF
-          chmod 600 .ansible_key
+          chmod 600 ansible_key
           ansible-playbook -i  inventory \
             --extra-vars ACCESS_TOKEN="${{ env.OIDC_TOKEN }}" \
             --extra-vars ops_portal_token="${{ secrets.OPS_PORTAL_TOKEN }}" \
