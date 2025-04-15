@@ -14,7 +14,7 @@ dump_config() {
 	oidc_token="$4"
 	token="$(fedcloud openstack token issue \
 		--oidc-access-token "$oidc_token" \
-		--site "$site" --vo "$vo" -j |
+		--site "$site" --vo "$vo" -j | \
 		jq -r '.[0].Result.id')"
 	eval "$(fedcloud site show-project-id --site "$site" --vo "$vo")"
 	cat <<EOF
