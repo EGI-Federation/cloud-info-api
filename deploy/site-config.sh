@@ -12,11 +12,6 @@ dump_config() {
 	site="$2"
 	vo="$3"
 	oidc_token="$4"
-	set -x
-	fedcloud openstack token issue \
-		--oidc-access-token "$oidc_token" \
-		--site "$site" --vo "$vo" -j
-	set +x
 	token="$(fedcloud openstack token issue \
 		--oidc-access-token "$oidc_token" \
 		--site "$site" --vo "$vo" -j | \
