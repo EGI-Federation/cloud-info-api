@@ -307,9 +307,10 @@ class FileSiteStore(SiteStore):
 
     async def start(self):
         self._load_sites()
-        async for changes in awatch(self.cloud_info_dir):
-            # just reload everything
-            self._load_sites()
+        if os.path.exists(self.cloud_info_dir):
+            async for changes in awatch(self.cloud_info_dir):
+                # just reload everything
+                self._load_sites()
 
 
 class S3SiteStore(SiteStore):
