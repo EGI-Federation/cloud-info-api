@@ -70,7 +70,7 @@
     - name: env file
       ansible.builtin.copy:
         content: |
-          API_HOSTNAME="is.ops.fedcloud.eu"
+          API_HOSTNAME="is.cloud.egi.eu"
           TAG="sha-{{ git_ref[0:7] }}"
           OPS_PORTAL_TOKEN="{{ ops_portal_token }}"
           CLOUD_INFO_DIR="/var/lib/cloud-info"
