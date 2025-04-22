@@ -298,7 +298,7 @@ class FileSiteStore(SiteStore):
 
     def _load_sites(self):
         sites = []
-        for file in glob.iglob(os.path.join(self.cloud_info_dir, "**"), recursive=True):
+        for file in glob.iglob(os.path.join(self.cloud_info_dir, "**/*.json"), recursive=True):
             if os.path.isfile(file):
                 sites.append(self._load_site_file(file))
                 logging.debug(f"Loaded {file}")
