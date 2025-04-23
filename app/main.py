@@ -113,49 +113,49 @@ def get_sites(vo_name: str = "", site_name: str = "") -> list[Site]:
     return [Site(**s.summary()) for s in site_store.get_sites(vo_name)]
 
 
-def _get_site(site_id: str, vo_name: str = ""):
-    site = site_store.get_site_by_goc_id(site_id)
+def _get_site(site_name: str, vo_name: str = ""):
+    site = site_store.get_site_by_name(site_name)
     if not site:
-        raise HTTPException(status_code=404, detail=f"Site {site_id} not found")
+        raise HTTPException(status_code=404, detail=f"Site {site_name} not found")
     if vo_name and not site.supports_vo(vo_name):
         raise HTTPException(
-            status_code=404, detail=f"VO {vo_name} not supported by Site {site_id}"
+            status_code=404, detail=f"VO {vo_name} not supported by Site {site_name}"
         )
     return site
 
 
-@app.get("/site/{site_id}/", tags=["sites"])
-def get_site(site_id: str) -> Site:
+@app.get("/site/{site_name}/", tags=["sites"])
+def get_site(site_name: str) -> Site:
     """Get site information
 
-    Id matches the GOCDB id of the service
+    Name of the site in the GOCDB
     """
-    return Site(**_get_site(site_id).summary())
+    return Site(**_get_site(site_name).summary())
 
 
-@app.get("/site/{site_id}/images", tags=["sites"])
-def get_site_images(site_id: str) -> list[Image]:
+@app.get("/site/{site_name}/images", tags=["sites"])
+def get_site_images(site_name: str) -> list[Image]:
     """Get all images from a site"""
-    site = _get_site(site_id)
+    site = _get_site(site_name)
     return [Image(**img) for img in site.image_list()]
 
 
-@app.get("/site/{site_id}/{vo_name}/images", tags=["sites"])
-def get_images(site_id: str, vo_name: str) -> list[Image]:
+@app.get("/site/{site_name}/{vo_name}/images", tags=["sites"])
+def get_images(site_name: str, vo_name: str) -> list[Image]:
     """Get information about the images of a VO"""
-    site = _get_site(site_id, vo_name)
+    site = _get_site(site_name, vo_name)
     return [Image(**img) for img in site.vo_share(vo_name).image_list()]
 
 
-@app.get("/site/{site_id}/projects", tags=["sites"])
-def get_site_project_ids(site_id: str) -> list[Project]:
+@app.get("/site/{site_name}/projects", tags=["sites"])
+def get_site_project_ids(site_name: str) -> list[Project]:
     """Get information about the projects supported at a site"""
-    site = _get_site(site_id)
+    site = _get_site(site_name)
     return [Project(**share.get_project()) for share in site.shares]
 
 
-@app.get("/site/{site_id}/{vo_name}/project", tags=["sites"])
-def get_project_id(site_id: str, vo_name: str) -> Project:
+@app.get("/site/{site_name}/{vo_name}/project", tags=["sites"])
+def get_project_id(site_name: str, vo_name: str) -> Project:
     """Get information about the project supporting a VO at a site"""
-    site = _get_site(site_id, vo_name)
+    site = _get_site(site_name, vo_name)
     return Project(**site.vo_share(vo_name).get_project())
