@@ -65,7 +65,7 @@ class TestAPI(TestCase):
             m_get_site.assert_called_with("BIFI")
 
     def test__get_site(self):
-        with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
             m_get_site.return_value = site_fixture
             s = _get_site("foo")
             assert s == site_fixture
@@ -77,26 +77,26 @@ class TestAPI(TestCase):
                 _get_site("foo", "bar")
 
     def test__get_site_not_found(self):
-        with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
             m_get_site.return_value = None
             with self.assertRaises(HTTPException):
                 _get_site("foo")
 
     def test_get_site(self):
-        with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
             m_get_site.return_value = site_fixture
             response = self.client.get("/site/foo/")
             assert response.status_code == 200
             assert response.json() == bifi_summary
 
     def test_get_site_404(self):
-        with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
             m_get_site.return_value = None
             response = self.client.get("/site/foo/")
             assert response.status_code == 404
 
     def test_get_site_images(self):
-        with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
             m_get_site.return_value = site_fixture
             response = self.client.get("/site/foo/images/")
             assert response.status_code == 200
@@ -114,7 +114,7 @@ class TestAPI(TestCase):
             ]
 
     def test_get_site_vo_images(self):
-        with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
             m_get_site.return_value = site_fixture
             response = self.client.get("/site/foo/ops/images/")
             assert response.status_code == 200
@@ -132,7 +132,7 @@ class TestAPI(TestCase):
             ]
 
     def test_get_site_projects(self):
-        with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
             m_get_site.return_value = site_fixture
             response = self.client.get("/site/foo/projects/")
             assert response.status_code == 200
@@ -144,7 +144,7 @@ class TestAPI(TestCase):
             ]
 
     def test_get_site_vo_project(self):
-        with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
             m_get_site.return_value = site_fixture
             response = self.client.get("/site/foo/ops/project")
             assert response.status_code == 200
