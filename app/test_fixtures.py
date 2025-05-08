@@ -1,4 +1,5 @@
 """Testing our glue component"""
+
 # flake8: noqa
 
 from app.glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
