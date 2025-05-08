@@ -36,7 +36,7 @@ site_fixture = GlueSite(
     gocdb_id="12249G0",
     shares=[
         GlueShare(
-            name="Share in service https://colossus.cesar.unizar.es:5000/v3_cloud.compute for VO ops (Project 038db3eeca5c4960a443a89b92373cd2)",
+            name="ops - 038db3eeca5c4960a443a89b92373cd2 share",
             vo="ops",
             project_id="038db3eeca5c4960a443a89b92373cd2",
             images=[
@@ -57,15 +57,17 @@ site_fixture = GlueSite(
 site_info_fixture = {
     "CloudComputingService": [
         {
-            "CreationTime": "2025-02-18T12:36:34.334839",
-            "Validity": 3600,
             "ID": "https://colossus.cesar.unizar.es:5000/v3_cloud.compute",
-            "Name": "Cloud Compute service on BIFI",
+            "Validity": 3600,
+            "CreationTime": "2025-05-08T15:07:06.423857",
+            "Name": "Cloud Compute service at BIFI",
+            "OtherInfo": {"gocdb_id": "12249G0", "site_name": "BIFI"},
+            "Associations": {"AdminDomain": ["BIFI"]},
             "Type": "org.cloud.iaas",
             "QualityLevel": "production",
-            "StatusInfo": "http://argo.egi.eu/lavoisier/status_report-sf?site=BIFI",
+            "StatusInfo": "https://argo.egi.eu/egi/report-status/Critical/SITES/BIFI",
             "ServiceAUP": "http://go.egi.eu/aup",
-            "Complexity": "endpointType=2,share=1",
+            "Complexity": "endpointType=1,share=1",
             "Capability": [
                 "executionmanagement.dynamicvmdeploy",
                 "security.accounting",
@@ -74,35 +76,30 @@ site_info_fixture = {
             "RunningVM": 0,
             "SuspendedVM": 0,
             "HaltedVM": 0,
-            "Associations": {"AdminDomain": ["BIFI"]},
-            "OtherInfo": {"gocdb_id": "12249G0"},
         }
     ],
-    "CloudComputingManager": {
-        "CreationTime": "2025-02-18T12:36:34.334839",
-        "Validity": 3600,
-        "ID": "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_manager",
-        "Name": "Cloud Manager for https://colossus.cesar.unizar.es:5000/v3",
-        "Associations": {
-            "CloudComputingService": "https://colossus.cesar.unizar.es:5000/v3_cloud.compute"
-        },
-        "TotalCPUs": 0,
-        "TotalRAM": 0,
-        "InstanceMaxCPU": 8,
-        "InstanceMinCPU": 1,
-        "InstanceMaxRAM": 16384,
-        "InstanceMinRAM": 512,
-        "ManagerFailover": False,
-        "ManagerLiveMigration": False,
-        "ManagerVMBackupRestore": False,
-    },
+    "CloudComputingManager": [
+        {
+            "ID": "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_manager",
+            "Validity": 3600,
+            "CreationTime": "2025-05-08T15:07:06.423857",
+            "Associations": {
+                "CloudComputingService": [
+                    "https://colossus.cesar.unizar.es:5000/v3_cloud.compute"
+                ]
+            },
+            "InstanceMaxCPU": 16,
+            "InstanceMinCPU": 0,
+            "InstanceMaxRAM": 16384,
+            "InstanceMinRAM": 0,
+        }
+    ],
     "CloudComputingEndpoint": [
         {
-            "CreationTime": "2025-02-18T12:36:34.334839",
-            "Validity": 3600,
             "ID": "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc",
+            "Validity": 3600,
+            "CreationTime": "2025-05-08T15:07:06.423857",
             "Name": "Cloud computing endpoint for https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc",
-            "URL": "https://colossus.cesar.unizar.es:5000/v3",
             "Associations": {
                 "CloudComputingService": [
                     "https://colossus.cesar.unizar.es:5000/v3_cloud.compute"
@@ -111,98 +108,101 @@ site_info_fixture = {
             "Capability": [],
             "QualityLevel": "production",
             "InterfaceName": "org.openstack.nova",
-            "InterfaceVersion": "v3",
+            "InterfaceVersion": "2.0",
             "HealthState": "ok",
-            "HealthStateInfo": "Endpoint functioning properly",
+            "HealthStateInfo": "Endpoint funtioning properly",
             "ServingState": "production",
             "Technology": "webservice",
             "Implementor": "OpenStack Foundation",
             "ImplementationName": "OpenStack Nova",
-            "ImplementationVersion": "UNKNOWN",
-            "DowntimeInfo": "See the GOC DB for downtimes: https://goc.egi.eu/portal/index.php?Page_Type=Downtimes_Calendar&site=BIFI",
+            "ImplementationVersion": "2.96",
+            "DowntimeInfo": "https://goc.egi.eu/portal/index.php?Page_Type=Downtimes_Calendar&site=BIFI",
             "Semantics": "https://developer.openstack.org/api-ref/compute",
             "Authentication": "oidc",
             "IssuerCA": "/C=NL/O=GEANT Vereniging/CN=GEANT OV RSA CA 4",
             "TrustedCA": [],
+            "URL": "https://colossus.cesar.unizar.es:5000/v3",
         }
     ],
     "CloudComputingImage": [
         {
-            "CreationTime": "2025-02-18T12:36:34.334839",
-            "Validity": 3600,
             "ID": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
+            "Validity": 3600,
+            "CreationTime": "2025-05-08T15:07:06.423857",
             "Name": "EGI Image for EGI Small Ubuntu for Monitoring [Ubuntu/20.04/KVM]",
+            "OtherInfo": {
+                "base_mpuri": "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
+            },
             "Associations": {
                 "Share": [
-                    "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_share_ops_038db3eeca5c4960a443a89b92373cd2"
+                    "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2"
                 ],
-                "CloudComputingManager": "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_manager",
                 "CloudComputingEndpoint": [
                     "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc"
                 ],
+                "CloudComputingManager": [
+                    "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_manager"
+                ],
             },
-            "MarketPlaceURL": "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
-            "OSPlatform": "amd64",
+            "MarketplaceURL": "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
+            "OSPlatform": "x86_64",
             "OSName": "ubuntu",
             "OSVersion": "20.04",
             "Description": "Regular image update",
             "AccessInfo": "none",
-            "OtherInfo": {
-                "base_mpuri": "https://appdb.egi.eu/store/vm/image/bf991f56-cf3a-4ac9-ad07-b22a54dbead6:8082/"
-            },
         }
     ],
-    "CloudComputingImageNetwokConfiguration": [],
     "CloudComputingInstanceType": [
         {
-            "CreationTime": "2025-02-18T12:36:34.334839",
-            "Validity": 3600,
             "ID": "1",
+            "Validity": 3600,
+            "CreationTime": "2025-05-08T15:07:06.423857",
             "Name": "m1.tiny",
             "Associations": {
                 "Share": [
-                    "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_share_ops_038db3eeca5c4960a443a89b92373cd2"
+                    "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2"
                 ],
-                "CloudComputingManager": "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_manager",
                 "CloudComputingEndpoint": [
                     "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc"
+                ],
+                "CloudComputingManager": [
+                    "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_manager"
                 ],
             },
             "Platform": "amd64",
             "CPU": 1,
             "RAM": 512,
+            "Disk": 1,
             "NetworkIn": "UNKNOWN",
             "NetworkOut": True,
-            "NetworkInfo": "UNKNOWN",
-            "Disk": 1,
         },
-    ],
-    "CloudComputingVirtualAccelerator": [],
-    "AccessPolicy": [
-        {
-            "ID": "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_Policy",
-            "Name": "Access control rules for ops on https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc",
-            "Associations": {
-                "CloudComputingEndpoint": "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc"
-            },
-            "Scheme": "org.glite.standard",
-            "PolicyRule": "VO:ops",
-        }
-    ],
-    "MappingPolicy": [
-        {
-            "ID": "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_share_ops_038db3eeca5c4960a443a89b92373cd2_Policy",
-            "Associations": {
-                "Share": "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_share_ops_038db3eeca5c4960a443a89b92373cd2",
-                "PolicyUserDomain": "ops",
-            },
-            "Rule": ["VO:ops"],
-        }
     ],
     "Share": [
         {
-            "ID": "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_share_ops_038db3eeca5c4960a443a89b92373cd2",
-            "Name": "Share in service https://colossus.cesar.unizar.es:5000/v3_cloud.compute for VO ops (Project 038db3eeca5c4960a443a89b92373cd2)",
+            "ID": "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2",
+            "Validity": 3600,
+            "CreationTime": "2025-05-08T15:07:06.423857",
+            "Name": "ops - 038db3eeca5c4960a443a89b92373cd2 share",
+            "OtherInfo": {
+                "project_name": "ops",
+                "project_domain_name": "default",
+                "quotas": {
+                    "instances": 10,
+                    "cores": 20,
+                    "ram": 51200,
+                    "floating_ips": -1,
+                    "fixed_ips": -1,
+                    "metadata_items": 128,
+                    "injected_files": 5,
+                    "injected_file_content_bytes": 10240,
+                    "injected_file_path_bytes": 255,
+                    "key_pairs": 100,
+                    "security_groups": -1,
+                    "security_group_rules": -1,
+                    "server_groups": 10,
+                    "server_group_members": 10,
+                },
+            },
             "Associations": {
                 "CloudComputingService": [
                     "https://colossus.cesar.unizar.es:5000/v3_cloud.compute"
@@ -211,20 +211,43 @@ site_info_fixture = {
                     "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc"
                 ],
             },
-            "Description": "Share in service https://colossus.cesar.unizar.es:5000/v3_cloud.compute for VO ops (Project 038db3eeca5c4960a443a89b92373cd2)",
-            "InstanceMaxCPU": 8,
+            "InstanceMaxCPU": 16,
             "InstanceMaxRAM": 16384,
-            "SLA": "UNKNOWN",
             "TotalVM": 0,
             "RunningVM": 0,
             "SuspendedVM": 0,
             "HaltedVM": 0,
-            "NetworkInfo": "UNKNOWN",
-            "DefaultNetworkType": "UNKNOWN",
-            "PublicNetworkName": "UNKNOWN",
-            "ProjectID": "038db3eeca5c4960a443a89b92373cd2",
             "MaxVM": 10,
-            "OtherInfo": {"project_name": "ops", "project_domain_name": "default"},
+            "ProjectID": "038db3eeca5c4960a443a89b92373cd2",
+        }
+    ],
+    "MappingPolicy": [
+        {
+            "ID": "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2_Policy",
+            "Validity": 3600,
+            "CreationTime": "2025-05-08T15:07:06.423857",
+            "Associations": {
+                "Share": [
+                    "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2"
+                ],
+                "PolicyUserDomain": ["ops"],
+            },
+            "Rule": ["VO:ops"],
+            "Scheme": "org.glite.standard",
+        }
+    ],
+    "AccessPolicy": [
+        {
+            "ID": "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_policy",
+            "Validity": 3600,
+            "CreationTime": "2025-05-08T15:07:06.423857",
+            "Associations": {
+                "CloudComputingEndpoint": [
+                    "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc"
+                ]
+            },
+            "Rule": ["VO:ops"],
+            "Scheme": "org.glite.standard",
         }
     ],
 }
