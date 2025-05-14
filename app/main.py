@@ -68,6 +68,10 @@ tags_metadata = [
         "name": "sites",
         "description": "Discovery of sites.",
     },
+    {
+        "name": "images",
+        "description": "Discovery of images.",
+    },
 ]
 
 
@@ -159,3 +163,19 @@ def get_project_id(site_name: str, vo_name: str) -> Project:
     """Get information about the project supporting a VO at a site"""
     site = _get_site(site_name, vo_name)
     return Project(**site.vo_share(vo_name).get_project())
+
+
+@app.get("/images/", tags=["images"])
+def get_all_images(vo_name: str = "") -> list[Image]:
+    """Get a list of available images.
+
+    Optionally filter by VO.
+    """
+    images = []
+    sites = site_store.get_sites(vo_name)
+    for site in site_store.get_sites(vo_name):
+        if vo_name:
+            images.extend(site.vo_share(vo_name).image_list())
+        else:
+            images.extend(site.image_list())
+    return [Image(**img) for img in images]

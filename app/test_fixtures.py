@@ -1,4 +1,5 @@
 """Testing our glue component"""
+
 # flake8: noqa
 
 from app.glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
@@ -51,6 +52,30 @@ site_fixture = GlueSite(
         )
     ],
     url="https://colossus.cesar.unizar.es:5000/v3",
+)
+
+another_site_fixture = GlueSite(
+    name="FAKE",
+    hostname="bar",
+    gocdb_id="16649G0",
+    shares=[
+        GlueShare(
+            name="Share in service https://example.com/v3_cloud.compute for VO access (Project X)",
+            vo="access",
+            project_id="foobar",
+            images=[
+                GlueImage(
+                    id="06c8bfac-0f93-48da-b03b-8f8ad3356f73",
+                    name="EGI Fake Image",
+                    appdb_id="egi.fake.id",
+                    mpuri="https://appdb.egi.eu/store/vo/image/0123:456/",
+                    version="0.01",
+                )
+            ],
+            instancetypes=[GlueInstanceType(name="m1.small")],
+        )
+    ],
+    url="https://example.com/v3",
 )
 
 site_info_fixture = {
