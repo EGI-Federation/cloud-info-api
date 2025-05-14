@@ -4,7 +4,7 @@ from unittest import TestCase, mock
 
 from app.glue import VO
 from app.main import _get_site, app, site_store, vo_store
-from app.test_fixtures import site_fixture, another_site_fixture
+from app.test_fixtures import another_site_fixture, site_fixture
 from fastapi import HTTPException
 from fastapi.testclient import TestClient
 

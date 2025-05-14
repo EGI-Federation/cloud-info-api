@@ -172,7 +172,6 @@ def get_all_images(vo_name: str = "") -> list[Image]:
     Optionally filter by VO.
     """
     images = []
-    sites = site_store.get_sites(vo_name)
     for site in site_store.get_sites(vo_name):
         if vo_name:
             images.extend(site.vo_share(vo_name).image_list())
