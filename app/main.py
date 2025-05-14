@@ -15,12 +15,13 @@ from pydantic_settings import BaseSettings
 
 
 class Image(BaseModel):
-    name: str
     appdb_id: str
     id: str
-    mpuri: str
-    version: str
     endpoint: str
+    mpuri: str
+    name: str
+    version: str
+    vo: str
 
 
 class Site(BaseModel):

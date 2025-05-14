@@ -46,6 +46,7 @@ site_fixture = GlueSite(
                     appdb_id="egi.small.ubuntu.16.04.for.monitoring",
                     mpuri="https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
                     version="2024.11.18",
+                    vo="ops",
                 )
             ],
             instancetypes=[GlueInstanceType(name="m1.tiny")],
@@ -70,6 +71,7 @@ another_site_fixture = GlueSite(
                     appdb_id="egi.fake.id",
                     mpuri="https://appdb.egi.eu/store/vo/image/0123:456/",
                     version="0.01",
+                    vo="access",
                 )
             ],
             instancetypes=[GlueInstanceType(name="m1.small")],

@@ -111,6 +111,7 @@ class TestAPI(TestCase):
                     ),
                     "name": "EGI Small Ubuntu for Monitoring",
                     "version": "2024.11.18",
+                    "vo": "ops",
                 },
             ]
 
@@ -130,6 +131,7 @@ class TestAPI(TestCase):
                     ),
                     "name": "EGI Small Ubuntu for Monitoring",
                     "version": "2024.11.18",
+                    "vo": "ops",
                 },
             ]
 
@@ -171,6 +173,7 @@ class TestAPI(TestCase):
                     ),
                     "name": "EGI Small Ubuntu for Monitoring",
                     "version": "2024.11.18",
+                    "vo": "ops",
                 },
                 {
                     "appdb_id": "egi.fake.id",
@@ -179,6 +182,7 @@ class TestAPI(TestCase):
                     "mpuri": "https://appdb.egi.eu/store/vo/image/0123:456/",
                     "name": "EGI Fake Image",
                     "version": "0.01",
+                    "vo": "access",
                 },
             ]
 
@@ -198,5 +202,6 @@ class TestAPI(TestCase):
                     ),
                     "name": "EGI Small Ubuntu for Monitoring",
                     "version": "2024.11.18",
+                    "vo": "ops",
                 }
             ]
