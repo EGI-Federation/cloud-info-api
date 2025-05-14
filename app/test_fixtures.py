@@ -308,4 +308,13 @@ images_fixture = [
         "version": "2024.11.18",
         "vo": "ops",
     },
+    {
+        "appdb_id": "egi.fake.id",
+        "endpoint": "https://example.com/v3",
+        "id": "06c8bfac-0f93-48da-b03b-8f8ad3356f73",
+        "mpuri": "https://appdb.egi.eu/store/vo/image/0123:456/",
+        "name": "EGI Fake Image",
+        "version": "0.01",
+        "vo": "access",
+    },
 ]
