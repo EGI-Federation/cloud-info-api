@@ -41,6 +41,7 @@ def test_gluesite_object():
                 "https://appdb.egi.eu/store/vo/image/"
                 "63fcad1c-b737-5091-9668-1342b6d4f84c:15705/"
             ),
+            "vo": "ops",
         }
     ]
 

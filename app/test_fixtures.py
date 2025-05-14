@@ -1,4 +1,5 @@
 """Testing our glue component"""
+
 # flake8: noqa
 
 from app.glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
@@ -45,12 +46,38 @@ site_fixture = GlueSite(
                     appdb_id="egi.small.ubuntu.16.04.for.monitoring",
                     mpuri="https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
                     version="2024.11.18",
+                    vo="ops",
                 )
             ],
             instancetypes=[GlueInstanceType(name="m1.tiny")],
         )
     ],
     url="https://colossus.cesar.unizar.es:5000/v3",
+)
+
+another_site_fixture = GlueSite(
+    name="FAKE",
+    hostname="bar",
+    gocdb_id="16649G0",
+    shares=[
+        GlueShare(
+            name="Share in service https://example.com/v3_cloud.compute for VO access (Project X)",
+            vo="access",
+            project_id="foobar",
+            images=[
+                GlueImage(
+                    id="06c8bfac-0f93-48da-b03b-8f8ad3356f73",
+                    name="EGI Fake Image",
+                    appdb_id="egi.fake.id",
+                    mpuri="https://appdb.egi.eu/store/vo/image/0123:456/",
+                    version="0.01",
+                    vo="access",
+                )
+            ],
+            instancetypes=[GlueInstanceType(name="m1.small")],
+        )
+    ],
+    url="https://example.com/v3",
 )
 
 site_info_fixture = {
@@ -267,3 +294,27 @@ appdb_image_fixture = {
         "version": "2024.11.18",
     }
 }
+
+images_fixture = [
+    {
+        "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
+        "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
+        "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
+        "mpuri": (
+            "https://appdb.egi.eu/store/vo/image/"
+            "63fcad1c-b737-5091-9668-1342b6d4f84c:15705/"
+        ),
+        "name": "EGI Small Ubuntu for Monitoring",
+        "version": "2024.11.18",
+        "vo": "ops",
+    },
+    {
+        "appdb_id": "egi.fake.id",
+        "endpoint": "https://example.com/v3",
+        "id": "06c8bfac-0f93-48da-b03b-8f8ad3356f73",
+        "mpuri": "https://appdb.egi.eu/store/vo/image/0123:456/",
+        "name": "EGI Fake Image",
+        "version": "0.01",
+        "vo": "access",
+    },
+]

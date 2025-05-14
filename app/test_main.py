@@ -4,7 +4,7 @@ from unittest import TestCase, mock
 
 from app.glue import VO
 from app.main import _get_site, app, site_store, vo_store
-from app.test_fixtures import site_fixture
+from app.test_fixtures import another_site_fixture, images_fixture, site_fixture
 from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
@@ -100,36 +100,14 @@ class TestAPI(TestCase):
             m_get_site.return_value = site_fixture
             response = self.client.get("/site/foo/images/")
             assert response.status_code == 200
-            assert response.json() == [
-                {
-                    "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
-                    "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
-                    "mpuri": (
-                        "https://appdb.egi.eu/store/vo/image/"
-                        "63fcad1c-b737-5091-9668-1342b6d4f84c:15705/"
-                    ),
-                    "name": "EGI Small Ubuntu for Monitoring",
-                    "version": "2024.11.18",
-                },
-            ]
+            assert response.json() == [images_fixture[0]]
 
     def test_get_site_vo_images(self):
         with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
             m_get_site.return_value = site_fixture
             response = self.client.get("/site/foo/ops/images/")
             assert response.status_code == 200
-            assert response.json() == [
-                {
-                    "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
-                    "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
-                    "mpuri": (
-                        "https://appdb.egi.eu/store/vo/image/"
-                        "63fcad1c-b737-5091-9668-1342b6d4f84c:15705/"
-                    ),
-                    "name": "EGI Small Ubuntu for Monitoring",
-                    "version": "2024.11.18",
-                },
-            ]
+            assert response.json() == [images_fixture[0]]
 
     def test_get_site_projects(self):
         with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
@@ -152,3 +130,17 @@ class TestAPI(TestCase):
                 "id": "038db3eeca5c4960a443a89b92373cd2",
                 "name": "ops",
             }
+
+    def test_get_all_images(self):
+        with mock.patch.object(site_store, "get_sites") as m_get_sites:
+            m_get_sites.return_value = [site_fixture, another_site_fixture]
+            response = self.client.get("/images")
+            assert response.status_code == 200
+            assert response.json() == images_fixture
+
+    def test_get_all_vo_images(self):
+        with mock.patch.object(site_store, "get_sites") as m_get_sites:
+            m_get_sites.return_value = [site_fixture]
+            response = self.client.get("/images", params={"vo_name": "ops"})
+            assert response.status_code == 200
+            assert response.json() == [images_fixture[0]]

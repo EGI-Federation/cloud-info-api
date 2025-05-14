@@ -15,11 +15,13 @@ from pydantic_settings import BaseSettings
 
 
 class Image(BaseModel):
-    name: str
     appdb_id: str
     id: str
+    endpoint: str
     mpuri: str
+    name: str
     version: str
+    vo: str
 
 
 class Site(BaseModel):
@@ -67,6 +69,10 @@ tags_metadata = [
     {
         "name": "sites",
         "description": "Discovery of sites.",
+    },
+    {
+        "name": "images",
+        "description": "Discovery of images.",
     },
 ]
 
@@ -137,14 +143,16 @@ def get_site(site_name: str) -> Site:
 def get_site_images(site_name: str) -> list[Image]:
     """Get all images from a site"""
     site = _get_site(site_name)
-    return [Image(**img) for img in site.image_list()]
+    return [Image(**img, endpoint=site.url) for img in site.image_list()]
 
 
 @app.get("/site/{site_name}/{vo_name}/images", tags=["sites"])
 def get_images(site_name: str, vo_name: str) -> list[Image]:
     """Get information about the images of a VO"""
     site = _get_site(site_name, vo_name)
-    return [Image(**img) for img in site.vo_share(vo_name).image_list()]
+    return [
+        Image(**img, endpoint=site.url) for img in site.vo_share(vo_name).image_list()
+    ]
 
 
 @app.get("/site/{site_name}/projects", tags=["sites"])
@@ -159,3 +167,21 @@ def get_project_id(site_name: str, vo_name: str) -> Project:
     """Get information about the project supporting a VO at a site"""
     site = _get_site(site_name, vo_name)
     return Project(**site.vo_share(vo_name).get_project())
+
+
+@app.get("/images/", tags=["images"])
+def get_all_images(vo_name: str = "") -> list[Image]:
+    """Get a list of available images.
+
+    Optionally filter by VO.
+    """
+    images: list[Image] = []
+    for site in site_store.get_sites(vo_name):
+        if vo_name:
+            images.extend(
+                Image(**img, endpoint=site.url)
+                for img in site.vo_share(vo_name).image_list()
+            )
+        else:
+            images.extend(Image(**img, endpoint=site.url) for img in site.image_list())
+    return images

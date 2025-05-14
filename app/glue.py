@@ -69,6 +69,7 @@ class GlueImage(BaseModel):
     appdb_id: str
     mpuri: str
     version: str
+    vo: str
 
 
 class GlueInstanceType(BaseModel):
@@ -214,6 +215,7 @@ class SiteStore:
                             mpuri=image_info.get("MarketPlaceURL", ""),
                             name=image_info.get("imageVAppName", image_info["Name"]),
                             version=image_info.get("version", ""),
+                            vo=vo_name,
                         )
                     )
             instances = []
