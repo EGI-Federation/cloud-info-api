@@ -294,3 +294,18 @@ appdb_image_fixture = {
         "version": "2024.11.18",
     }
 }
+
+images_fixture = [
+    {
+        "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
+        "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
+        "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
+        "mpuri": (
+            "https://appdb.egi.eu/store/vo/image/"
+            "63fcad1c-b737-5091-9668-1342b6d4f84c:15705/"
+        ),
+        "name": "EGI Small Ubuntu for Monitoring",
+        "version": "2024.11.18",
+        "vo": "ops",
+    },
+]
