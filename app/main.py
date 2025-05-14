@@ -20,6 +20,7 @@ class Image(BaseModel):
     id: str
     mpuri: str
     version: str
+    endpoint: str
 
 
 class Site(BaseModel):
@@ -141,14 +142,16 @@ def get_site(site_name: str) -> Site:
 def get_site_images(site_name: str) -> list[Image]:
     """Get all images from a site"""
     site = _get_site(site_name)
-    return [Image(**img) for img in site.image_list()]
+    return [Image(**img, endpoint=site.url) for img in site.image_list()]
 
 
 @app.get("/site/{site_name}/{vo_name}/images", tags=["sites"])
 def get_images(site_name: str, vo_name: str) -> list[Image]:
     """Get information about the images of a VO"""
     site = _get_site(site_name, vo_name)
-    return [Image(**img) for img in site.vo_share(vo_name).image_list()]
+    return [
+        Image(**img, endpoint=site.url) for img in site.vo_share(vo_name).image_list()
+    ]
 
 
 @app.get("/site/{site_name}/projects", tags=["sites"])
@@ -174,7 +177,10 @@ def get_all_images(vo_name: str = "") -> list[Image]:
     images = []
     for site in site_store.get_sites(vo_name):
         if vo_name:
-            images.extend(site.vo_share(vo_name).image_list())
+            images.extend(
+                Image(**img, endpoint=site.url)
+                for img in site.vo_share(vo_name).image_list()
+            )
         else:
-            images.extend(site.image_list())
-    return [Image(**img) for img in images]
+            images.extend(Image(**img, endpoint=site.url) for img in site.image_list())
+    return images

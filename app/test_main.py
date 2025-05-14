@@ -103,6 +103,7 @@ class TestAPI(TestCase):
             assert response.json() == [
                 {
                     "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
+                    "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
                     "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
                     "mpuri": (
                         "https://appdb.egi.eu/store/vo/image/"
@@ -121,6 +122,7 @@ class TestAPI(TestCase):
             assert response.json() == [
                 {
                     "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
+                    "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
                     "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
                     "mpuri": (
                         "https://appdb.egi.eu/store/vo/image/"
@@ -161,6 +163,7 @@ class TestAPI(TestCase):
             assert response.json() == [
                 {
                     "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
+                    "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
                     "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
                     "mpuri": (
                         "https://appdb.egi.eu/store/vo/image/"
@@ -171,6 +174,7 @@ class TestAPI(TestCase):
                 },
                 {
                     "appdb_id": "egi.fake.id",
+                    "endpoint": "https://example.com/v3",
                     "id": "06c8bfac-0f93-48da-b03b-8f8ad3356f73",
                     "mpuri": "https://appdb.egi.eu/store/vo/image/0123:456/",
                     "name": "EGI Fake Image",
@@ -186,6 +190,7 @@ class TestAPI(TestCase):
             assert response.json() == [
                 {
                     "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
+                    "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
                     "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
                     "mpuri": (
                         "https://appdb.egi.eu/store/vo/image/"
