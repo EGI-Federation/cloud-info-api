@@ -196,8 +196,8 @@ class SiteStore:
         shares = []
         for share_info in info["Share"]:
             for policy in info["MappingPolicy"]:
-                if policy["Associations"]["Share"] == share_info["ID"]:
-                    vo_name = policy["Associations"]["PolicyUserDomain"]
+                if share_info["ID"] in policy["Associations"]["Share"]:
+                    vo_name = policy["Associations"]["PolicyUserDomain"][0]
                     break
             else:
                 logging.warning("No VO Name!?")
@@ -206,13 +206,13 @@ class SiteStore:
             for image_info in info["CloudComputingImage"]:
                 if share_info["ID"] in image_info["Associations"]["Share"]:
                     image_info.update(
-                        self._appdb_image_data(image_info["MarketPlaceURL"])
+                        self._appdb_image_data(image_info.get("MarketplaceURL", ""))
                     )
                     images.append(
                         GlueImage(
                             appdb_id=image_info.get("imageVAppCName", ""),
                             id=image_info.get("ID"),
-                            mpuri=image_info.get("MarketPlaceURL", ""),
+                            mpuri=image_info.get("MarketplaceURL", ""),
                             name=image_info.get("imageVAppName", image_info["Name"]),
                             version=image_info.get("version", ""),
                             vo=vo_name,
@@ -221,9 +221,8 @@ class SiteStore:
             instances = []
             for instance_info in info["CloudComputingInstanceType"]:
                 if share_info["ID"] in instance_info["Associations"]["Share"]:
-                    # who does not love a long attribute name?
                     acc_id = instance_info["Associations"].get(
-                        "CloudComputingInstanceTypeCloudComputingVirtualAccelerator"
+                        "CloudComputingVirtualAccelerator"
                     )
                     if acc_id:
                         for acc in info["CloudComputingVirtualAccelerator"]:
