@@ -1,6 +1,7 @@
 """Testing our glue component"""
 
 # flake8: noqa
+import json
 
 from app.glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
 
@@ -317,6 +318,31 @@ appdb_image_fixture = {
         "version": "2024.11.18",
     }
 }
+
+appdb_mpuri_fixtures = [
+    json.dumps(
+        {
+            "id": "123",
+            "title": "Small Ubuntu for monitoring",
+            "application": {
+                "cname": "egi.small.ubuntu.16.04.for.monitoring",
+                "name": "EGI Small Ubuntu for Monitoring",
+            },
+            "vappliance": {
+                "version": "2024.11.18",
+            },
+        }
+    ),
+    # to test building from
+    json.dumps(
+        {
+            "id": "123",
+            "title": "Image for Small Ubuntu for monitoring [X]",
+            "version": "2024.11.18",
+        }
+    ),
+]
+
 
 images_fixture = [
     {

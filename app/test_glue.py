@@ -81,7 +81,7 @@ def test_gocdb_info():
             )
         )
     )
-    with mock.patch("app.glue.SiteStore._get_image_info"):
+    with mock.patch("app.glue.SiteStore.get_mp_image_data"):
         site_store = app.glue.SiteStore(
             gocdb_url="https://exmaple.com", httpx_client=test_client
         )
@@ -91,11 +91,12 @@ def test_gocdb_info():
 
 def test_create_site():
     with (
-        mock.patch("app.glue.SiteStore._get_image_info") as get_image_info,
+        mock.patch("app.glue.SiteStore._get_mpuri_image_info"),
+        mock.patch("app.glue.SiteStore.get_mp_image_data") as image_data,
         mock.patch("app.glue.SiteStore._get_gocdb_hostname") as goc_hostname,
     ):
         goc_hostname.return_value = "foo"
-        get_image_info.return_value = fixtures.appdb_image_fixture
+        image_data.return_value = list(fixtures.appdb_image_fixture.values()).pop()
         site_store = app.glue.SiteStore()
         loaded_site = site_store.create_site(fixtures.site_info_fixture)
         assert fixtures.site_fixture == loaded_site
@@ -103,7 +104,7 @@ def test_create_site():
 
 def test_get_sites():
     with (
-        mock.patch("app.glue.SiteStore._get_image_info"),
+        mock.patch("app.glue.SiteStore.get_mp_image_data"),
         mock.patch("app.glue.SiteStore._sites") as _sites,
     ):
         site_store = app.glue.SiteStore()
@@ -118,7 +119,7 @@ def test_get_sites():
 
 def test_get_site_by_goc_id():
     with (
-        mock.patch("app.glue.SiteStore._get_image_info"),
+        mock.patch("app.glue.SiteStore.get_mp_image_data"),
         mock.patch("app.glue.SiteStore._sites") as _sites,
     ):
         site_store = app.glue.SiteStore()
@@ -131,7 +132,7 @@ def test_get_site_by_goc_id():
 
 def test_get_site_by_name():
     with (
-        mock.patch("app.glue.SiteStore._get_image_info"),
+        mock.patch("app.glue.SiteStore.get_mp_image_data"),
         mock.patch("app.glue.SiteStore._sites") as _sites,
     ):
         site_store = app.glue.SiteStore()
@@ -144,7 +145,7 @@ def test_get_site_by_name():
 
 def test_get_site_summary():
     with (
-        mock.patch("app.glue.SiteStore._get_image_info"),
+        mock.patch("app.glue.SiteStore.get_mp_image_data"),
         mock.patch("app.glue.SiteStore._sites") as _sites,
     ):
         site_store = app.glue.SiteStore()
@@ -156,3 +157,59 @@ def test_get_site_summary():
         assert list(site_store.get_site_summary("foo")) == []
         # supported VO
         assert list(site_store.get_site_summary("ops")) == [site_summary]
+
+
+def test_get_appdb_no_base_mpuri():
+    with mock.patch("app.glue.SiteStore._get_mpuri_image_info") as mpuri_image_data:
+        mpuri_image_data.return_value = fixtures.appdb_image_fixture
+        site_store = app.glue.SiteStore()
+        img = site_store.get_mp_image_data(
+            {"MarketplaceURL": list(fixtures.appdb_image_fixture.keys()).pop()}
+        )
+        assert img == {
+            "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
+            "imageVAppName": "EGI Small Ubuntu for Monitoring",
+            "version": "2024.11.18",
+        }
+
+
+def test_get_appdb_base_mpuri_all_data():
+    test_client = httpx.Client(
+        transport=httpx.MockTransport(
+            lambda request: httpx.Response(
+                HTTPStatus.OK, content=fixtures.appdb_mpuri_fixtures[0]
+            )
+        )
+    )
+    with mock.patch("app.glue.SiteStore._get_mpuri_image_info") as mpuri_image_data:
+        mpuri_image_data.return_value = fixtures.appdb_image_fixture
+        site_store = app.glue.SiteStore(httpx_client=test_client)
+        img = site_store.get_mp_image_data(
+            {"OtherInfo": {"base_mpuri": "https://example.com"}}
+        )
+        assert img == {
+            "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
+            "imageVAppName": "EGI Small Ubuntu for Monitoring",
+            "version": "2024.11.18",
+        }
+
+
+def test_get_appdb_base_mpuri_missing_data():
+    test_client = httpx.Client(
+        transport=httpx.MockTransport(
+            lambda request: httpx.Response(
+                HTTPStatus.OK, content=fixtures.appdb_mpuri_fixtures[1]
+            )
+        )
+    )
+    with mock.patch("app.glue.SiteStore._get_mpuri_image_info") as mpuri_image_data:
+        mpuri_image_data.return_value = fixtures.appdb_image_fixture
+        site_store = app.glue.SiteStore(httpx_client=test_client)
+        img = site_store.get_mp_image_data(
+            {"OtherInfo": {"base_mpuri": "https://example.com"}}
+        )
+        assert img == {
+            "imageVAppCName": "small.ubuntu.for.monitoring",
+            "imageVAppName": "Small Ubuntu for monitoring",
+            "version": "2024.11.18",
+        }

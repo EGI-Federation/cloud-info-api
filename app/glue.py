@@ -8,6 +8,7 @@ import itertools
 import json
 import logging
 import os.path
+from urllib.parse import urlparse
 
 import httpx
 import xmltodict
@@ -128,9 +129,10 @@ class SiteStore:
             self.httpx_client = httpx_client
         else:
             self.httpx_client = httpx.Client()
-        self._image_info = self._get_image_info(appdb_images_file)
+        self._mpuri_image_info = self._get_mpuri_image_info(appdb_images_file)
+        self._base_mpuri_image_info = {}
 
-    def _get_image_info(self, appdb_images_file):
+    def _get_mpuri_image_info(self, appdb_images_file):
         image_info = {}
         try:
             # This file contains the result of the GraphQL query
@@ -186,8 +188,56 @@ class SiteStore:
     async def start(self):
         return
 
-    def _appdb_image_data(self, image_url):
-        return self._image_info.get(image_url, {})
+    def _clean_name(self, name):
+        # we want to remove the Image for and [distro/arch]
+        return name.removeprefix("Image for ").split("[", 1)[0].strip()
+
+    def _build_cname(self, name):
+        return f'{name.replace(" ", ".").lower()}'
+
+    def get_mp_image_data(self, image):
+        mp_data = {}
+        base_mpuri = image.get("OtherInfo", {}).get("base_mpuri", None)
+        mpuri = image.get("MarketplaceURL")
+        if base_mpuri:
+            if base_mpuri in self._base_mpuri_image_info:
+                mp_data.update(self._base_mpuri_image_info[base_mpuri])
+            else:
+                try:
+                    r = self.httpx_client.get(os.path.join(base_mpuri, "json"))
+                    appdb_img = r.json()
+                    version = appdb_img.get(
+                        "version", appdb_img.get("vappliance", {}).get("version", "")
+                    )
+                    name = appdb_img.get("application", {}).get("name", None)
+                    if not name:
+                        name = self._clean_name(appdb_img.get("title", ""))
+                    cname = appdb_img.get("application", {}).get("cname", None)
+                    if not cname:
+                        cname = self._build_cname(name)
+                    img = dict(
+                        imageVAppCName=cname,
+                        imageVAppName=name,
+                        version=str(version),
+                    )
+                    self._base_mpuri_image_info[base_mpuri] = img
+                    mp_data.update(img)
+                except httpx.HTTPStatusError as e:
+                    logging.error(f"Unable to load image information: {e}")
+        if not mp_data and mpuri:
+            mpuri_data = self._mpuri_image_info.get(mpuri, {})
+            if not mpuri_data:
+                if "https://appdb.egi.eu" in mpuri:
+                    name = self._clean_name(image.get("Name", image.get("ID", "")))
+                else:
+                    name = f"{urlparse(mpuri)[1]}-{image.get('ID')}"
+                cname = self._build_cname(name)
+                mpuri_data = dict(
+                    imageVAppCName=cname,
+                )
+                self._mpuri_image_info[image["MarketplaceURL"]] = mpuri_data
+            mp_data.update(mpuri_data)
+        return mp_data
 
     def create_site(self, info):
         svc = info["CloudComputingService"][0]
@@ -205,9 +255,7 @@ class SiteStore:
             images = []
             for image_info in info["CloudComputingImage"]:
                 if share_info["ID"] in image_info["Associations"]["Share"]:
-                    image_info.update(
-                        self._appdb_image_data(image_info.get("MarketplaceURL", ""))
-                    )
+                    image_info.update(self.get_mp_image_data(image_info))
                     images.append(
                         GlueImage(
                             appdb_id=image_info.get("imageVAppCName", ""),
