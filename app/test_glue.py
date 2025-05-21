@@ -160,20 +160,6 @@ def test_get_site_summary():
 
 
 def test_get_appdb_no_base_mpuri():
-    with mock.patch("app.glue.SiteStore._get_mpuri_image_info") as mpuri_image_data:
-        mpuri_image_data.return_value = fixtures.appdb_image_fixture
-        site_store = app.glue.SiteStore()
-        img = site_store.get_mp_image_data(
-            {"MarketplaceURL": list(fixtures.appdb_image_fixture.keys()).pop()}
-        )
-        assert img == {
-            "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
-            "imageVAppName": "EGI Small Ubuntu for Monitoring",
-            "version": "2024.11.18",
-        }
-
-
-def test_get_appdb_base_mpuri_all_data():
     test_client = httpx.Client(
         transport=httpx.MockTransport(
             lambda request: httpx.Response(
@@ -184,6 +170,14 @@ def test_get_appdb_base_mpuri_all_data():
     with mock.patch("app.glue.SiteStore._get_mpuri_image_info") as mpuri_image_data:
         mpuri_image_data.return_value = fixtures.appdb_image_fixture
         site_store = app.glue.SiteStore(httpx_client=test_client)
+        img = site_store.get_mp_image_data(
+            {"MarketplaceURL": list(fixtures.appdb_image_fixture.keys()).pop()}
+        )
+        assert img == {
+            "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
+            "imageVAppName": "EGI Small Ubuntu for Monitoring",
+            "version": "2024.11.18",
+        }
         img = site_store.get_mp_image_data(
             {"OtherInfo": {"base_mpuri": "https://example.com"}}
         )
