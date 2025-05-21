@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 error_handler() {
     LINE="$1"
