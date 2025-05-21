@@ -2,6 +2,18 @@
 
 set -e
 
+error_handler() {
+    LINE="$1"
+    shift
+    STATUS="$1"
+    shift
+    echo " ERROR - line $LINE"
+    echo " Exit status: $STATUS"
+    echo " Command: $*"
+}
+
+trap 'error_handler ${LINENO} $? ${BASH_COMMAND}' ERR INT TERM
+
 # builds the clouds.yaml file needed for OpenStack clients
 # Reads from config.yaml the clouds to use
 
