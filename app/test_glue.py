@@ -159,6 +159,7 @@ def test_get_site_summary():
         assert list(site_store.get_site_summary("ops")) == [site_summary]
 
 
+# jscpd:ignore-start
 def test_get_appdb_no_base_mpuri():
     test_client = httpx.Client(
         transport=httpx.MockTransport(
@@ -207,3 +208,6 @@ def test_get_appdb_base_mpuri_missing_data():
             "imageVAppName": "Small Ubuntu for monitoring",
             "version": "2024.11.18",
         }
+
+
+# jscpd:ignore-end
