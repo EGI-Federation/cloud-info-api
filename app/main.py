@@ -15,7 +15,7 @@ from pydantic_settings import BaseSettings
 
 
 class Image(BaseModel):
-    appdb_id: str
+    egi_id: str
     id: str
     endpoint: str
     mpuri: str
@@ -94,6 +94,32 @@ app = FastAPI(
 )
 
 
+#
+# Helper functions
+#
+def _get_site(site_name: str, vo_name: str = ""):
+    """Gets site given a name and optionally a VO"""
+    site = site_store.get_site_by_name(site_name)
+    if not site:
+        raise HTTPException(status_code=404, detail=f"Site {site_name} not found")
+    if vo_name and not site.supports_vo(vo_name):
+        raise HTTPException(
+            status_code=404, detail=f"VO {vo_name} not supported by Site {site_name}"
+        )
+    return site
+
+
+def filter_images(images: list[Image], only_egi_images: bool = True):
+    """Filters images if only_egi_images is True"""
+    if only_egi_images:
+        return filter(lambda x: x.egi_id, images)
+    else:
+        return images
+
+
+#
+# API functions
+#
 @app.get("/vos/", tags=["vos"])
 def get_vos() -> list[str]:
     """Get a list of available VOs."""
@@ -119,17 +145,6 @@ def get_sites(vo_name: str = "", site_name: str = "") -> list[Site]:
     return [Site(**s.summary()) for s in site_store.get_sites(vo_name)]
 
 
-def _get_site(site_name: str, vo_name: str = ""):
-    site = site_store.get_site_by_name(site_name)
-    if not site:
-        raise HTTPException(status_code=404, detail=f"Site {site_name} not found")
-    if vo_name and not site.supports_vo(vo_name):
-        raise HTTPException(
-            status_code=404, detail=f"VO {vo_name} not supported by Site {site_name}"
-        )
-    return site
-
-
 @app.get("/site/{site_name}/", tags=["sites"])
 def get_site(site_name: str) -> Site:
     """Get site information
@@ -140,19 +155,27 @@ def get_site(site_name: str) -> Site:
 
 
 @app.get("/site/{site_name}/images", tags=["sites"])
-def get_site_images(site_name: str) -> list[Image]:
+def get_site_images(site_name: str, only_egi_images: bool = True) -> list[Image]:
     """Get all images from a site"""
     site = _get_site(site_name)
-    return [Image(**img, endpoint=site.url) for img in site.image_list()]
+    return filter_images(
+        [Image(**img, endpoint=site.url) for img in site.image_list()], only_egi_images
+    )
 
 
 @app.get("/site/{site_name}/{vo_name}/images", tags=["sites"])
-def get_images(site_name: str, vo_name: str) -> list[Image]:
+def get_images(
+    site_name: str, vo_name: str, only_egi_images: bool = True
+) -> list[Image]:
     """Get information about the images of a VO"""
     site = _get_site(site_name, vo_name)
-    return [
-        Image(**img, endpoint=site.url) for img in site.vo_share(vo_name).image_list()
-    ]
+    return filter_images(
+        [
+            Image(**img, endpoint=site.url)
+            for img in site.vo_share(vo_name).image_list()
+        ],
+        only_egi_images,
+    )
 
 
 @app.get("/site/{site_name}/projects", tags=["sites"])
@@ -170,10 +193,10 @@ def get_project_id(site_name: str, vo_name: str) -> Project:
 
 
 @app.get("/images/", tags=["images"])
-def get_all_images(vo_name: str = "") -> list[Image]:
+def get_all_images(vo_name: str = "", only_egi_images: bool = True) -> list[Image]:
     """Get a list of available images.
 
-    Optionally filter by VO.
+    Optionally filter by VO and EGI images.
     """
     images: list[Image] = []
     for site in site_store.get_sites(vo_name):
@@ -184,4 +207,4 @@ def get_all_images(vo_name: str = "") -> list[Image]:
             )
         else:
             images.extend(Image(**img, endpoint=site.url) for img in site.image_list())
-    return images
+    return filter_images(images, only_egi_images)
