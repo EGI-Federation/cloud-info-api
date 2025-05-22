@@ -8,7 +8,6 @@ import itertools
 import json
 import logging
 import os.path
-from urllib.parse import urlparse
 
 import httpx
 import xmltodict
