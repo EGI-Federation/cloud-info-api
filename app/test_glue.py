@@ -214,9 +214,7 @@ def test_get_appdb_base_mpuri_missing_data():
 
 
 def test_read_mpuri_image_file():
-    with mock.patch(
-        "builtins.open", mock.mock_open(read_data=fixtures.appdb_file)
-    ) as mock_file:
+    with mock.patch("builtins.open", mock.mock_open(read_data=fixtures.appdb_file)):
         site_store = app.glue.SiteStore()
         assert site_store._mpuri_image_info["foo"] == {
             "egi_id": "egi.ubuntu.20.04",
