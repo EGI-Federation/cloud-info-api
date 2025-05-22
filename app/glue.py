@@ -158,7 +158,7 @@ class SiteStore:
                         ("imageVAppCName", "egi_id"),
                         ("version", "version"),
                     ):
-                        if f in appdb_image:
+                        if f in appdb_image and appdb_image[f]:
                             img[n] = appdb_image[f]
                     image_info[appdb_image["marketPlaceURL"]] = img
         except OSError as e:
@@ -201,7 +201,7 @@ class SiteStore:
         return f'{name.replace(" ", ".").lower()}'
 
     def get_mp_image_data(self, image):
-        mp_data = {}
+        mp_data = dict(egi_id="", name=image.get("Name", ""), version="")
         base_mpuri = image.get("OtherInfo", {}).get("base_mpuri", None)
         mpuri = image.get("MarketplaceURL")
         if base_mpuri:
@@ -229,12 +229,9 @@ class SiteStore:
                     mp_data.update(img)
                 except httpx.HTTPStatusError as e:
                     logging.error(f"Unable to load image information: {e}")
-        if not mp_data and mpuri:
+        elif mpuri and "https://appdb.egi.eu" in mpuri:
             mpuri_data = self._mpuri_image_info.get(mpuri, {})
             if not mpuri_data:
-                if "https://appdb.egi.eu" not in mpuri:
-                    # do not try to create this for non appdb images
-                    return {}
                 name = self._clean_name(image.get("Name", image.get("ID", "")))
                 egi_id = self._build_egi_id(name)
                 mpuri_data = dict(egi_id=egi_id)
@@ -261,11 +258,11 @@ class SiteStore:
                     image_info.update(self.get_mp_image_data(image_info))
                     images.append(
                         GlueImage(
-                            egi_id=image_info.get("egi_id", ""),
+                            egi_id=image_info.get("egi_id"),
                             id=image_info.get("ID"),
                             mpuri=image_info.get("MarketplaceURL", ""),
-                            name=image_info.get("name", image_info["Name"]),
-                            version=image_info.get("version", ""),
+                            name=image_info.get("name"),
+                            version=image_info.get("version"),
                             vo=vo_name,
                         )
                     )
@@ -344,6 +341,7 @@ class FileSiteStore(SiteStore):
                 return self.create_site(json.loads(f.read()))
         except Exception as e:
             logging.error(f"Unable to load site {path}: {e}")
+            return None
 
     def _sites(self):
         return self._site_store
@@ -354,7 +352,9 @@ class FileSiteStore(SiteStore):
             os.path.join(self.cloud_info_dir, "**/*.json"), recursive=True
         ):
             if os.path.isfile(file):
-                sites.append(self._load_site_file(file))
+                site = self._load_site_file(file)
+                if site:
+                    sites.append(site)
                 logging.debug(f"Loaded {file}")
         logging.info(f"Re-loaded info about {len(sites)} sites")
         self._site_store = sites
