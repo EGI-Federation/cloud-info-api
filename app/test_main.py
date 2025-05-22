@@ -144,3 +144,22 @@ class TestAPI(TestCase):
             response = self.client.get("/images", params={"vo_name": "ops"})
             assert response.status_code == 200
             assert response.json() == [images_fixture[0]]
+
+    def test_get_images_non_egi(self):
+        with mock.patch.object(site_store, "get_sites") as m_get_sites:
+            m_get_sites.return_value = [site_fixture, another_site_fixture]
+            response = self.client.get("/images", params={"only_egi_images": False})
+            assert response.status_code == 200
+            images = images_fixture.copy()
+            images.append(
+                {
+                    "egi_id": "",
+                    "endpoint": "https://example.com/v3",
+                    "id": "foobar",
+                    "mpuri": "https://example.com/glance/vo/image/foobar",
+                    "name": "Another fake Image",
+                    "version": "0.02",
+                    "vo": "access",
+                }
+            )
+            assert response.json() == images

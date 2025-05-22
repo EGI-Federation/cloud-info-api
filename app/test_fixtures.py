@@ -1,6 +1,7 @@
 """Testing our glue component"""
 
 # flake8: noqa
+import json
 
 from app.glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
 
@@ -43,7 +44,7 @@ site_fixture = GlueSite(
                 GlueImage(
                     id="06c8bfac-0f93-48da-b0eb-4fbad3356f73",
                     name="EGI Small Ubuntu for Monitoring",
-                    appdb_id="egi.small.ubuntu.16.04.for.monitoring",
+                    egi_id="egi.small.ubuntu.16.04.for.monitoring",
                     mpuri="https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
                     version="2024.11.18",
                     vo="ops",
@@ -68,11 +69,19 @@ another_site_fixture = GlueSite(
                 GlueImage(
                     id="06c8bfac-0f93-48da-b03b-8f8ad3356f73",
                     name="EGI Fake Image",
-                    appdb_id="egi.fake.id",
+                    egi_id="egi.fake.id",
                     mpuri="https://appdb.egi.eu/store/vo/image/0123:456/",
                     version="0.01",
                     vo="access",
-                )
+                ),
+                GlueImage(
+                    id="foobar",
+                    name="Another fake Image",
+                    egi_id="",
+                    mpuri="https://example.com/glance/vo/image/foobar",
+                    version="0.02",
+                    vo="access",
+                ),
             ],
             instancetypes=[GlueInstanceType(name="m1.small")],
         )
@@ -312,15 +321,40 @@ gocdb_fixture = """
 
 appdb_image_fixture = {
     "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/": {
-        "imageVAppCName": "egi.small.ubuntu.16.04.for.monitoring",
-        "imageVAppName": "EGI Small Ubuntu for Monitoring",
+        "egi_id": "egi.small.ubuntu.16.04.for.monitoring",
+        "name": "EGI Small Ubuntu for Monitoring",
         "version": "2024.11.18",
     }
 }
 
+appdb_mpuri_fixtures = [
+    json.dumps(
+        {
+            "id": "123",
+            "title": "Small Ubuntu for monitoring",
+            "application": {
+                "cname": "egi.small.ubuntu.16.04.for.monitoring",
+                "name": "EGI Small Ubuntu for Monitoring",
+            },
+            "vappliance": {
+                "version": "2024.11.18",
+            },
+        }
+    ),
+    # to test building from
+    json.dumps(
+        {
+            "id": "123",
+            "title": "Image for Small Ubuntu for monitoring [X]",
+            "version": "2024.11.18",
+        }
+    ),
+]
+
+
 images_fixture = [
     {
-        "appdb_id": "egi.small.ubuntu.16.04.for.monitoring",
+        "egi_id": "egi.small.ubuntu.16.04.for.monitoring",
         "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
         "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
         "mpuri": (
@@ -332,7 +366,7 @@ images_fixture = [
         "vo": "ops",
     },
     {
-        "appdb_id": "egi.fake.id",
+        "egi_id": "egi.fake.id",
         "endpoint": "https://example.com/v3",
         "id": "06c8bfac-0f93-48da-b03b-8f8ad3356f73",
         "mpuri": "https://appdb.egi.eu/store/vo/image/0123:456/",
@@ -341,3 +375,19 @@ images_fixture = [
         "vo": "access",
     },
 ]
+
+
+appdb_file = """{
+  "data": {
+    "siteCloudComputingImages": {
+      "items": [
+        {
+          "marketPlaceURL": "foo",
+          "imageVAppCName": "egi.ubuntu.20.04",
+          "imageVAppName": "EGI Ubuntu 20.04",
+          "version": "2024.10.07"
+        }
+      ]
+    }
+  }
+}"""
