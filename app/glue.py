@@ -229,14 +229,17 @@ class SiteStore:
                     mp_data.update(img)
                 except httpx.HTTPStatusError as e:
                     logging.error(f"Unable to load image information: {e}")
-        elif mpuri and "https://appdb.egi.eu" in mpuri:
-            mpuri_data = self._mpuri_image_info.get(mpuri, {})
-            if not mpuri_data:
-                name = self._clean_name(image.get("Name", image.get("ID", "")))
-                egi_id = self._build_egi_id(name)
-                mpuri_data = dict(egi_id=egi_id)
-                self._mpuri_image_info[image["MarketplaceURL"]] = mpuri_data
-            mp_data.update(mpuri_data)
+        elif mpuri:
+            if "https://appdb.egi.eu" in mpuri:
+                mpuri_data = self._mpuri_image_info.get(mpuri, {})
+                if not mpuri_data:
+                    name = self._clean_name(image.get("Name", image.get("ID", "")))
+                    egi_id = self._build_egi_id(name)
+                    mpuri_data = dict(egi_id=egi_id)
+                    self._mpuri_image_info[image["MarketplaceURL"]] = mpuri_data
+                mp_data.update(mpuri_data)
+            elif "registry.egi.eu" in mpuri:
+                mp_data.update(dict(egi_id=image.get("Name", mpuri)))
         return mp_data
 
     def create_site(self, info):
