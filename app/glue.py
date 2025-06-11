@@ -3,12 +3,14 @@ Glue Objects and the helpers to manage them
 """
 
 import asyncio
+import datetime
 import glob
 import itertools
 import json
 import logging
 import os.path
 
+import dateutil.parser
 import httpx
 import xmltodict
 from pydantic import BaseModel
@@ -242,9 +244,17 @@ class SiteStore:
                 mp_data.update(dict(egi_id=image.get("Name", mpuri)))
         return mp_data
 
-    def create_site(self, info):
+    def create_site(self, info, check_validity=True):
         svc = info["CloudComputingService"][0]
         ept = info["CloudComputingEndpoint"][0]
+
+        if check_validity:
+            valid_until = dateutil.parser.parse(
+                svc["CreationTime"]
+            ) + datetime.timedelta(seconds=int(svc["Validity"]))
+            if datetime.datetime.now() > valid_until:
+                logging.warning(f"Site info was valid until {valid_until}, skipping")
+                raise ValueError("Outdated info for site")
 
         shares = []
         for share_info in info["Share"]:

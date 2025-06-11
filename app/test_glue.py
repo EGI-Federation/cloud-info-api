@@ -1,12 +1,15 @@
 """Testing our glue component"""
 
+import datetime
 import json
 from http import HTTPStatus
 from unittest import mock
 
 import app.glue
 import app.test_fixtures as fixtures
+import dateutil.parser
 import httpx
+import pytest
 
 
 def test_gluesite_object():
@@ -94,12 +97,22 @@ def test_create_site():
         mock.patch("app.glue.SiteStore._read_mpuri_image_file"),
         mock.patch("app.glue.SiteStore.get_mp_image_data") as image_data,
         mock.patch("app.glue.SiteStore._get_gocdb_hostname") as goc_hostname,
+        mock.patch(f"{app.glue.__name__}.datetime", wraps=datetime) as m_datetime,
     ):
         goc_hostname.return_value = "foo"
         image_data.return_value = list(fixtures.appdb_image_fixture.values()).pop()
+        m_datetime.datetime.now.return_value = dateutil.parser.parse(
+            fixtures.site_info_fixture["CloudComputingService"][0]["CreationTime"]
+        )
         site_store = app.glue.SiteStore()
         loaded_site = site_store.create_site(fixtures.site_info_fixture)
         assert fixtures.site_fixture == loaded_site
+
+
+def test_valid_info_check():
+    site_store = app.glue.SiteStore()
+    with pytest.raises(ValueError):
+        site_store.create_site(fixtures.site_info_fixture)
 
 
 def test_get_sites():
