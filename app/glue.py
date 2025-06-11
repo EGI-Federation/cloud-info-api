@@ -239,7 +239,8 @@ class SiteStore:
                     self._mpuri_image_info[image["MarketplaceURL"]] = mpuri_data
                 mp_data.update(mpuri_data)
             elif "registry.egi.eu" in mpuri:
-                mp_data.update(dict(egi_id=image.get("Name", mpuri)))
+                egi_id = image.get("OtherInfo", {}).get("eu.egi.cloud.image_ref", mpuri)
+                mp_data.update(dict(egi_id=egi_id))
         return mp_data
 
     def create_site(self, info):
@@ -267,6 +268,7 @@ class SiteStore:
                             name=image_info.get("name"),
                             version=image_info.get("version"),
                             vo=vo_name,
+                            other_info=image_info.get("OtherInfo", {}),
                         )
                     )
             instances = []
