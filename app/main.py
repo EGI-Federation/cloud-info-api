@@ -154,6 +154,13 @@ def get_site(site_name: str) -> Site:
     return Site(**_get_site(site_name).summary())
 
 
+@app.get("/site/{site_name}/projects", tags=["sites"])
+def get_site_project_ids(site_name: str) -> list[Project]:
+    """Get information about the projects supported at a site"""
+    site = _get_site(site_name)
+    return [Project(**share.get_project()) for share in site.shares]
+
+
 @app.get("/site/{site_name}/images", tags=["sites"])
 def get_site_images(site_name: str, only_egi_images: bool = True) -> list[Image]:
     """Get all images from a site"""
@@ -161,6 +168,13 @@ def get_site_images(site_name: str, only_egi_images: bool = True) -> list[Image]
     return filter_images(
         [Image(**img, endpoint=site.url) for img in site.image_list()], only_egi_images
     )
+
+
+@app.get("/site/{site_name}/{vo_name}/project", tags=["sites"])
+def get_project_id(site_name: str, vo_name: str) -> Project:
+    """Get information about the project supporting a VO at a site"""
+    site = _get_site(site_name, vo_name)
+    return Project(**site.vo_share(vo_name).get_project())
 
 
 @app.get("/site/{site_name}/{vo_name}/images", tags=["sites"])
@@ -176,20 +190,6 @@ def get_images(
         ],
         only_egi_images,
     )
-
-
-@app.get("/site/{site_name}/projects", tags=["sites"])
-def get_site_project_ids(site_name: str) -> list[Project]:
-    """Get information about the projects supported at a site"""
-    site = _get_site(site_name)
-    return [Project(**share.get_project()) for share in site.shares]
-
-
-@app.get("/site/{site_name}/{vo_name}/project", tags=["sites"])
-def get_project_id(site_name: str, vo_name: str) -> Project:
-    """Get information about the project supporting a VO at a site"""
-    site = _get_site(site_name, vo_name)
-    return Project(**site.vo_share(vo_name).get_project())
 
 
 @app.get("/images/", tags=["images"])
