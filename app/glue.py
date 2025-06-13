@@ -123,7 +123,14 @@ class GlueSite(BaseModel):
 
 
 class SiteStore:
-    def __init__(self, gocdb_url="", appdb_images_file="", httpx_client=None, check_glue_validity=True, **kwargs):
+    def __init__(
+        self,
+        gocdb_url="",
+        appdb_images_file="",
+        httpx_client=None,
+        check_glue_validity=True,
+        **kwargs,
+    ):
         self.gocdb_hostnames = {}
         self.gocdb_url = gocdb_url
         if httpx_client:

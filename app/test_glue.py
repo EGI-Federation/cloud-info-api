@@ -115,6 +115,19 @@ def test_valid_info_check():
         site_store.create_site(fixtures.site_info_fixture)
 
 
+def test_validity_disabled():
+    with (
+        mock.patch("app.glue.SiteStore._read_mpuri_image_file"),
+        mock.patch("app.glue.SiteStore.get_mp_image_data") as image_data,
+        mock.patch("app.glue.SiteStore._get_gocdb_hostname") as goc_hostname,
+        mock.patch(f"{app.glue.__name__}.datetime", wraps=datetime) as m_datetime,
+    ):
+        goc_hostname.return_value = "foo"
+        site_store = app.glue.SiteStore(check_glue_validity=False)
+        site = site_store.create_site(fixtures.site_info_fixture)
+        assert site is not None
+
+
 def test_get_sites():
     with (
         mock.patch("app.glue.SiteStore.get_mp_image_data"),
