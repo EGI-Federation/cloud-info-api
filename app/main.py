@@ -47,6 +47,7 @@ class Settings(BaseSettings):
         "AUTH_bd5a81e1670b48f18af33b05512a9d77/cloud-info/"
     )
     gocdb_url: str = "https://goc.egi.eu"
+    check_glue_validity: bool = True
 
 
 settings = Settings()
