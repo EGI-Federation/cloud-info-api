@@ -123,7 +123,7 @@ class GlueSite(BaseModel):
 
 
 class SiteStore:
-    def __init__(self, gocdb_url="", appdb_images_file="", httpx_client=None, **kwargs):
+    def __init__(self, gocdb_url="", appdb_images_file="", httpx_client=None, check_glue_validity=True, **kwargs):
         self.gocdb_hostnames = {}
         self.gocdb_url = gocdb_url
         if httpx_client:
@@ -131,6 +131,7 @@ class SiteStore:
         else:
             self.httpx_client = httpx.Client()
         self._mpuri_image_info = self._read_mpuri_image_file(appdb_images_file)
+        self.check_glue_validity = check_glue_validity
         self._base_mpuri_image_info = {}
 
     def _read_mpuri_image_file(self, appdb_images_file):
@@ -247,11 +248,11 @@ class SiteStore:
                 mp_data.update(dict(egi_id=egi_id, version=version))
         return mp_data
 
-    def create_site(self, info, check_validity=True):
+    def create_site(self, info):
         svc = info["CloudComputingService"][0]
         ept = info["CloudComputingEndpoint"][0]
 
-        if check_validity:
+        if self.check_glue_validity:
             valid_until = dateutil.parser.parse(
                 svc["CreationTime"]
             ) + datetime.timedelta(seconds=int(svc["Validity"]))
