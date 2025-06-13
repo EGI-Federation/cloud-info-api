@@ -260,10 +260,13 @@ class SiteStore:
         ept = info["CloudComputingEndpoint"][0]
 
         if self.check_glue_validity:
-            valid_until = dateutil.parser.parse(
-                svc["CreationTime"]
-            ) + datetime.timedelta(seconds=int(svc["Validity"]))
-            if datetime.datetime.now() > valid_until:
+            creation_time = dateutil.parser.parse(svc["CreationTime"])
+            if not creation_time.tzinfo:
+                creation_time = creation_time.replace(tzinfo=datetime.timezone.utc)
+            valid_until = creation_time + datetime.timedelta(
+                seconds=int(svc["Validity"])
+            )
+            if datetime.datetime.now(datetime.UTC) > valid_until:
                 logging.warning(f"Site info was valid until {valid_until}, skipping")
                 raise ValueError("Outdated info for site")
 
