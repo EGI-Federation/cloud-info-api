@@ -18,3 +18,14 @@ Both can be configured via env variables, that can be set on the command line:
 ```sh
 CLOUD_INFO_DIR="<directory>" OPS_PORTAL_TOKEN="<XXXX>" uv run fastapi dev --app app
 ```
+
+### Disabling validity check
+
+By default the application will check if the Glue objects with the site
+information are still valid according to the `CreationTime` and `Validity` of
+these objects. This check can be disabled with the `CHECK_GLUE_VALIDITY`
+environment variable set to `False`:
+
+```sh
+CHECK_GLUE_VALIDITY=False uv run fastapi dev --app app
+```
