@@ -7,7 +7,6 @@ from unittest import mock
 
 import app.glue
 import app.test_fixtures as fixtures
-import dateutil.parser
 import httpx
 import pytest
 
@@ -101,7 +100,7 @@ def test_create_site():
     ):
         goc_hostname.return_value = "foo"
         image_data.return_value = list(fixtures.appdb_image_fixture.values()).pop()
-        dateutil.parser.parse.return_value = datetime.datetime.now()
+        m_datetime.return_value = datetime.datetime.now()
         site_store = app.glue.SiteStore()
         loaded_site = site_store.create_site(fixtures.site_info_fixture)
         assert fixtures.site_fixture == loaded_site
@@ -116,7 +115,6 @@ def test_valid_info_check():
 def test_validity_disabled():
     with (
         mock.patch("app.glue.SiteStore._read_mpuri_image_file"),
-        mock.patch("app.glue.SiteStore.get_mp_image_data") as image_data,
         mock.patch("app.glue.SiteStore._get_gocdb_hostname") as goc_hostname,
     ):
         goc_hostname.return_value = "foo"
