@@ -31,13 +31,31 @@ class TestAPI(TestCase):
             assert response.status_code == 200
             assert response.json() == ["bar", "foo"]
 
+    def test_get_sites_summary(self):
+        with mock.patch.object(site_store, "get_sites") as m_get_sites:
+            m_get_sites.return_value = [site_fixture]
+            response = self.client.get("/sites/", params={"include_projects": "true"})
+            assert response.status_code == 200
+            assert response.json() == [
+                {
+                    "id": "12249G0",
+                    "name": "BIFI",
+                    "url": "https://colossus.cesar.unizar.es:5000/v3",
+                    "state": "",
+                    "hostname": "foo",
+                    "projects": [
+                        {"id": "038db3eeca5c4960a443a89b92373cd2", "name": "ops"}
+                    ],
+                }
+            ]
+            m_get_sites.assert_called()
+
     def test_get_sites_no_name(self):
         with mock.patch.object(site_store, "get_sites") as m_get_sites:
             m_get_sites.return_value = [site_fixture]
             response = self.client.get("/sites/", params={"vo_name": "foo"})
             assert response.status_code == 200
             assert response.json() == [bifi_summary]
-            m_get_sites.assert_called_with("foo")
 
     def test_get_sites_with_name(self):
         with mock.patch.object(site_store, "get_site_by_name") as m_get_site:

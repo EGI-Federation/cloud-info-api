@@ -7,6 +7,7 @@ needed by IM
 
 import asyncio
 from contextlib import asynccontextmanager
+from typing import Optional
 
 from app.glue import FileSiteStore, VOStore
 from fastapi import FastAPI, HTTPException
@@ -24,17 +25,18 @@ class Image(BaseModel):
     vo: str
 
 
+class Project(BaseModel):
+    id: str
+    name: str
+
+
 class Site(BaseModel):
     id: str
     name: str
     url: str
     state: str
     hostname: str
-
-
-class Project(BaseModel):
-    id: str
-    name: str
+    projects: Optional[list[Project]] = None
 
 
 class Settings(BaseSettings):
@@ -128,31 +130,37 @@ def get_vos() -> list[str]:
     return vos
 
 
-@app.get("/sites/", tags=["sites"])
-def get_sites(vo_name: str = "", site_name: str = "") -> list[Site]:
+@app.get("/sites/", tags=["sites"], response_model_exclude_none=True)
+def get_sites(
+    vo_name: str = "", site_name: str = "", include_projects: bool = False
+) -> list[Site]:
     """Get a list of available sites.
 
     Optionally filter by VO or site name (as listed in GOCDB).
+    Optionally add details on projects
     """
     if site_name:
         site = site_store.get_site_by_name(site_name)
         if vo_name:
             if site.supports_vo(vo_name):
-                return [Site(**site.summary())]
+                return [Site(**site.summary(include_projects=include_projects))]
             else:
                 return []
         else:
-            return [Site(**site.summary())]
-    return [Site(**s.summary()) for s in site_store.get_sites(vo_name)]
+            return [Site(**site.summary(include_projects=include_projects))]
+    return [
+        Site(**s.summary(include_projects=include_projects))
+        for s in site_store.get_sites(vo_name)
+    ]
 
 
-@app.get("/site/{site_name}/", tags=["sites"])
-def get_site(site_name: str) -> Site:
+@app.get("/site/{site_name}/", tags=["sites"], response_model_exclude_none=True)
+def get_site(site_name: str, include_projects: bool = False) -> Site:
     """Get site information
 
     Name of the site in the GOCDB
     """
-    return Site(**_get_site(site_name).summary())
+    return Site(**_get_site(site_name).summary(include_projects=include_projects))
 
 
 @app.get("/site/{site_name}/projects", tags=["sites"])

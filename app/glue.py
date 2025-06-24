@@ -112,14 +112,17 @@ class GlueSite(BaseModel):
     def image_list(self):
         return itertools.chain.from_iterable(s.image_list() for s in self.shares)
 
-    def summary(self):
-        return dict(
+    def summary(self, include_projects=False):
+        site = dict(
             id=self.gocdb_id,
             name=self.name,
             url=self.url,
             state="",
             hostname=self.hostname,
         )
+        if include_projects:
+            site["projects"] = [share.get_project() for share in self.shares]
+        return site
 
 
 class SiteStore:
