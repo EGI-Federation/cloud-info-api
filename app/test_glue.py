@@ -27,6 +27,19 @@ def test_gluesite_object():
         "state": "",
         "url": "https://colossus.cesar.unizar.es:5000/v3",
     }
+    assert site.summary(include_projects=True) == {
+        "hostname": "foo",
+        "id": "12249G0",
+        "name": "BIFI",
+        "state": "",
+        "url": "https://colossus.cesar.unizar.es:5000/v3",
+        "projects": [
+            {
+                "id": "038db3eeca5c4960a443a89b92373cd2",
+                "name": "ops",
+            }
+        ],
+    }
     # share project
     assert fixtures.site_fixture.shares[0].get_project() == {
         "id": "038db3eeca5c4960a443a89b92373cd2",
