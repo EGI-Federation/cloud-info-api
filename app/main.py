@@ -6,12 +6,13 @@ needed by IM
 """
 
 import asyncio
-from contextlib import asynccontextmanager
 import json
+import logging
+from contextlib import asynccontextmanager
 from typing import Optional
 
 from app.glue import FileSiteStore, VOStore
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
@@ -134,7 +135,7 @@ def get_vos() -> list[str]:
 
 @app.get("/disciplines/", tags=["vos"])
 def get_disciplines() -> list[str]:
-    data = ""
+    data = []
     try:
         with open(settings.appdb_disciplines_file) as f:
             data = json.loads(f.read())
