@@ -391,3 +391,7 @@ appdb_file = """{
     }
   }
 }"""
+
+disciplines = """[
+  "a", "b", "c"
+]"""

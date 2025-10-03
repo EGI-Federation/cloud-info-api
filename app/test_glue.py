@@ -128,6 +128,7 @@ def test_valid_info_check():
 def test_validity_disabled():
     with (
         mock.patch("app.glue.SiteStore._read_mpuri_image_file"),
+        mock.patch("app.glue.SiteStore.get_mp_image_data"),
         mock.patch("app.glue.SiteStore._get_gocdb_hostname") as goc_hostname,
     ):
         goc_hostname.return_value = "foo"
