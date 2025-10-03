@@ -7,10 +7,11 @@ needed by IM
 
 import asyncio
 from contextlib import asynccontextmanager
+import json
 from typing import Optional
 
 from app.glue import FileSiteStore, VOStore
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
@@ -41,6 +42,7 @@ class Site(BaseModel):
 
 class Settings(BaseSettings):
     appdb_images_file: str = "data/appdb-images.json"
+    appdb_disciplines_file: str = "data/vo-disciplines.json"
     ops_portal_url: str = "https://operations-portal.egi.eu/api/vo-list/json"
     ops_portal_token: str = ""
     cloud_info_dir: str = "cloud-info"
@@ -128,6 +130,17 @@ def get_vos() -> list[str]:
     """Get a list of available VOs."""
     vos = sorted([vo.name for vo in vo_store.get_vos()])
     return vos
+
+
+@app.get("/disciplines/", tags=["vos"])
+def get_disciplines() -> list[str]:
+    data = ""
+    try:
+        with open(settings.appdb_disciplines_file) as f:
+            data = json.loads(f.read())
+    except OSError as e:
+        logging.error(f"Not able to load disciplines: {e.strerror}")
+    return data
 
 
 @app.get("/sites/", tags=["sites"], response_model_exclude_none=True)

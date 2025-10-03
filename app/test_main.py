@@ -4,7 +4,12 @@ from unittest import TestCase, mock
 
 from app.glue import VO
 from app.main import _get_site, app, site_store, vo_store
-from app.test_fixtures import another_site_fixture, images_fixture, site_fixture
+from app.test_fixtures import (
+    another_site_fixture,
+    disciplines,
+    images_fixture,
+    site_fixture,
+)
 from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
@@ -30,6 +35,12 @@ class TestAPI(TestCase):
             response = self.client.get("/vos/")
             assert response.status_code == 200
             assert response.json() == ["bar", "foo"]
+
+    def test_get_disciplines(self):
+        with mock.patch("builtins.open", mock.mock_open(read_data=disciplines)):
+            response = self.client.get("/disciplines/")
+            assert response.status_code == 200
+            assert response.json() == ["a", "b", "c"]
 
     def test_get_sites_summary(self):
         with mock.patch.object(site_store, "get_sites") as m_get_sites:
