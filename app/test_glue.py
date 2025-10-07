@@ -52,10 +52,7 @@ def test_gluesite_object():
             "version": "2024.11.18",
             "egi_id": "egi.small.ubuntu.16.04.for.monitoring",
             "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
-            "mpuri": (
-                "https://appdb.egi.eu/store/vo/image/"
-                "63fcad1c-b737-5091-9668-1342b6d4f84c:15705/"
-            ),
+            "mpuri": "registry.egi.eu/egi_vm_images/ubuntu:22.04-sha256:xx",
             "vo": "ops",
         }
     ]
@@ -106,13 +103,12 @@ def test_gocdb_info():
 
 def test_create_site():
     with (
-        mock.patch("app.glue.SiteStore._read_mpuri_image_file"),
         mock.patch("app.glue.SiteStore.get_mp_image_data") as image_data,
         mock.patch("app.glue.SiteStore._get_gocdb_hostname") as goc_hostname,
         mock.patch("dateutil.parser.parse") as m_datetime,
     ):
         goc_hostname.return_value = "foo"
-        image_data.return_value = list(fixtures.appdb_image_fixture.values()).pop()
+        image_data.return_value = fixtures.images_fixture[0]
         m_datetime.return_value = datetime.datetime.now()
         site_store = app.glue.SiteStore()
         loaded_site = site_store.create_site(fixtures.site_info_fixture)
@@ -127,7 +123,6 @@ def test_valid_info_check():
 
 def test_validity_disabled():
     with (
-        mock.patch("app.glue.SiteStore._read_mpuri_image_file"),
         mock.patch("app.glue.SiteStore.get_mp_image_data"),
         mock.patch("app.glue.SiteStore._get_gocdb_hostname") as goc_hostname,
     ):
@@ -194,65 +189,12 @@ def test_get_site_summary():
         assert list(site_store.get_site_summary("ops")) == [site_summary]
 
 
-# jscpd:ignore-start
-def test_get_appdb_no_base_mpuri():
-    test_client = httpx.Client(
-        transport=httpx.MockTransport(
-            lambda request: httpx.Response(
-                HTTPStatus.OK, content=fixtures.appdb_mpuri_fixtures[0]
-            )
-        )
-    )
-    with mock.patch("app.glue.SiteStore._read_mpuri_image_file") as mpuri_image_data:
-        mpuri_image_data.return_value = fixtures.appdb_image_fixture
-        site_store = app.glue.SiteStore(httpx_client=test_client)
-        img = site_store.get_mp_image_data(
-            {"MarketplaceURL": list(fixtures.appdb_image_fixture.keys()).pop()}
-        )
-        assert img == {
-            "egi_id": "egi.small.ubuntu.16.04.for.monitoring",
-            "name": "EGI Small Ubuntu for Monitoring",
-            "version": "2024.11.18",
-        }
-        img = site_store.get_mp_image_data(
-            {"OtherInfo": {"base_mpuri": "https://example.com"}}
-        )
-        assert img == {
-            "egi_id": "egi.small.ubuntu.16.04.for.monitoring",
-            "name": "EGI Small Ubuntu for Monitoring",
-            "version": "2024.11.18",
-        }
-
-
-def test_get_appdb_base_mpuri_missing_data():
-    test_client = httpx.Client(
-        transport=httpx.MockTransport(
-            lambda request: httpx.Response(
-                HTTPStatus.OK, content=fixtures.appdb_mpuri_fixtures[1]
-            )
-        )
-    )
-    with mock.patch("app.glue.SiteStore._read_mpuri_image_file") as mpuri_image_data:
-        mpuri_image_data.return_value = fixtures.appdb_image_fixture
-        site_store = app.glue.SiteStore(httpx_client=test_client)
-        img = site_store.get_mp_image_data(
-            {"OtherInfo": {"base_mpuri": "https://example.com"}}
-        )
-        assert img == {
-            "egi_id": "small.ubuntu.for.monitoring",
-            "name": "Small Ubuntu for monitoring",
-            "version": "2024.11.18",
-        }
-
-
-# jscpd:ignore-end
-
-
-def test_read_mpuri_image_file():
-    with mock.patch("builtins.open", mock.mock_open(read_data=fixtures.appdb_file)):
-        site_store = app.glue.SiteStore()
-        assert site_store._mpuri_image_info["foo"] == {
-            "egi_id": "egi.ubuntu.20.04",
-            "name": "EGI Ubuntu 20.04",
-            "version": "2024.10.07",
-        }
+def test_get_mp_image_data():
+    site_store = app.glue.SiteStore()
+    image_info = fixtures.glue_image
+    mp_data = site_store.get_mp_image_data(image_info)
+    assert mp_data == {
+        "egi_id": "egi_vm_images/ubuntu:22.04",
+        "name": "registry.egi.eu egi_vm_images/ubuntu:22.04",
+        "version": "2025-09-04-4d7122d6",
+    }

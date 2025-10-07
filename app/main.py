@@ -42,7 +42,6 @@ class Site(BaseModel):
 
 
 class Settings(BaseSettings):
-    appdb_images_file: str = "data/appdb-images.json"
     appdb_disciplines_file: str = "data/vo-disciplines.json"
     ops_portal_url: str = "https://operations-portal.egi.eu/api/vo-list/json"
     ops_portal_token: str = ""

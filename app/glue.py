@@ -129,7 +129,6 @@ class SiteStore:
     def __init__(
         self,
         gocdb_url="",
-        appdb_images_file="",
         httpx_client=None,
         check_glue_validity=True,
         **kwargs,
@@ -140,43 +139,7 @@ class SiteStore:
             self.httpx_client = httpx_client
         else:
             self.httpx_client = httpx.Client()
-        self._mpuri_image_info = self._read_mpuri_image_file(appdb_images_file)
         self.check_glue_validity = check_glue_validity
-        self._base_mpuri_image_info = {}
-
-    def _read_mpuri_image_file(self, appdb_images_file):
-        image_info = {}
-        try:
-            # This file contains the result of the GraphQL query
-            # {
-            #  siteCloudComputingImages {
-            #    items {
-            #      marketPlaceURL
-            #      imageVAppCName
-            #      imageVAppName
-            #      version
-            #    }
-            #  }
-            # }
-            with open(appdb_images_file) as f:
-                all_images = json.loads(f.read())
-                for appdb_image in (
-                    all_images.get("data", {})
-                    .get("siteCloudComputingImages", {})
-                    .get("items", [])
-                ):
-                    img = {}
-                    for f, n in (
-                        ("imageVAppName", "name"),
-                        ("imageVAppCName", "egi_id"),
-                        ("version", "version"),
-                    ):
-                        if f in appdb_image and appdb_image[f]:
-                            img[n] = appdb_image[f]
-                    image_info[appdb_image["marketPlaceURL"]] = img
-        except OSError as e:
-            logging.error(f"Not able to load image info: {e.strerror}")
-        return image_info
 
     def _get_gocdb_hostname(self, gocid):
         if not self.gocdb_hostnames:
@@ -216,46 +179,11 @@ class SiteStore:
     def get_mp_image_data(self, image):
         mp_data = dict(egi_id="", name=image.get("Name", ""), version="")
         other_info = image.get("OtherInfo", {})
-        base_mpuri = other_info.get("base_mpuri", None)
         mpuri = image.get("MarketplaceURL")
-        if base_mpuri:
-            if base_mpuri in self._base_mpuri_image_info:
-                mp_data.update(self._base_mpuri_image_info[base_mpuri])
-            else:
-                try:
-                    r = self.httpx_client.get(os.path.join(base_mpuri, "json"))
-                    appdb_img = r.json()
-                    version = appdb_img.get(
-                        "version", appdb_img.get("vappliance", {}).get("version", "")
-                    )
-                    name = appdb_img.get("application", {}).get("name", None)
-                    if not name:
-                        name = self._clean_name(appdb_img.get("title", ""))
-                    egi_id = appdb_img.get("application", {}).get("cname", None)
-                    if not egi_id:
-                        egi_id = self._build_egi_id(name)
-                    img = dict(
-                        egi_id=egi_id,
-                        name=name,
-                        version=str(version),
-                    )
-                    self._base_mpuri_image_info[base_mpuri] = img
-                    mp_data.update(img)
-                except httpx.HTTPError as e:
-                    logging.error(f"Unable to load image information: {e}")
-        elif mpuri:
-            if "https://appdb.egi.eu" in mpuri:
-                mpuri_data = self._mpuri_image_info.get(mpuri, {})
-                if not mpuri_data:
-                    name = self._clean_name(image.get("Name", image.get("ID", "")))
-                    egi_id = self._build_egi_id(name)
-                    mpuri_data = dict(egi_id=egi_id)
-                    self._mpuri_image_info[image["MarketplaceURL"]] = mpuri_data
-                mp_data.update(mpuri_data)
-            elif "registry.egi.eu" in mpuri:
-                egi_id = other_info.get("eu.egi.cloud.image_ref", mpuri)
-                version = other_info.get("eu.egi.cloud.tag", "")
-                mp_data.update(dict(egi_id=egi_id, version=version))
+        if mpuri and "registry.egi.eu" in mpuri:
+            egi_id = other_info.get("eu.egi.cloud.image_ref", mpuri)
+            version = other_info.get("eu.egi.cloud.tag", "")
+            mp_data.update(dict(egi_id=egi_id, version=version))
         return mp_data
 
     def create_site(self, info):

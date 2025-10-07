@@ -45,7 +45,7 @@ site_fixture = GlueSite(
                     id="06c8bfac-0f93-48da-b0eb-4fbad3356f73",
                     name="EGI Small Ubuntu for Monitoring",
                     egi_id="egi.small.ubuntu.16.04.for.monitoring",
-                    mpuri="https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
+                    mpuri="registry.egi.eu/egi_vm_images/ubuntu:22.04-sha256:xx",
                     version="2024.11.18",
                     vo="ops",
                 )
@@ -70,7 +70,7 @@ another_site_fixture = GlueSite(
                     id="06c8bfac-0f93-48da-b03b-8f8ad3356f73",
                     name="EGI Fake Image",
                     egi_id="egi.fake.id",
-                    mpuri="https://appdb.egi.eu/store/vo/image/0123:456/",
+                    mpuri="registry.egi.eu/egi_vm_images/fake:foo",
                     version="0.01",
                     vo="access",
                 ),
@@ -166,7 +166,7 @@ site_info_fixture = {
             "CreationTime": "2025-05-08T15:07:06.423857",
             "Name": "EGI Image for EGI Small Ubuntu for Monitoring [Ubuntu/20.04/KVM]",
             "OtherInfo": {
-                "base_mpuri": "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
+                "base_mpuri": "dontcare",
             },
             "Associations": {
                 "Share": [
@@ -179,7 +179,7 @@ site_info_fixture = {
                     "https://colossus.cesar.unizar.es:5000/v3_cloud.compute_manager"
                 ],
             },
-            "MarketplaceURL": "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/",
+            "MarketplaceURL": "registry.egi.eu/egi_vm_images/ubuntu:22.04-sha256:xx",
             "OSPlatform": "x86_64",
             "OSName": "ubuntu",
             "OSVersion": "20.04",
@@ -319,37 +319,30 @@ gocdb_fixture = """
 </results>
 """
 
-appdb_image_fixture = {
-    "https://appdb.egi.eu/store/vo/image/63fcad1c-b737-5091-9668-1342b6d4f84c:15705/": {
-        "egi_id": "egi.small.ubuntu.16.04.for.monitoring",
-        "name": "EGI Small Ubuntu for Monitoring",
-        "version": "2024.11.18",
-    }
+glue_image = {
+    "ID": "141027e7-276b-462b-b03d-8843ef2e3d24",
+    "Validity": 43200,
+    "CreationTime": "2025-10-07T11:04:37.006933+00:00",
+    "Name": "registry.egi.eu egi_vm_images/ubuntu:22.04",
+    "OtherInfo": {
+        "eu.egi.cloud.description": "EGI Ubuntu 22.04 image",
+        "eu.egi.cloud.tag": "2025-09-04-4d7122d6",
+        "org.opencontainers.image.title": "Ubuntu.22.04-2025-09-04-4d7122d6.qcow2",
+        "org.openstack.glance.architecture": "x86_64",
+        "org.openstack.glance.container_format": "bare",
+        "org.openstack.glance.disk_format": "qcow2",
+        "org.openstack.glance.os_admin_user": "ubuntu",
+        "org.openstack.glance.os_distro": "ubuntu",
+        "org.openstack.glance.os_type": "linux",
+        "org.openstack.glance.os_version": "22.04",
+        "eu.egi.cloud.image_ref": "egi_vm_images/ubuntu:22.04",
+    },
+    "MarketplaceURL": "registry.egi.eu/egi_vm_images/ubuntu:22.04-sha256:4d06e117d590e0b6a5b7ad48baeffde0182d2aab0709254bc27adc13738a4b6c",
+    "OSPlatform": "x86_64",
+    "OSName": "ubuntu",
+    "OSVersion": "22.04",
+    "Description": "EGI Ubuntu 22.04 image",
 }
-
-appdb_mpuri_fixtures = [
-    json.dumps(
-        {
-            "id": "123",
-            "title": "Small Ubuntu for monitoring",
-            "application": {
-                "cname": "egi.small.ubuntu.16.04.for.monitoring",
-                "name": "EGI Small Ubuntu for Monitoring",
-            },
-            "vappliance": {
-                "version": "2024.11.18",
-            },
-        }
-    ),
-    # to test building from
-    json.dumps(
-        {
-            "id": "123",
-            "title": "Image for Small Ubuntu for monitoring [X]",
-            "version": "2024.11.18",
-        }
-    ),
-]
 
 
 images_fixture = [
@@ -357,10 +350,7 @@ images_fixture = [
         "egi_id": "egi.small.ubuntu.16.04.for.monitoring",
         "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
         "id": "06c8bfac-0f93-48da-b0eb-4fbad3356f73",
-        "mpuri": (
-            "https://appdb.egi.eu/store/vo/image/"
-            "63fcad1c-b737-5091-9668-1342b6d4f84c:15705/"
-        ),
+        "mpuri": "registry.egi.eu/egi_vm_images/ubuntu:22.04-sha256:xx",
         "name": "EGI Small Ubuntu for Monitoring",
         "version": "2024.11.18",
         "vo": "ops",
@@ -369,28 +359,12 @@ images_fixture = [
         "egi_id": "egi.fake.id",
         "endpoint": "https://example.com/v3",
         "id": "06c8bfac-0f93-48da-b03b-8f8ad3356f73",
-        "mpuri": "https://appdb.egi.eu/store/vo/image/0123:456/",
+        "mpuri": "registry.egi.eu/egi_vm_images/fake:foo",
         "name": "EGI Fake Image",
         "version": "0.01",
         "vo": "access",
     },
 ]
-
-
-appdb_file = """{
-  "data": {
-    "siteCloudComputingImages": {
-      "items": [
-        {
-          "marketPlaceURL": "foo",
-          "imageVAppCName": "egi.ubuntu.20.04",
-          "imageVAppName": "EGI Ubuntu 20.04",
-          "version": "2024.10.07"
-        }
-      ]
-    }
-  }
-}"""
 
 disciplines = """[
   "a", "b", "c"
