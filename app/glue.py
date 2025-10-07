@@ -50,7 +50,7 @@ class VOStore:
                 vo = VO(**vo_info)
                 vos.append(vo)
             self._vos = vos
-        except httpx.HTTPStatusError as e:
+        except httpx.HTTPError as e:
             logging.error(f"Unable to load VOs: {e}")
             self._vos = []
 
@@ -197,7 +197,7 @@ class SiteStore:
                     self.gocdb_hostnames[endpoint["@PRIMARY_KEY"]] = endpoint[
                         "HOSTNAME"
                     ]
-            except httpx.HTTPStatusError as e:
+            except httpx.HTTPError as e:
                 logging.error(f"Unable to load site information: {e}")
             except KeyError:
                 logging.error("Unable to load site information")
@@ -241,7 +241,7 @@ class SiteStore:
                     )
                     self._base_mpuri_image_info[base_mpuri] = img
                     mp_data.update(img)
-                except httpx.HTTPStatusError as e:
+                except httpx.HTTPError as e:
                     logging.error(f"Unable to load image information: {e}")
         elif mpuri:
             if "https://appdb.egi.eu" in mpuri:
@@ -427,7 +427,7 @@ class S3SiteStore(SiteStore):
                 return {}
             logging.info(f"Loaded info from {name}")
             return {name: site}
-        except httpx.HTTPStatusError as e:
+        except httpx.HTTPError as e:
             logging.error(f"Unable to load site information: {e}")
 
     def _update_sites(self):
