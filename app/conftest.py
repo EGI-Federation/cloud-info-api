@@ -72,7 +72,7 @@ def another_site():
         shares=[
             GlueShare(
                 name=("Share in service https://example.com/v3_cloud.compute"
-                      "for VO access (Project X)",)
+                      "for VO access (Project X)"),
                 vo="access",
                 project_id="foobar",
                 images=[
