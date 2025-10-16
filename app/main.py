@@ -11,11 +11,10 @@ import logging
 from contextlib import asynccontextmanager
 from typing import Optional
 
+from app.glue import FileSiteStore, VOStore
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
-
-from app.glue import FileSiteStore, VOStore
 
 
 class Image(BaseModel):

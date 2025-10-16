@@ -333,7 +333,7 @@ class FileSiteStore(SiteStore):
                 if site:
                     named_sites = sites.get(site.name, [])
                     named_sites.append(site)
-                    sites[site_name] = named_sites
+                    sites[site.name] = named_sites
                 logging.debug(f"Loaded {file}")
         new_sites = self.clean_up_duplicated_sites(sites)
         logging.info(f"Re-loaded info about {len(new_sites)} sites")

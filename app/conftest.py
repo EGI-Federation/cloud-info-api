@@ -4,7 +4,6 @@
 import json
 
 import pytest
-
 from app.glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
 
 
@@ -72,7 +71,8 @@ def another_site():
         gocdb_id="16649G0",
         shares=[
             GlueShare(
-                name="Share in service https://example.com/v3_cloud.compute for VO access (Project X)",
+                name=("Share in service https://example.com/v3_cloud.compute"
+                      "for VO access (Project X)",)
                 vo="access",
                 project_id="foobar",
                 images=[
@@ -147,7 +147,8 @@ def site_info():
                 "ID": "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc",
                 "Validity": 3600,
                 "CreationTime": "2025-05-08T15:07:06.423857",
-                "Name": "Cloud computing endpoint for https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc",
+                "Name": ("Cloud computing endpoint for "
+                         "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc"),
                 "Associations": {
                     "CloudComputingService": [
                         "https://colossus.cesar.unizar.es:5000/v3_cloud.compute"
@@ -164,7 +165,8 @@ def site_info():
                 "Implementor": "OpenStack Foundation",
                 "ImplementationName": "OpenStack Nova",
                 "ImplementationVersion": "2.96",
-                "DowntimeInfo": "https://goc.egi.eu/portal/index.php?Page_Type=Downtimes_Calendar&site=BIFI",
+                "DowntimeInfo": ("https://goc.egi.eu/portal/index.php?Page_Type"
+                                 "=Downtimes_Calendar&site=BIFI"),
                 "Semantics": "https://developer.openstack.org/api-ref/compute",
                 "Authentication": "oidc",
                 "IssuerCA": "/C=NL/O=GEANT Vereniging/CN=GEANT OV RSA CA 4",
@@ -183,7 +185,8 @@ def site_info():
                 },
                 "Associations": {
                     "Share": [
-                        "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2"
+                        ("https://colossus.cesar.unizar.es:5000/"
+                         "v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2")
                     ],
                     "CloudComputingEndpoint": [
                         "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc"
@@ -208,7 +211,8 @@ def site_info():
                 "Name": "m1.tiny",
                 "Associations": {
                     "Share": [
-                        "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2"
+                        ("https://colossus.cesar.unizar.es:5000/"
+                         "v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2")
                     ],
                     "CloudComputingEndpoint": [
                         "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc"
@@ -227,7 +231,8 @@ def site_info():
         ],
         "Share": [
             {
-                "ID": "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2",
+                "ID": ("https://colossus.cesar.unizar.es:5000/"
+                       "v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2"),
                 "Validity": 3600,
                 "CreationTime": "2025-05-08T15:07:06.423857",
                 "Name": "ops - 038db3eeca5c4960a443a89b92373cd2 share",
@@ -271,12 +276,14 @@ def site_info():
         ],
         "MappingPolicy": [
             {
-                "ID": "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2_Policy",
+                "ID": ("https://colossus.cesar.unizar.es:5000/"
+                       "v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2_Policy"),
                 "Validity": 3600,
                 "CreationTime": "2025-05-08T15:07:06.423857",
                 "Associations": {
                     "Share": [
-                        "https://colossus.cesar.unizar.es:5000/v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2"
+                        ("https://colossus.cesar.unizar.es:5000/"
+                         "v3_OpenStack_v3_oidc_share_ops_038db3eeca5c4960a443a89b92373cd2")
                     ],
                     "PolicyUserDomain": ["ops"],
                 },
@@ -361,7 +368,8 @@ def glue_image():
             "org.openstack.glance.os_version": "22.04",
             "eu.egi.cloud.image_ref": "egi_vm_images/ubuntu:22.04",
         },
-        "MarketplaceURL": "registry.egi.eu/egi_vm_images/ubuntu:22.04-sha256:4d06e117d590e0b6a5b7ad48baeffde0182d2aab0709254bc27adc13738a4b6c",
+        "MarketplaceURL": ("registry.egi.eu/egi_vm_images/ubuntu:22.04-sha256:"
+                           "4d06e117d590e0b6a5b7ad48baeffde0182d2aab0709254bc27adc13738a4b6c"),
         "OSPlatform": "x86_64",
         "OSName": "ubuntu",
         "OSVersion": "22.04",

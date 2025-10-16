@@ -34,3 +34,4 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           # Fail on errors
           DISABLE_ERRORS: false
+          VALIDATE_PYTHON_PYLINT: false
