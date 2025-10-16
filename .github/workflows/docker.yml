@@ -7,6 +7,8 @@ on:
       - main
   pull_request:
 
+permissions: read-all
+
 jobs:
   builder:
     name: Build and push images
@@ -15,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - name: Docker meta
         id: docker_meta
         uses: docker/metadata-action@v5

@@ -5,6 +5,8 @@ on:
   push:
   pull_request:
 
+permissions: read-all
+
 jobs:
   super-lint:
     name: Lint with Super-Linter
@@ -19,6 +21,7 @@ jobs:
           # ref: ${{ github.event.pull_request.head.sha }}
           # Full git history needed to get proper list of changed files
           fetch-depth: 0
+          persist-credentials: false
 
       # Runs the Super-Linter action
       - name: Run Super-Linter on new changes
