@@ -174,7 +174,7 @@ class SiteStore:
         return name.removeprefix("Image for ").split("[", 1)[0].strip()
 
     def _build_egi_id(self, name):
-        return f'{name.replace(" ", ".").lower()}'
+        return f"{name.replace(' ', '.').lower()}"
 
     def get_mp_image_data(self, image):
         mp_data = dict(egi_id="", name=image.get("Name", ""), version="")
@@ -390,7 +390,7 @@ class S3SiteStore(SiteStore):
             )
             r.raise_for_status()
             for site in r.json():
-                logging.error(f'Update site {site["name"]}')
+                logging.error(f"Update site {site['name']}")
                 new_sites.update(self._load_site(site))
         except Exception as e:
             logging.error(f"Unable to load Sites: {e}")

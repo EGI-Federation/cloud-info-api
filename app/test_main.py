@@ -8,7 +8,6 @@ from app.main import _get_site, app, site_store, vo_store
 from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
-
 client = TestClient(app)
 
 
