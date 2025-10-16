@@ -299,24 +299,45 @@ class FileSiteStore(SiteStore):
             with open(path) as f:
                 return self.create_site(json.loads(f.read()))
         except Exception as e:
+            print("SSSSS")
+            print(e)
             logging.error(f"Unable to load site {path}: {e}")
             return None
 
     def _sites(self):
         return self._site_store
 
+    def _clean_up_duplicated_sites(self, sites):
+        # We may have multiple endpoints for a given site so even
+        # if the gocdb_id is not the same, the name may be duplicated
+        # in that case the older sites will be renamed to site_name-X
+        # with X being the gocdb_id,
+        # this is quite hacky but it should work for now
+        clean_sites = []
+        for _, named_sites in sites.items():
+            named_sites.sort(key=lambda x: x.gocdb_id)
+            clean_sites.append(named_sites.pop())
+            for older_site in named_sites:
+                renamed_site = GlueSite(**older_site.model_dump())
+                renamed_site.name = f"{older_site.name}-{older_site.gocdb_id}"
+                clean_sites.append(renamed_site)
+        return clean_sites
+
     def _load_sites(self):
-        sites = []
+        sites = {}
         for file in glob.iglob(
             os.path.join(self.cloud_info_dir, "**/*.json"), recursive=True
         ):
             if os.path.isfile(file):
                 site = self._load_site_file(file)
                 if site:
-                    sites.append(site)
+                    named_sites = sites.get(site.name, [])
+                    named_sites.append(site)
+                    sites[site_name] = named_sites
                 logging.debug(f"Loaded {file}")
-        logging.info(f"Re-loaded info about {len(sites)} sites")
-        self._site_store = sites
+        new_sites = self.clean_up_duplicated_sites(sites)
+        logging.info(f"Re-loaded info about {len(new_sites)} sites")
+        self._site_store = new_sites
 
     async def start(self):
         self._load_sites()
