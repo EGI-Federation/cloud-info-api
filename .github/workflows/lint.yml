@@ -34,3 +34,6 @@ jobs:
           # Fail on errors
           DISABLE_ERRORS: false
           VALIDATE_PYTHON_PYLINT: false
+          # conflicting linters
+          VALIDATE_BIOME_FORMAT: false
+          VALIDATE_PYTHON_RUFF_FORMAT: false
