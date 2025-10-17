@@ -120,7 +120,6 @@ def test_valid_info_check(site_info):
 
 def test_validity_disabled(site_info):
     with (
-        mock.patch("app.glue.SiteStore.get_mp_image_data"),
         mock.patch("app.glue.SiteStore._get_gocdb_hostname") as goc_hostname,
     ):
         goc_hostname.return_value = "foo"
