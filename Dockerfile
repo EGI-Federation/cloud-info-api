@@ -1,3 +1,5 @@
+#checkov:skip=CKV_DOCKER_2: no need for a health check
+#checkov:skip=CKV_DOCKER_3: no need for dedicated user
 FROM python:3.13-slim
 
 # Install uv.
