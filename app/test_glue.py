@@ -202,7 +202,7 @@ def test_load_bad_json_site_file():
     with mock.patch("builtins.open", mock.mock_open(read_data="xxx")) as m_open:
         site = site_store._load_site_file("foo")
         m_open.assert_called_with("foo")
-    assert site
+    assert site is None
 
 
 def test_load_json_site_file(site_info_json):
