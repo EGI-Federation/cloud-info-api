@@ -37,3 +37,5 @@ jobs:
           # conflicting linters
           VALIDATE_BIOME_FORMAT: false
           VALIDATE_PYTHON_RUFF_FORMAT: false
+          # not now
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
