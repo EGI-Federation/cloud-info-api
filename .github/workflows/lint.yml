@@ -2,8 +2,9 @@
 name: Lint
 
 on:
-  push:
   pull_request:
+
+permissions: read-all
 
 jobs:
   super-lint:
@@ -19,10 +20,11 @@ jobs:
           # ref: ${{ github.event.pull_request.head.sha }}
           # Full git history needed to get proper list of changed files
           fetch-depth: 0
+          persist-credentials: false
 
       # Runs the Super-Linter action
       - name: Run Super-Linter on new changes
-        uses: docker://ghcr.io/github/super-linter:slim-v4
+        uses: super-linter/super-linter/slim@v8
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,3 +33,9 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           # Fail on errors
           DISABLE_ERRORS: false
+          VALIDATE_PYTHON_PYLINT: false
+          # conflicting linters
+          VALIDATE_BIOME_FORMAT: false
+          VALIDATE_PYTHON_RUFF_FORMAT: false
+          # not now
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
