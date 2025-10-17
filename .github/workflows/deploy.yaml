@@ -40,6 +40,7 @@ jobs:
           SCOPE="$SCOPE%20eduperson_entitlement:urn:mace:egi.eu:group:cloud.egi.eu:role=member#aai.egi.eu"
           SCOPE="$SCOPE%20entitlements:urn:mace:egi.eu:group:cloud.egi.eu:role=vm_operator#aai.egi.eu"
           SCOPE="$SCOPE%20entitlements:urn:mace:egi.eu:group:cloud.egi.eu:role=member#aai.egi.eu"
+          set -x
           OIDC_TOKEN=$(curl -X POST "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/token" \
                             -d "grant_type=client_credentials&client_id=$CLIENT_ID&scope=$SCOPE&client_secret=$CLIENT_SECRET" \
                           | jq -r ".access_token")
