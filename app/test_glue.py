@@ -204,7 +204,6 @@ def test_load_bad_json_site_file():
 
 def test_load_json_site_file(site_info_json):
     site_store = app.glue.FileSiteStore(check_glue_validity=False)
-    print(site_info_json)
     with mock.patch(
         "builtins.open", mock.mock_open(read_data=site_info_json)
     ) as m_open:

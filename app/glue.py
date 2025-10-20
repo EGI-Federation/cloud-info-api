@@ -299,8 +299,6 @@ class FileSiteStore(SiteStore):
             with open(path) as f:
                 return self.create_site(json.loads(f.read()))
         except Exception as e:
-            print("SSSSS")
-            print(e)
             logging.error(f"Unable to load site {path}: {e}")
             return None
 
