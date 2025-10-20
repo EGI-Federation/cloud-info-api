@@ -174,7 +174,7 @@ class SiteStore:
         return name.removeprefix("Image for ").split("[", 1)[0].strip()
 
     def _build_egi_id(self, name):
-        return f'{name.replace(" ", ".").lower()}'
+        return f"{name.replace(' ', '.').lower()}"
 
     def get_mp_image_data(self, image):
         mp_data = dict(egi_id="", name=image.get("Name", ""), version="")
@@ -305,18 +305,46 @@ class FileSiteStore(SiteStore):
     def _sites(self):
         return self._site_store
 
+    def _clean_up_duplicated_sites(self, sites):
+        # We may have multiple endpoints for a given site so even
+        # if the gocdb_id is not the same, the name may be duplicated
+        # in that case the older sites will be renamed to site_name-X
+        # with X being the gocdb_id,
+        # this is quite hacky but it should work for now
+        clean_sites = []
+        for _, named_sites in sites.items():
+            try:
+                # GOCDB identifiers look like "xxxxxG0" with x being numbers
+                # We assume larger numbers are newer entries, so sorting
+                # should put the newer site at the end of the list
+                named_sites.sort(key=lambda x: int(x.gocdb_id.replace("G0", "")))
+            except ValueError:
+                # some GOCDB id was not following the expected format,
+                # let's just keep going even if the order of the sites is not
+                # the expected one so we keep publishing information
+                pass
+            clean_sites.append(named_sites.pop())
+            for older_site in named_sites:
+                renamed_site = GlueSite(**older_site.model_dump())
+                renamed_site.name = f"{older_site.name}-{older_site.gocdb_id}"
+                clean_sites.append(renamed_site)
+        return clean_sites
+
     def _load_sites(self):
-        sites = []
+        sites = {}
         for file in glob.iglob(
             os.path.join(self.cloud_info_dir, "**/*.json"), recursive=True
         ):
             if os.path.isfile(file):
                 site = self._load_site_file(file)
                 if site:
-                    sites.append(site)
+                    named_sites = sites.get(site.name, [])
+                    named_sites.append(site)
+                    sites[site.name] = named_sites
                 logging.debug(f"Loaded {file}")
-        logging.info(f"Re-loaded info about {len(sites)} sites")
-        self._site_store = sites
+        new_sites = self._clean_up_duplicated_sites(sites)
+        logging.info(f"Re-loaded info about {len(new_sites)} sites")
+        self._site_store = new_sites
 
     async def start(self):
         self._load_sites()
@@ -369,7 +397,7 @@ class S3SiteStore(SiteStore):
             )
             r.raise_for_status()
             for site in r.json():
-                logging.error(f'Update site {site["name"]}')
+                logging.error(f"Update site {site['name']}")
                 new_sites.update(self._load_site(site))
         except Exception as e:
             logging.error(f"Unable to load Sites: {e}")

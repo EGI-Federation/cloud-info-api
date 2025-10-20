@@ -10,7 +10,12 @@ COPY . /app
 WORKDIR /app
 RUN uv sync --frozen --no-cache
 
+RUN adduser python
+USER python
+
 EXPOSE 80/tcp
+
+HEALTHCHECK CMD curl http://localhost/
 
 # Run the application.
 CMD ["/app/.venv/bin/fastapi", "run", "app/main.py", "--port", "80", "--host", "0.0.0.0"]
