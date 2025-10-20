@@ -36,14 +36,14 @@ resource "openstack_compute_secgroup_v2" "motley-cloud-info-api" {
     from_port   = 22
     to_port     = 22
     ip_protocol = "tcp"
-    cidr        = "145.90.225.224/27"
+    cidr        = "0.0.0.0/0"
   }
 
   rule {
     from_port   = 8181
     to_port     = 8181
     ip_protocol = "tcp"
-    cidr        = "145.90.225.224/27"
+    cidr        = "0.0.0.0/0"
   }
 
 }
