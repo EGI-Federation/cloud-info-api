@@ -37,7 +37,7 @@ resource "openstack_compute_secgroup_v2" "motley-cloud-info-api" {
     to_port     = 22
     ip_protocol = "tcp"
     #checkov:skip=CKV_OPENSTACK_2:Cannot restrict this further
-    cidr        = "0.0.0.0/0"
+    cidr = "0.0.0.0/0"
   }
 
   rule {
