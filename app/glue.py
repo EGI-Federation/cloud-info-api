@@ -313,7 +313,16 @@ class FileSiteStore(SiteStore):
         # this is quite hacky but it should work for now
         clean_sites = []
         for _, named_sites in sites.items():
-            named_sites.sort(key=lambda x: x.gocdb_id)
+            try:
+                # GOCDB identifiers look like "xxxxxG0" with x being numbers
+                # We assume larger numbers are newer entries, so sorting
+                # should put the newer site at the end of the list
+                named_sites.sort(key=lambda x: int(x.gocdb_id.replace("G0", "")))
+            except ValueError:
+                # some GOCDB id was not following the expected format,
+                # let's just keep going even if the order of the sites is not
+                # the expected one so we keep publishing information
+                pass
             clean_sites.append(named_sites.pop())
             for older_site in named_sites:
                 renamed_site = GlueSite(**older_site.model_dump())
