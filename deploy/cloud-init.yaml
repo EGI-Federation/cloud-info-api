@@ -13,11 +13,12 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_import_id:
       - gh:enolfc
-      - gh:gwarf
       - gh:CatalinCondurache
       - gh:sebastian-luna-valero
     ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEmO16+MOcZwomZUZ+68rcmXcCs95hVB6u1TD6y6bD7t cloud-info-api
+      - ssh-ed25519
+        AAAAC3NzaC1lZDI1NTE5AAAAIEmO16+MOcZwomZUZ+68rcmXcCs95hVB6u1TD6y6bD7t
+        cloud-info-api
 
 write_files:
   - content: |
