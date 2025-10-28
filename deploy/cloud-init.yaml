@@ -13,7 +13,6 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_import_id:
       - gh:enolfc
-      - gh:gwarf
       - gh:CatalinCondurache
       - gh:sebastian-luna-valero
     ssh_authorized_keys:
