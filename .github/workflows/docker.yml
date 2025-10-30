@@ -52,7 +52,7 @@ jobs:
           sleep 10
           docker exec "$CONTAINER_ID" uv tool run --from httpie http localhost
           docker stop "$CONTAINER_ID"
-      - name: Build and make available
+      - name: Push to repo 
         uses: docker/build-push-action@v6
         with:
           push: ${{ github.event_name != 'pull_request' }}
