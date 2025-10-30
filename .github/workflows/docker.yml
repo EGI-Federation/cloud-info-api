@@ -46,3 +46,10 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
           file: Dockerfile
+      - name: Test image
+        uses: addnab/docker-run-action@v3
+        image: ${{ steps.docker_meta.outputs.tags }}
+        run: |
+          sleep 5
+          uv tool run --from httpie http localhost
+          
