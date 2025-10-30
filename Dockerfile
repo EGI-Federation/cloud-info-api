@@ -3,6 +3,15 @@ FROM python:3.13-slim
 # Install uv.
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
+# Add Tini
+# This avoids the healthcheck becoming zombie processes
+# Ignoring DL3008 as we don't need to pin tini
+# hadolint ignore=DL3008
+RUN apt-get -y update &&  \ 
+    apt-get install --no-install-recommends  \
+    -y tini && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN adduser python
 USER python
 
@@ -16,11 +25,10 @@ COPY --chown=python . /app
 WORKDIR /app
 RUN uv sync --frozen --no-cache
 
-
-
 EXPOSE 80/tcp
 
 HEALTHCHECK CMD uv tool run --from httpie http localhost
 
 # Run the application.
+ENTRYPOINT ["tini", "--"]
 CMD ["/app/.venv/bin/fastapi", "run", "app/main.py", "--port", "80", "--host", "0.0.0.0"]
