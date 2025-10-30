@@ -39,7 +39,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
         if: github.event_name != 'pull_request'
-      - name: Build
+      - name: Build and make available
         uses: docker/build-push-action@v6
         with:
           push: ${{ github.event_name != 'pull_request' }}
@@ -48,9 +48,15 @@ jobs:
           file: Dockerfile
           load: true
       - name: Test image
-        uses: addnab/docker-run-action@v3
+        run: |
+          CONTAINER_ID="$(docker run --rm -d ${{ steps.docker_meta.outputs.tags }})"
+          sleep 1
+          docker exec "$CONTAINER_ID" uv tool run --from httpie http localhost
+          docker stop "$CONTAINER_ID"
+      - name: Build and make available
+        uses: docker/build-push-action@v6
         with:
-          image: ${{ steps.docker_meta.outputs.tags }}
-          run: |
-            sleep 5
-            uv tool run --from httpie http localhost
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          file: Dockerfile
