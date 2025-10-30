@@ -5,6 +5,8 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Add Tini
 # This avoids the healthcheck becoming zombie processes
+# Ignoring DL3008 as we don't need to pin tini
+# hadolint ignore=DL3008
 RUN apt-get -y update &&  \ 
     apt-get install --no-install-recommends  \
     -y tini && \
