@@ -54,4 +54,3 @@ jobs:
           run: |
             sleep 5
             uv tool run --from httpie http localhost
-          
