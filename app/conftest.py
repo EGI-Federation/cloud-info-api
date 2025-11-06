@@ -436,10 +436,13 @@ def more_images(images):
 
 
 @pytest.fixture
-def disciplines():
-    return """[
-  "a", "b", "c"
-    ]"""
+def discipline():
+    return {"id": "1", "name": "foo", "parent": "4", "order": 0}
+
+
+@pytest.fixture
+def disciplines_json(discipline):
+    return json.dumps([discipline])
 
 
 @pytest.fixture

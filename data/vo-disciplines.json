@@ -1,10 +1,2064 @@
 [
-  "Engineering and Technology",
-  "Medical and Health Sciences",
-  "Natural Sciences",
-  "Agricultural Sciences",
-  "Social Sciences",
-  "Humanities",
-  "Support Activities",
-  "Other"
+  {
+    "id": "1",
+    "order": 1,
+    "name": "Natural Sciences"
+  },
+  {
+    "id": "2",
+    "order": 1,
+    "parent": "1",
+    "name": "Mathematics"
+  },
+  {
+    "id": "3",
+    "order": 1,
+    "parent": "2",
+    "name": "Applied mathematics"
+  },
+  {
+    "id": "4",
+    "order": 2,
+    "parent": "2",
+    "name": "Pure mathematics"
+  },
+  {
+    "id": "5",
+    "order": 3,
+    "parent": "2",
+    "name": "Statistics and probability"
+  },
+  {
+    "id": "6",
+    "order": 2,
+    "parent": "1",
+    "name": "Computer sciences"
+  },
+  {
+    "id": "7",
+    "order": 1,
+    "parent": "6",
+    "name": "Algorithms"
+  },
+  {
+    "id": "8",
+    "order": 2,
+    "parent": "6",
+    "name": "Artificial Intelligence (expert systems, machine learning, robotics)"
+  },
+  {
+    "id": "9",
+    "order": 3,
+    "parent": "6",
+    "name": "Computer architecture"
+  },
+  {
+    "id": "10",
+    "order": 4,
+    "parent": "6",
+    "name": "Computer communications"
+  },
+  {
+    "id": "11",
+    "order": 5,
+    "parent": "6",
+    "name": "Computer graphics"
+  },
+  {
+    "id": "12",
+    "order": 6,
+    "parent": "6",
+    "name": "Computer security and reliability"
+  },
+  {
+    "id": "13",
+    "order": 7,
+    "parent": "6",
+    "name": "Data structures"
+  },
+  {
+    "id": "14",
+    "order": 8,
+    "parent": "6",
+    "name": "Distributed computing"
+  },
+  {
+    "id": "15",
+    "order": 9,
+    "parent": "6",
+    "name": "Human-computer interaction"
+  },
+  {
+    "id": "16",
+    "order": 10,
+    "parent": "6",
+    "name": "Operating systems"
+  },
+  {
+    "id": "17",
+    "order": 11,
+    "parent": "6",
+    "name": "Parallel computing"
+  },
+  {
+    "id": "18",
+    "order": 12,
+    "parent": "6",
+    "name": "Programming languages"
+  },
+  {
+    "id": "19",
+    "order": 13,
+    "parent": "6",
+    "name": "Quantum computing"
+  },
+  {
+    "id": "20",
+    "order": 14,
+    "parent": "6",
+    "name": "Software engineering"
+  },
+  {
+    "id": "21",
+    "order": 15,
+    "parent": "6",
+    "name": "Theory of computation"
+  },
+  {
+    "id": "22",
+    "order": 3,
+    "parent": "1",
+    "name": "Information sciences"
+  },
+  {
+    "id": "23",
+    "order": 1,
+    "parent": "22",
+    "name": "Data management"
+  },
+  {
+    "id": "24",
+    "order": 2,
+    "parent": "22",
+    "name": "Data mining"
+  },
+  {
+    "id": "25",
+    "order": 3,
+    "parent": "22",
+    "name": "Information retrieval"
+  },
+  {
+    "id": "26",
+    "order": 4,
+    "parent": "22",
+    "name": "Information management"
+  },
+  {
+    "id": "27",
+    "order": 5,
+    "parent": "22",
+    "name": "Knowledge management"
+  },
+  {
+    "id": "28",
+    "order": 6,
+    "parent": "22",
+    "name": "Multimedia, hypermedia"
+  },
+  {
+    "id": "29",
+    "order": 4,
+    "parent": "1",
+    "name": "Earth sciences"
+  },
+  {
+    "id": "30",
+    "order": 1,
+    "parent": "29",
+    "name": "Atmospheric science"
+  },
+  {
+    "id": "31",
+    "order": 2,
+    "parent": "29",
+    "name": "Climate research"
+  },
+  {
+    "id": "32",
+    "order": 3,
+    "parent": "29",
+    "name": "Geochemistry"
+  },
+  {
+    "id": "33",
+    "order": 4,
+    "parent": "29",
+    "name": "Geology"
+  },
+  {
+    "id": "34",
+    "order": 5,
+    "parent": "29",
+    "name": "Geophysics"
+  },
+  {
+    "id": "35",
+    "order": 6,
+    "parent": "29",
+    "name": "Hydrology"
+  },
+  {
+    "id": "36",
+    "order": 7,
+    "parent": "29",
+    "name": "Mineralogy"
+  },
+  {
+    "id": "37",
+    "order": 8,
+    "parent": "29",
+    "name": "Oceanography"
+  },
+  {
+    "id": "38",
+    "order": 9,
+    "parent": "29",
+    "name": "Palaeontology"
+  },
+  {
+    "id": "39",
+    "order": 10,
+    "parent": "29",
+    "name": "Physical geography"
+  },
+  {
+    "id": "40",
+    "order": 11,
+    "parent": "29",
+    "name": "Seismology"
+  },
+  {
+    "id": "41",
+    "order": 12,
+    "parent": "29",
+    "name": "Volcanology"
+  },
+  {
+    "id": "42",
+    "order": 5,
+    "parent": "1",
+    "name": "Biological sciences"
+  },
+  {
+    "id": "43",
+    "order": 1,
+    "parent": "42",
+    "name": "Aerobiology"
+  },
+  {
+    "id": "44",
+    "order": 2,
+    "parent": "42",
+    "name": "Bacteriology"
+  },
+  {
+    "id": "45",
+    "order": 3,
+    "parent": "42",
+    "name": "Behavioural biology"
+  },
+  {
+    "id": "46",
+    "order": 4,
+    "parent": "42",
+    "name": "Biochemistry and molecular biology"
+  },
+  {
+    "id": "47",
+    "order": 5,
+    "parent": "42",
+    "name": "Biodiversity conservation"
+  },
+  {
+    "id": "48",
+    "order": 6,
+    "parent": "42",
+    "name": "Bioinformatics"
+  },
+  {
+    "id": "49",
+    "order": 7,
+    "parent": "42",
+    "name": "Biological rhythm"
+  },
+  {
+    "id": "50",
+    "order": 8,
+    "parent": "42",
+    "name": "Biology"
+  },
+  {
+    "id": "51",
+    "order": 9,
+    "parent": "42",
+    "name": "Biophysics"
+  },
+  {
+    "id": "52",
+    "order": 10,
+    "parent": "42",
+    "name": "Botany"
+  },
+  {
+    "id": "53",
+    "order": 11,
+    "parent": "42",
+    "name": "Cell biology"
+  },
+  {
+    "id": "54",
+    "order": 12,
+    "parent": "42",
+    "name": "Computational biology"
+  },
+  {
+    "id": "55",
+    "order": 13,
+    "parent": "42",
+    "name": "Cryobiology"
+  },
+  {
+    "id": "56",
+    "order": 14,
+    "parent": "42",
+    "name": "Developmental biology"
+  },
+  {
+    "id": "57",
+    "order": 15,
+    "parent": "42",
+    "name": "Ecology"
+  },
+  {
+    "id": "58",
+    "order": 16,
+    "parent": "42",
+    "name": "Evolutionary biology"
+  },
+  {
+    "id": "59",
+    "order": 17,
+    "parent": "42",
+    "name": "Genetics and heredity"
+  },
+  {
+    "id": "60",
+    "order": 18,
+    "parent": "42",
+    "name": "Marine and Freshwater biology"
+  },
+  {
+    "id": "61",
+    "order": 19,
+    "parent": "42",
+    "name": "Mathematical biology"
+  },
+  {
+    "id": "62",
+    "order": 20,
+    "parent": "42",
+    "name": "Microbiology"
+  },
+  {
+    "id": "63",
+    "order": 21,
+    "parent": "42",
+    "name": "Mycology"
+  },
+  {
+    "id": "64",
+    "order": 22,
+    "parent": "42",
+    "name": "Plant science"
+  },
+  {
+    "id": "65",
+    "order": 23,
+    "parent": "42",
+    "name": "Reproductive biology"
+  },
+  {
+    "id": "66",
+    "order": 24,
+    "parent": "42",
+    "name": "Structural biology"
+  },
+  {
+    "id": "67",
+    "order": 25,
+    "parent": "42",
+    "name": "Taxonomy"
+  },
+  {
+    "id": "68",
+    "order": 26,
+    "parent": "42",
+    "name": "Theoretical biology"
+  },
+  {
+    "id": "69",
+    "order": 27,
+    "parent": "42",
+    "name": "Thermal biology"
+  },
+  {
+    "id": "70",
+    "order": 28,
+    "parent": "42",
+    "name": "Virology"
+  },
+  {
+    "id": "71",
+    "order": 29,
+    "parent": "42",
+    "name": "Zoology"
+  },
+  {
+    "id": "72",
+    "order": 6,
+    "parent": "1",
+    "name": "Physical sciences"
+  },
+  {
+    "id": "73",
+    "order": 1,
+    "parent": "72",
+    "name": "Accelerator physics"
+  },
+  {
+    "id": "74",
+    "order": 2,
+    "parent": "72",
+    "name": "Acoustics"
+  },
+  {
+    "id": "75",
+    "order": 3,
+    "parent": "72",
+    "name": "Aerosol physics"
+  },
+  {
+    "id": "76",
+    "order": 4,
+    "parent": "72",
+    "name": "Astrobiology"
+  },
+  {
+    "id": "77",
+    "order": 5,
+    "parent": "72",
+    "name": "Astronomy"
+  },
+  {
+    "id": "78",
+    "order": 6,
+    "parent": "72",
+    "name": "Astroparticle physics"
+  },
+  {
+    "id": "79",
+    "order": 7,
+    "parent": "72",
+    "name": "Astrophysics"
+  },
+  {
+    "id": "80",
+    "order": 8,
+    "parent": "72",
+    "name": "Atomic"
+  },
+  {
+    "id": "81",
+    "order": 9,
+    "parent": "72",
+    "name": "Chemical physics"
+  },
+  {
+    "id": "82",
+    "order": 10,
+    "parent": "72",
+    "name": "Computational physics"
+  },
+  {
+    "id": "83",
+    "order": 11,
+    "parent": "72",
+    "name": "Condensed matter physics"
+  },
+  {
+    "id": "84",
+    "order": 12,
+    "parent": "72",
+    "name": "Cryogenics"
+  },
+  {
+    "id": "85",
+    "order": 13,
+    "parent": "72",
+    "name": "Fluid Mechanics"
+  },
+  {
+    "id": "86",
+    "order": 14,
+    "parent": "72",
+    "name": "Fusion"
+  },
+  {
+    "id": "87",
+    "order": 15,
+    "parent": "72",
+    "name": "High energy physics"
+  },
+  {
+    "id": "88",
+    "order": 16,
+    "parent": "72",
+    "name": "Mathematical physics"
+  },
+  {
+    "id": "89",
+    "order": 17,
+    "parent": "72",
+    "name": "Medical physics"
+  },
+  {
+    "id": "90",
+    "order": 18,
+    "parent": "72",
+    "name": "Molecular physics"
+  },
+  {
+    "id": "91",
+    "order": 19,
+    "parent": "72",
+    "name": "Nuclear physics"
+  },
+  {
+    "id": "92",
+    "order": 20,
+    "parent": "72",
+    "name": "Optics"
+  },
+  {
+    "id": "93",
+    "order": 21,
+    "parent": "72",
+    "name": "Particle physics"
+  },
+  {
+    "id": "94",
+    "order": 22,
+    "parent": "72",
+    "name": "Physics"
+  },
+  {
+    "id": "95",
+    "order": 23,
+    "parent": "72",
+    "name": "Planetary science"
+  },
+  {
+    "id": "96",
+    "order": 24,
+    "parent": "72",
+    "name": "Plasma physics"
+  },
+  {
+    "id": "97",
+    "order": 25,
+    "parent": "72",
+    "name": "Space science"
+  },
+  {
+    "id": "98",
+    "order": 26,
+    "parent": "72",
+    "name": "Quantum physics"
+  },
+  {
+    "id": "99",
+    "order": 7,
+    "parent": "1",
+    "name": "Chemical sciences"
+  },
+  {
+    "id": "100",
+    "order": 1,
+    "parent": "99",
+    "name": "Analytical chemistry"
+  },
+  {
+    "id": "101",
+    "order": 2,
+    "parent": "99",
+    "name": "Chemistry"
+  },
+  {
+    "id": "102",
+    "order": 3,
+    "parent": "99",
+    "name": "Colloid chemistry"
+  },
+  {
+    "id": "103",
+    "order": 4,
+    "parent": "99",
+    "name": "Computational chemistry"
+  },
+  {
+    "id": "104",
+    "order": 5,
+    "parent": "99",
+    "name": "Electrochemistry"
+  },
+  {
+    "id": "105",
+    "order": 6,
+    "parent": "99",
+    "name": "Inorganic and nuclear chemistry"
+  },
+  {
+    "id": "106",
+    "order": 7,
+    "parent": "99",
+    "name": "Mathematical chemistry"
+  },
+  {
+    "id": "107",
+    "order": 8,
+    "parent": "99",
+    "name": "Organic chemistry"
+  },
+  {
+    "id": "108",
+    "order": 9,
+    "parent": "99",
+    "name": "Physical chemistry"
+  },
+  {
+    "id": "109",
+    "order": 10,
+    "parent": "99",
+    "name": "Polymer science"
+  },
+  {
+    "id": "110",
+    "order": 2,
+    "name": "Engineering and Technology"
+  },
+  {
+    "id": "111",
+    "order": 1,
+    "parent": "110",
+    "name": "Civil engineering"
+  },
+  {
+    "id": "112",
+    "order": 1,
+    "parent": "111",
+    "name": "Architecture engineering"
+  },
+  {
+    "id": "113",
+    "order": 2,
+    "parent": "111",
+    "name": "Civil engineering"
+  },
+  {
+    "id": "114",
+    "order": 3,
+    "parent": "111",
+    "name": "Civil Protection"
+  },
+  {
+    "id": "115",
+    "order": 4,
+    "parent": "111",
+    "name": "Construction/Structural engineering"
+  },
+  {
+    "id": "116",
+    "order": 5,
+    "parent": "111",
+    "name": "Transport engineering"
+  },
+  {
+    "id": "117",
+    "order": 2,
+    "parent": "110",
+    "name": "Electrical, electronic and information engineering"
+  },
+  {
+    "id": "118",
+    "order": 1,
+    "parent": "117",
+    "name": "Communication engineering and systems"
+  },
+  {
+    "id": "119",
+    "order": 2,
+    "parent": "117",
+    "name": "Computer hardware and architecture"
+  },
+  {
+    "id": "120",
+    "order": 3,
+    "parent": "117",
+    "name": "Electrical and electronic engineering"
+  },
+  {
+    "id": "121",
+    "order": 4,
+    "parent": "117",
+    "name": "Robotics, Automation and Control Systems"
+  },
+  {
+    "id": "122",
+    "order": 3,
+    "parent": "110",
+    "name": "Mechanical engineering"
+  },
+  {
+    "id": "123",
+    "order": 1,
+    "parent": "122",
+    "name": "Applied mechanics"
+  },
+  {
+    "id": "124",
+    "order": 2,
+    "parent": "122",
+    "name": "Audio engineering"
+  },
+  {
+    "id": "125",
+    "order": 3,
+    "parent": "122",
+    "name": "Nuclear related engineering"
+  },
+  {
+    "id": "126",
+    "order": 4,
+    "parent": "122",
+    "name": "Reliability analysis"
+  },
+  {
+    "id": "127",
+    "order": 5,
+    "parent": "122",
+    "name": "Thermodynamics"
+  },
+  {
+    "id": "128",
+    "order": 4,
+    "parent": "110",
+    "name": "Aerospace engineering"
+  },
+  {
+    "id": "129",
+    "order": 1,
+    "parent": "128",
+    "name": "Aeronautical engineering"
+  },
+  {
+    "id": "130",
+    "order": 2,
+    "parent": "128",
+    "name": "Astronautical engineering"
+  },
+  {
+    "id": "131",
+    "order": 5,
+    "parent": "110",
+    "name": "Chemical engineering"
+  },
+  {
+    "id": "132",
+    "order": 1,
+    "parent": "131",
+    "name": "Chemical engineering (plants, products)"
+  },
+  {
+    "id": "133",
+    "order": 2,
+    "parent": "131",
+    "name": "Chemical process engineering"
+  },
+  {
+    "id": "134",
+    "order": 6,
+    "parent": "110",
+    "name": "Materials engineering"
+  },
+  {
+    "id": "135",
+    "order": 1,
+    "parent": "134",
+    "name": "Ceramics"
+  },
+  {
+    "id": "136",
+    "order": 2,
+    "parent": "134",
+    "name": "Coating and films"
+  },
+  {
+    "id": "137",
+    "order": 3,
+    "parent": "134",
+    "name": "Composites"
+  },
+  {
+    "id": "138",
+    "order": 4,
+    "parent": "134",
+    "name": "Paper and wood"
+  },
+  {
+    "id": "139",
+    "order": 5,
+    "parent": "134",
+    "name": "Textiles"
+  },
+  {
+    "id": "140",
+    "order": 7,
+    "parent": "110",
+    "name": "Bioengineering and Biomedical engineering"
+  },
+  {
+    "id": "141",
+    "order": 1,
+    "parent": "140",
+    "name": "Bioengineering"
+  },
+  {
+    "id": "142",
+    "order": 2,
+    "parent": "140",
+    "name": "Biomedical engineering"
+  },
+  {
+    "id": "143",
+    "order": 8,
+    "parent": "110",
+    "name": "Environmental engineering"
+  },
+  {
+    "id": "144",
+    "order": 1,
+    "parent": "143",
+    "name": "Energy and fuels"
+  },
+  {
+    "id": "145",
+    "order": 2,
+    "parent": "143",
+    "name": "Geological engineering"
+  },
+  {
+    "id": "146",
+    "order": 3,
+    "parent": "143",
+    "name": "Geotechnics"
+  },
+  {
+    "id": "147",
+    "order": 4,
+    "parent": "143",
+    "name": "Ocean engineering"
+  },
+  {
+    "id": "148",
+    "order": 5,
+    "parent": "143",
+    "name": "Mining and mineral processing"
+  },
+  {
+    "id": "149",
+    "order": 6,
+    "parent": "143",
+    "name": "Petroleum engineering"
+  },
+  {
+    "id": "150",
+    "order": 7,
+    "parent": "143",
+    "name": "Remote sensing"
+  },
+  {
+    "id": "151",
+    "order": 8,
+    "parent": "143",
+    "name": "Sea vessels"
+  },
+  {
+    "id": "152",
+    "order": 9,
+    "parent": "110",
+    "name": "Environmental biotechnology"
+  },
+  {
+    "id": "153",
+    "order": 1,
+    "parent": "152",
+    "name": "Bioremediation"
+  },
+  {
+    "id": "154",
+    "order": 2,
+    "parent": "152",
+    "name": "Diagnostic biotechnologies"
+  },
+  {
+    "id": "155",
+    "order": 10,
+    "parent": "110",
+    "name": "Industrial biotechnology"
+  },
+  {
+    "id": "156",
+    "order": 1,
+    "parent": "155",
+    "name": "Bio-derived novel materials"
+  },
+  {
+    "id": "157",
+    "order": 2,
+    "parent": "155",
+    "name": "Biocatalysis"
+  },
+  {
+    "id": "158",
+    "order": 3,
+    "parent": "155",
+    "name": "Bioderived bulk and fine chemicals"
+  },
+  {
+    "id": "159",
+    "order": 4,
+    "parent": "155",
+    "name": "Biofuels"
+  },
+  {
+    "id": "160",
+    "order": 5,
+    "parent": "155",
+    "name": "Biomaterials"
+  },
+  {
+    "id": "161",
+    "order": 6,
+    "parent": "155",
+    "name": "Bioprocessing technologies"
+  },
+  {
+    "id": "162",
+    "order": 7,
+    "parent": "155",
+    "name": "Bioproducts"
+  },
+  {
+    "id": "163",
+    "order": 8,
+    "parent": "155",
+    "name": "Fermentation"
+  },
+  {
+    "id": "164",
+    "order": 11,
+    "parent": "110",
+    "name": "Nano-technology"
+  },
+  {
+    "id": "165",
+    "order": 1,
+    "parent": "164",
+    "name": "Nano-materials"
+  },
+  {
+    "id": "166",
+    "order": 2,
+    "parent": "164",
+    "name": "Nano-processes"
+  },
+  {
+    "id": "167",
+    "order": 3,
+    "name": "Medical and Health Sciences"
+  },
+  {
+    "id": "168",
+    "order": 1,
+    "parent": "167",
+    "name": "Basic medicine"
+  },
+  {
+    "id": "169",
+    "order": 1,
+    "parent": "168",
+    "name": "Anatomy and morphology"
+  },
+  {
+    "id": "170",
+    "order": 2,
+    "parent": "168",
+    "name": "Human genetics"
+  },
+  {
+    "id": "171",
+    "order": 3,
+    "parent": "168",
+    "name": "Immunology"
+  },
+  {
+    "id": "172",
+    "order": 4,
+    "parent": "168",
+    "name": "Medicinal chemistry"
+  },
+  {
+    "id": "173",
+    "order": 5,
+    "parent": "168",
+    "name": "Neuroscience"
+  },
+  {
+    "id": "174",
+    "order": 6,
+    "parent": "168",
+    "name": "Pathology"
+  },
+  {
+    "id": "175",
+    "order": 7,
+    "parent": "168",
+    "name": "Pharmacology and pharmacy"
+  },
+  {
+    "id": "176",
+    "order": 8,
+    "parent": "168",
+    "name": "Physiology"
+  },
+  {
+    "id": "177",
+    "order": 9,
+    "parent": "168",
+    "name": "Toxicology"
+  },
+  {
+    "id": "178",
+    "order": 2,
+    "parent": "167",
+    "name": "Clinical medicine"
+  },
+  {
+    "id": "179",
+    "order": 1,
+    "parent": "178",
+    "name": "Allergy"
+  },
+  {
+    "id": "180",
+    "order": 2,
+    "parent": "178",
+    "name": "Anaesthesiology"
+  },
+  {
+    "id": "181",
+    "order": 3,
+    "parent": "178",
+    "name": "Andrology"
+  },
+  {
+    "id": "182",
+    "order": 4,
+    "parent": "178",
+    "name": "Cardiac and Cardiovascular systems"
+  },
+  {
+    "id": "183",
+    "order": 5,
+    "parent": "178",
+    "name": "Critical care/Emergency medicine"
+  },
+  {
+    "id": "184",
+    "order": 6,
+    "parent": "178",
+    "name": "Dentistry, oral surgery/medicine"
+  },
+  {
+    "id": "185",
+    "order": 7,
+    "parent": "178",
+    "name": "Dermatology and venereal diseases"
+  },
+  {
+    "id": "186",
+    "order": 8,
+    "parent": "178",
+    "name": "Gastroenterology and hepatology"
+  },
+  {
+    "id": "187",
+    "order": 9,
+    "parent": "178",
+    "name": "General and internal medicine"
+  },
+  {
+    "id": "188",
+    "order": 10,
+    "parent": "178",
+    "name": "Geriatrics and gerontology"
+  },
+  {
+    "id": "189",
+    "order": 11,
+    "parent": "178",
+    "name": "Hematology"
+  },
+  {
+    "id": "190",
+    "order": 12,
+    "parent": "178",
+    "name": "Integrative and Complementary medicine"
+  },
+  {
+    "id": "191",
+    "order": 13,
+    "parent": "178",
+    "name": "Medical imaging"
+  },
+  {
+    "id": "192",
+    "order": 14,
+    "parent": "178",
+    "name": "Nuclear medicine"
+  },
+  {
+    "id": "193",
+    "order": 15,
+    "parent": "178",
+    "name": "Obstetrics and gynaecology"
+  },
+  {
+    "id": "194",
+    "order": 16,
+    "parent": "178",
+    "name": "Oncology"
+  },
+  {
+    "id": "195",
+    "order": 17,
+    "parent": "178",
+    "name": "Ophthalmology"
+  },
+  {
+    "id": "196",
+    "order": 18,
+    "parent": "178",
+    "name": "Optometry"
+  },
+  {
+    "id": "197",
+    "order": 19,
+    "parent": "178",
+    "name": "Orthopaedics"
+  },
+  {
+    "id": "198",
+    "order": 20,
+    "parent": "178",
+    "name": "Otorhinolaryngology"
+  },
+  {
+    "id": "199",
+    "order": 21,
+    "parent": "178",
+    "name": "Paediatrics"
+  },
+  {
+    "id": "200",
+    "order": 22,
+    "parent": "178",
+    "name": "Peripheral vascular disease"
+  },
+  {
+    "id": "201",
+    "order": 23,
+    "parent": "178",
+    "name": "Psychiatry"
+  },
+  {
+    "id": "202",
+    "order": 24,
+    "parent": "178",
+    "name": "Radiology"
+  },
+  {
+    "id": "203",
+    "order": 25,
+    "parent": "178",
+    "name": "Respiratory systems"
+  },
+  {
+    "id": "204",
+    "order": 26,
+    "parent": "178",
+    "name": "Rheumatology"
+  },
+  {
+    "id": "205",
+    "order": 27,
+    "parent": "178",
+    "name": "Surgery"
+  },
+  {
+    "id": "206",
+    "order": 28,
+    "parent": "178",
+    "name": "Transplantation"
+  },
+  {
+    "id": "207",
+    "order": 29,
+    "parent": "178",
+    "name": "Urology and nephrology"
+  },
+  {
+    "id": "208",
+    "order": 3,
+    "parent": "167",
+    "name": "Health sciences"
+  },
+  {
+    "id": "209",
+    "order": 1,
+    "parent": "208",
+    "name": "Epidemiology"
+  },
+  {
+    "id": "210",
+    "order": 2,
+    "parent": "208",
+    "name": "Health care science and services"
+  },
+  {
+    "id": "211",
+    "order": 3,
+    "parent": "208",
+    "name": "Health policy and services"
+  },
+  {
+    "id": "212",
+    "order": 4,
+    "parent": "208",
+    "name": "Infectious diseases"
+  },
+  {
+    "id": "213",
+    "order": 5,
+    "parent": "208",
+    "name": "Medical ethics"
+  },
+  {
+    "id": "214",
+    "order": 6,
+    "parent": "208",
+    "name": "Nursing"
+  },
+  {
+    "id": "215",
+    "order": 7,
+    "parent": "208",
+    "name": "Nutrition and Dietetics"
+  },
+  {
+    "id": "216",
+    "order": 8,
+    "parent": "208",
+    "name": "Occupational health"
+  },
+  {
+    "id": "217",
+    "order": 9,
+    "parent": "208",
+    "name": "Parasitology"
+  },
+  {
+    "id": "218",
+    "order": 10,
+    "parent": "208",
+    "name": "Public and environmental health"
+  },
+  {
+    "id": "219",
+    "order": 11,
+    "parent": "208",
+    "name": "Social biomedical science"
+  },
+  {
+    "id": "220",
+    "order": 12,
+    "parent": "208",
+    "name": "Sport and fitness science"
+  },
+  {
+    "id": "221",
+    "order": 13,
+    "parent": "208",
+    "name": "Substance abuse"
+  },
+  {
+    "id": "222",
+    "order": 14,
+    "parent": "208",
+    "name": "Tropical medicine"
+  },
+  {
+    "id": "223",
+    "order": 4,
+    "parent": "167",
+    "name": "Medical biotechnology"
+  },
+  {
+    "id": "224",
+    "order": 1,
+    "parent": "223",
+    "name": "Biomedical devices"
+  },
+  {
+    "id": "225",
+    "order": 2,
+    "parent": "223",
+    "name": "Health-related biotechnology"
+  },
+  {
+    "id": "226",
+    "order": 3,
+    "parent": "223",
+    "name": "Pharmaceutical biotechnology"
+  },
+  {
+    "id": "227",
+    "order": 4,
+    "parent": "223",
+    "name": "Biotechnology and medical ethics"
+  },
+  {
+    "id": "228",
+    "order": 5,
+    "parent": "223",
+    "name": "Molecular diagnostics"
+  },
+  {
+    "id": "229",
+    "order": 6,
+    "parent": "223",
+    "name": "Biophysical manipulation"
+  },
+  {
+    "id": "230",
+    "order": 4,
+    "name": "Agricultural Sciences"
+  },
+  {
+    "id": "231",
+    "order": 1,
+    "parent": "230",
+    "name": "Agriculture, forestry, and fisheries"
+  },
+  {
+    "id": "232",
+    "order": 1,
+    "parent": "231",
+    "name": "Agriculture"
+  },
+  {
+    "id": "233",
+    "order": 2,
+    "parent": "231",
+    "name": "Agronomy, plant breeding, plant protection"
+  },
+  {
+    "id": "234",
+    "order": 3,
+    "parent": "231",
+    "name": "Fishery"
+  },
+  {
+    "id": "235",
+    "order": 4,
+    "parent": "231",
+    "name": "Forestry"
+  },
+  {
+    "id": "236",
+    "order": 5,
+    "parent": "231",
+    "name": "Horticulture and viticulture"
+  },
+  {
+    "id": "237",
+    "order": 6,
+    "parent": "231",
+    "name": "Soil science"
+  },
+  {
+    "id": "238",
+    "order": 2,
+    "parent": "230",
+    "name": "Animal and dairy sciences"
+  },
+  {
+    "id": "239",
+    "order": 1,
+    "parent": "238",
+    "name": "Animal science"
+  },
+  {
+    "id": "240",
+    "order": 2,
+    "parent": "238",
+    "name": "Dairy science"
+  },
+  {
+    "id": "241",
+    "order": 3,
+    "parent": "238",
+    "name": "Husbandry"
+  },
+  {
+    "id": "242",
+    "order": 4,
+    "parent": "238",
+    "name": "Pets"
+  },
+  {
+    "id": "243",
+    "order": 3,
+    "parent": "230",
+    "name": "Veterinary sciences"
+  },
+  {
+    "id": "244",
+    "order": 1,
+    "parent": "243",
+    "name": "Veterinary anaesthesiology"
+  },
+  {
+    "id": "245",
+    "order": 2,
+    "parent": "243",
+    "name": "Veterinary medicine"
+  },
+  {
+    "id": "246",
+    "order": 3,
+    "parent": "243",
+    "name": "Veterinary ophthalmology"
+  },
+  {
+    "id": "247",
+    "order": 4,
+    "parent": "243",
+    "name": "Veterinary pathobiology"
+  },
+  {
+    "id": "248",
+    "order": 5,
+    "parent": "243",
+    "name": "Veterinary radiology"
+  },
+  {
+    "id": "249",
+    "order": 6,
+    "parent": "243",
+    "name": "Veterinary reproduction"
+  },
+  {
+    "id": "250",
+    "order": 7,
+    "parent": "243",
+    "name": "Veterinary surgery"
+  },
+  {
+    "id": "251",
+    "order": 4,
+    "parent": "230",
+    "name": "Agricultural biotechnology"
+  },
+  {
+    "id": "252",
+    "order": 1,
+    "parent": "251",
+    "name": "Biomass feedstock production tech."
+  },
+  {
+    "id": "253",
+    "order": 2,
+    "parent": "251",
+    "name": "Biopharming"
+  },
+  {
+    "id": "254",
+    "order": 3,
+    "parent": "251",
+    "name": "Diagnostics"
+  },
+  {
+    "id": "255",
+    "order": 4,
+    "parent": "251",
+    "name": "Food biotechnology"
+  },
+  {
+    "id": "256",
+    "order": 5,
+    "parent": "251",
+    "name": "GM technology (crops, livestock)"
+  },
+  {
+    "id": "257",
+    "order": 6,
+    "parent": "251",
+    "name": "Livestock cloning"
+  },
+  {
+    "id": "258",
+    "order": 7,
+    "parent": "251",
+    "name": "Marker assisted selection"
+  },
+  {
+    "id": "259",
+    "order": 5,
+    "name": "Social Sciences"
+  },
+  {
+    "id": "260",
+    "order": 1,
+    "parent": "259",
+    "name": "Psychology"
+  },
+  {
+    "id": "261",
+    "order": 1,
+    "parent": "260",
+    "name": "Biological Psychology"
+  },
+  {
+    "id": "262",
+    "order": 2,
+    "parent": "260",
+    "name": "Clinical Psychology"
+  },
+  {
+    "id": "263",
+    "order": 3,
+    "parent": "260",
+    "name": "Cognitive Psychology"
+  },
+  {
+    "id": "264",
+    "order": 4,
+    "parent": "260",
+    "name": "Comparative Psychology"
+  },
+  {
+    "id": "265",
+    "order": 5,
+    "parent": "260",
+    "name": "Developmental Psychology"
+  },
+  {
+    "id": "266",
+    "order": 6,
+    "parent": "260",
+    "name": "Educational and School Psychology"
+  },
+  {
+    "id": "267",
+    "order": 7,
+    "parent": "260",
+    "name": "Evolutionary Psychology"
+  },
+  {
+    "id": "268",
+    "order": 8,
+    "parent": "260",
+    "name": "Industrial-organisational Psychology"
+  },
+  {
+    "id": "269",
+    "order": 9,
+    "parent": "260",
+    "name": "Personality Psychology"
+  },
+  {
+    "id": "270",
+    "order": 10,
+    "parent": "260",
+    "name": "Positive Psychology"
+  },
+  {
+    "id": "271",
+    "order": 11,
+    "parent": "260",
+    "name": "Social Psychology"
+  },
+  {
+    "id": "272",
+    "order": 2,
+    "parent": "259",
+    "name": "Economics, finance and business"
+  },
+  {
+    "id": "273",
+    "order": 1,
+    "parent": "272",
+    "name": "Business and Management"
+  },
+  {
+    "id": "274",
+    "order": 2,
+    "parent": "272",
+    "name": "Economics and Econometrics"
+  },
+  {
+    "id": "275",
+    "order": 3,
+    "parent": "272",
+    "name": "Finance"
+  },
+  {
+    "id": "276",
+    "order": 4,
+    "parent": "272",
+    "name": "Industrial relations"
+  },
+  {
+    "id": "277",
+    "order": 3,
+    "parent": "259",
+    "name": "Educational sciences"
+  },
+  {
+    "id": "278",
+    "order": 1,
+    "parent": "277",
+    "name": "General Education"
+  },
+  {
+    "id": "279",
+    "order": 2,
+    "parent": "277",
+    "name": "Special Education (learning disabilities)"
+  },
+  {
+    "id": "280",
+    "order": 4,
+    "parent": "259",
+    "name": "Sociology"
+  },
+  {
+    "id": "281",
+    "order": 1,
+    "parent": "280",
+    "name": "Anthropology"
+  },
+  {
+    "id": "282",
+    "order": 2,
+    "parent": "280",
+    "name": "Demography"
+  },
+  {
+    "id": "283",
+    "order": 3,
+    "parent": "280",
+    "name": "Ethnology"
+  },
+  {
+    "id": "284",
+    "order": 4,
+    "parent": "280",
+    "name": "Family studies"
+  },
+  {
+    "id": "285",
+    "order": 5,
+    "parent": "280",
+    "name": "Social issues"
+  },
+  {
+    "id": "286",
+    "order": 6,
+    "parent": "280",
+    "name": "Social work"
+  },
+  {
+    "id": "287",
+    "order": 7,
+    "parent": "280",
+    "name": "Sociology"
+  },
+  {
+    "id": "288",
+    "order": 8,
+    "parent": "280",
+    "name": "Women and gender studies"
+  },
+  {
+    "id": "289",
+    "order": 5,
+    "parent": "259",
+    "name": "Law"
+  },
+  {
+    "id": "290",
+    "order": 1,
+    "parent": "289",
+    "name": "Canon Law"
+  },
+  {
+    "id": "291",
+    "order": 2,
+    "parent": "289",
+    "name": "Civil Law"
+  },
+  {
+    "id": "292",
+    "order": 3,
+    "parent": "289",
+    "name": "Comparative Law"
+  },
+  {
+    "id": "293",
+    "order": 4,
+    "parent": "289",
+    "name": "Competition Law"
+  },
+  {
+    "id": "294",
+    "order": 5,
+    "parent": "289",
+    "name": "Constitutional Law"
+  },
+  {
+    "id": "295",
+    "order": 6,
+    "parent": "289",
+    "name": "Criminal Law"
+  },
+  {
+    "id": "296",
+    "order": 7,
+    "parent": "289",
+    "name": "Islamic Law"
+  },
+  {
+    "id": "297",
+    "order": 8,
+    "parent": "289",
+    "name": "Jewish Law"
+  },
+  {
+    "id": "298",
+    "order": 9,
+    "parent": "289",
+    "name": "Jurisprudence (Philosophy of Law)"
+  },
+  {
+    "id": "299",
+    "order": 6,
+    "parent": "259",
+    "name": "Political sciences"
+  },
+  {
+    "id": "300",
+    "order": 1,
+    "parent": "299",
+    "name": "Comparative politics"
+  },
+  {
+    "id": "301",
+    "order": 2,
+    "parent": "299",
+    "name": "Empirical pata analysis"
+  },
+  {
+    "id": "302",
+    "order": 3,
+    "parent": "299",
+    "name": "International relations"
+  },
+  {
+    "id": "303",
+    "order": 4,
+    "parent": "299",
+    "name": "Organisation theory"
+  },
+  {
+    "id": "304",
+    "order": 5,
+    "parent": "299",
+    "name": "Political economy"
+  },
+  {
+    "id": "305",
+    "order": 6,
+    "parent": "299",
+    "name": "Political philosophy"
+  },
+  {
+    "id": "306",
+    "order": 7,
+    "parent": "299",
+    "name": "Public administration"
+  },
+  {
+    "id": "307",
+    "order": 8,
+    "parent": "299",
+    "name": "Theories of the state"
+  },
+  {
+    "id": "308",
+    "order": 7,
+    "parent": "259",
+    "name": "Social and economic geography"
+  },
+  {
+    "id": "309",
+    "order": 1,
+    "parent": "308",
+    "name": "Cultural and economic geography"
+  },
+  {
+    "id": "310",
+    "order": 2,
+    "parent": "308",
+    "name": "Transport planning"
+  },
+  {
+    "id": "311",
+    "order": 3,
+    "parent": "308",
+    "name": "Urban studies"
+  },
+  {
+    "id": "312",
+    "order": 8,
+    "parent": "259",
+    "name": "Media and communications"
+  },
+  {
+    "id": "313",
+    "order": 1,
+    "parent": "312",
+    "name": "Information science - social"
+  },
+  {
+    "id": "314",
+    "order": 2,
+    "parent": "312",
+    "name": "Journalism"
+  },
+  {
+    "id": "315",
+    "order": 3,
+    "parent": "312",
+    "name": "Library science"
+  },
+  {
+    "id": "316",
+    "order": 4,
+    "parent": "312",
+    "name": "Media and socio-cultural communication"
+  },
+  {
+    "id": "317",
+    "order": 6,
+    "name": "Humanities"
+  },
+  {
+    "id": "318",
+    "order": 1,
+    "parent": "317",
+    "name": "History and Archaeology"
+  },
+  {
+    "id": "319",
+    "order": 1,
+    "parent": "318",
+    "name": "Archaeology"
+  },
+  {
+    "id": "320",
+    "order": 2,
+    "parent": "318",
+    "name": "History (Prehistory; Ancient; Modern world)"
+  },
+  {
+    "id": "321",
+    "order": 2,
+    "parent": "317",
+    "name": "Languages and literature"
+  },
+  {
+    "id": "322",
+    "order": 4,
+    "parent": "321",
+    "name": "Literary theory"
+  },
+  {
+    "id": "323",
+    "order": 1,
+    "parent": "321",
+    "name": "General language studies"
+  },
+  {
+    "id": "324",
+    "order": 2,
+    "parent": "321",
+    "name": "General literature studies"
+  },
+  {
+    "id": "325",
+    "order": 3,
+    "parent": "321",
+    "name": "Linguistics"
+  },
+  {
+    "id": "326",
+    "order": 5,
+    "parent": "321",
+    "name": "Specific languages"
+  },
+  {
+    "id": "327",
+    "order": 6,
+    "parent": "321",
+    "name": "Specific literatures"
+  },
+  {
+    "id": "328",
+    "order": 3,
+    "parent": "317",
+    "name": "Philosophy, ethics and religion"
+  },
+  {
+    "id": "329",
+    "order": 1,
+    "parent": "328",
+    "name": "Ethics"
+  },
+  {
+    "id": "330",
+    "order": 2,
+    "parent": "328",
+    "name": "Philosophy of science/technology"
+  },
+  {
+    "id": "331",
+    "order": 3,
+    "parent": "328",
+    "name": "Philosophy"
+  },
+  {
+    "id": "332",
+    "order": 4,
+    "parent": "328",
+    "name": "Religious studies"
+  },
+  {
+    "id": "333",
+    "order": 5,
+    "parent": "328",
+    "name": "Theology"
+  },
+  {
+    "id": "334",
+    "order": 4,
+    "parent": "317",
+    "name": "Arts"
+  },
+  {
+    "id": "335",
+    "order": 1,
+    "parent": "334",
+    "name": "Architectural design"
+  },
+  {
+    "id": "336",
+    "order": 2,
+    "parent": "334",
+    "name": "Folklore studies"
+  },
+  {
+    "id": "337",
+    "order": 3,
+    "parent": "334",
+    "name": "Media Studies (Film, Radio, TV)"
+  },
+  {
+    "id": "338",
+    "order": 4,
+    "parent": "334",
+    "name": "Musicology"
+  },
+  {
+    "id": "339",
+    "order": 5,
+    "parent": "334",
+    "name": "Performing arts studies"
+  },
+  {
+    "id": "340",
+    "order": 7,
+    "name": "Support Activities"
+  },
+  {
+    "id": "341",
+    "order": 1,
+    "parent": "340",
+    "name": "Digital Archives"
+  },
+  {
+    "id": "342",
+    "order": 2,
+    "parent": "340",
+    "name": "Infrastructure Development"
+  },
+  {
+    "id": "343",
+    "order": 3,
+    "parent": "340",
+    "name": "Training/Demonstrations"
+  },
+  {
+    "id": "345",
+    "order": 4,
+    "parent": "340",
+    "name": "Miscellaneous"
+  },
+  {
+    "id": "344",
+    "order": 998,
+    "name": "Other"
+  }
 ]

@@ -84,6 +84,20 @@ def test_vo_store_get_vos_failure():
     assert [] == vo_store.get_vos()
 
 
+def test_vo_store_get_disciplines(disciplines_json, discipline):
+    with mock.patch(
+        "builtins.open", mock.mock_open(read_data=disciplines_json)
+    ) as m_open:
+        vo_store = app.glue.VOStore(vo_disciplines_file="foo.json")
+    assert [app.glue.Discipline(**discipline)] == vo_store.get_disciplines()
+
+
+def test_vo_store_get_disciplines_bad_json():
+    with mock.patch("builtins.open", mock.mock_open(read_data="")) as m_open:
+        vo_store = app.glue.VOStore(vo_disciplines_file="foo.json")
+    assert [] == vo_store.get_disciplines()
+
+
 def test_gocdb_info(gocdb):
     test_client = httpx.Client(
         transport=httpx.MockTransport(

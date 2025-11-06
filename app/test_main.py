@@ -3,7 +3,7 @@
 from unittest import mock
 
 import pytest
-from app.glue import VO
+from app.glue import Discipline, VO
 from app.main import _get_site, app, site_store, vo_store
 from fastapi import HTTPException
 from fastapi.testclient import TestClient
@@ -22,11 +22,12 @@ def test_get_vos():
         assert response.json() == ["bar", "foo"]
 
 
-def test_get_disciplines(disciplines):
-    with mock.patch("builtins.open", mock.mock_open(read_data=disciplines)):
+def test_get_disciplines(discipline):
+    with mock.patch.object(vo_store, "get_disciplines") as m_get_disciplines:
+        m_get_disciplines.return_value = [Discipline(**discipline)]
         response = client.get("/disciplines/")
         assert response.status_code == 200
-        assert response.json() == ["a", "b", "c"]
+        assert response.json() == [discipline]
 
 
 def test_get_sites_summary(site):
