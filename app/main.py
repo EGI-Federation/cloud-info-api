@@ -6,12 +6,10 @@ needed by IM
 """
 
 import asyncio
-import json
-import logging
 from contextlib import asynccontextmanager
 from typing import Optional
 
-from app.glue import FileSiteStore, VOStore
+from app.glue import Discipline, FileSiteStore, VOStore
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
@@ -42,7 +40,7 @@ class Site(BaseModel):
 
 
 class Settings(BaseSettings):
-    appdb_disciplines_file: str = "data/vo-disciplines.json"
+    vo_disciplines_file: str = "data/vo-disciplines.json"
     ops_portal_url: str = "https://operations-portal.egi.eu/api/vo-list/json"
     ops_portal_token: str = ""
     cloud_info_dir: str = "cloud-info"
@@ -133,14 +131,8 @@ def get_vos() -> list[str]:
 
 
 @app.get("/disciplines/", tags=["vos"])
-def get_disciplines() -> list[str]:
-    data = []
-    try:
-        with open(settings.appdb_disciplines_file) as f:
-            data = json.loads(f.read())
-    except OSError as e:
-        logging.error(f"Not able to load disciplines: {e.strerror}")
-    return data
+def get_disciplines() -> list[Discipline]:
+    return vo_store.get_disciplines()
 
 
 @app.get("/sites/", tags=["sites"], response_model_exclude_none=True)

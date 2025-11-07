@@ -9,6 +9,7 @@ import itertools
 import json
 import logging
 import os.path
+from typing import Optional
 
 import dateutil.parser
 import httpx
@@ -22,14 +23,34 @@ class VO(BaseModel):
     name: str
 
 
+class Discipline(BaseModel):
+    id: str
+    name: str
+    parent: Optional[str] = None
+    order: int
+
+
 class VOStore:
     def __init__(
-        self, ops_portal_url="", ops_portal_token="", httpx_client=None, **kwargs
+        self,
+        ops_portal_url="",
+        ops_portal_token="",
+        vo_disciplines_file=None,
+        httpx_client=None,
+        **kwargs,
     ):
         self.ops_portal_url = ops_portal_url
         self.ops_portal_token = ops_portal_token
         self._vos = []
         self._update_period = 60 * 60 * 2  # Every 2 hours
+        self._disciplines = []
+        if vo_disciplines_file:
+            try:
+                with open(vo_disciplines_file) as f:
+                    for d in json.loads(f.read()):
+                        self._disciplines.append(Discipline(**d))
+            except Exception as e:
+                logging.warning(f"Unable to load disciplines: {e}")
         if httpx_client:
             self.httpx_client = httpx_client
         else:
@@ -58,6 +79,9 @@ class VOStore:
         if not self._vos:
             self.update_vos()
         return self._vos
+
+    def get_disciplines(self):
+        return self._disciplines
 
     async def start(self):
         while True:
