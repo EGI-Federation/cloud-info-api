@@ -38,6 +38,7 @@ services:
     environment:
       - OPS_PORTAL_TOKEN=${OPS_PORTAL_TOKEN}
       - CLOUD_INFO_DIR=/var/lib/cloud-info
+      - CHECK_GLUE_VALIDITY=False
     volumes:
       - "${CLOUD_INFO_DIR}:/var/lib/cloud-info"
     deploy:
