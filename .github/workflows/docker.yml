@@ -23,7 +23,7 @@ jobs:
           persist-credentials: false
       - name: Docker meta
         id: docker_meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ghcr.io/egi-federation/fedcloud-cloud-info-api
           tags: |
