@@ -105,7 +105,7 @@ def test_gocdb_info(gocdb):
     )
     with mock.patch("app.glue.SiteStore.get_mp_image_data"):
         site_store = glue.SiteStore(
-            gocdb_url="https://exmaple.com", httpx_client=test_client
+            gocdb_url="https://example.com", httpx_client=test_client
         )
         hostname = site_store._get_gocdb_hostname("7513G0")
         assert hostname == "api.cloud.ifca.es"

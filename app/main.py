@@ -1,5 +1,5 @@
 """
-Appdb Information Sistem
+Appdb Information System
 
 A simple wrapper around the cloud-info jsons to deliver the information
 needed by IM
@@ -248,7 +248,7 @@ def get_fedcloudclient_site(site_name: str) -> str:
     site = _get_site(site_name)
     fedcloud_site = {
         "gocdb": site.name,
-        "enpoint": site.url,
+        "endpoint": site.url,
         "vos": [
             {"name": p.vo, "auth": {"project_id": p.project_id}} for p in site.shares
         ],

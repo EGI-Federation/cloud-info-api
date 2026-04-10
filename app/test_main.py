@@ -196,7 +196,7 @@ def test_get_fedcloud_site(site):
         response = client.get("/fedcloudclient/foo")
         assert response.status_code == 200
         expected_site = {
-            "enpoint": "https://colossus.cesar.unizar.es:5000/v3",
+            "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
             "gocdb": "BIFI",
             "vos": [
                 {
