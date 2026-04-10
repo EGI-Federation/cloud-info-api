@@ -9,10 +9,12 @@ import asyncio
 from contextlib import asynccontextmanager
 from typing import Optional
 
-from app.glue import Discipline, FileSiteStore, VOStore
-from fastapi import FastAPI, HTTPException
+import yaml
+from fastapi import FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
+
+from .glue import Discipline, FileSiteStore, VOStore
 
 
 class Image(BaseModel):
@@ -76,6 +78,10 @@ tags_metadata = [
     {
         "name": "images",
         "description": "Discovery of images.",
+    },
+    {
+        "name": "fedcloudclient",
+        "description": "Fedcloudclient configuration files.",
     },
 ]
 
@@ -222,3 +228,29 @@ def get_all_images(vo_name: str = "", only_egi_images: bool = True) -> list[Imag
         else:
             images.extend(Image(**img, endpoint=site.url) for img in site.image_list())
     return filter_images(images, only_egi_images)
+
+
+@app.get("/fedcloudclient/", tags=["fedcloudclient"])
+def get_fedcloudclient_sites(request: Request) -> list[str]:
+    """Get a list of available site configurations for fedcloudclient."""
+    return [
+        str(request.url_for("get_fedcloudclient_site", site_name=s.name))
+        for s in site_store.get_sites()
+    ]
+
+
+@app.get("/fedcloudclient/{site_name}/", tags=["fedcloudclient"])
+def get_fedcloudclient_site(site_name: str) -> str:
+    """Get site information as yaml compatible with fedcloudclient
+
+    Name of the site in the GOCDB
+    """
+    site = _get_site(site_name)
+    fedcloud_site = {
+        "gocdb": site.name,
+        "enpoint": site.url,
+        "vos": [
+            {"name": p.vo, "auth": {"project_id": p.project_id}} for p in site.shares
+        ],
+    }
+    return Response(content=yaml.dump(fedcloud_site), media_type="application/yaml")

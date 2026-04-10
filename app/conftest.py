@@ -4,7 +4,8 @@
 import json
 
 import pytest
-from app.glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
+
+from .glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
 
 
 @pytest.fixture
