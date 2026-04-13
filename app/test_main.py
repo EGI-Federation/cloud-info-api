@@ -3,10 +3,12 @@
 from unittest import mock
 
 import pytest
-from app.glue import VO, Discipline
-from app.main import _get_site, app, site_store, vo_store
+import yaml
 from fastapi import HTTPException
 from fastapi.testclient import TestClient
+
+from .glue import VO, Discipline
+from .main import _get_site, app, site_store, vo_store
 
 client = TestClient(app)
 
@@ -175,3 +177,32 @@ def test_get_images_non_egi(site, another_site, more_images):
         response = client.get("/images", params={"only_egi_images": False})
         assert response.status_code == 200
         assert response.json() == more_images
+
+
+def test_get_fedcloud_sites(site, another_site):
+    with mock.patch.object(site_store, "get_sites") as m_get_sites:
+        m_get_sites.return_value = [site, another_site]
+        response = client.get("/fedcloudclient/")
+        assert response.status_code == 200
+        assert response.json() == [
+            "http://testserver/fedcloudclient/BIFI/",
+            "http://testserver/fedcloudclient/FAKE/",
+        ]
+
+
+def test_get_fedcloud_site(site):
+    with mock.patch.object(site_store, "get_site_by_name") as m_get_site:
+        m_get_site.return_value = site
+        response = client.get("/fedcloudclient/foo")
+        assert response.status_code == 200
+        expected_site = {
+            "endpoint": "https://colossus.cesar.unizar.es:5000/v3",
+            "gocdb": "BIFI",
+            "vos": [
+                {
+                    "name": "ops",
+                    "auth": {"project_id": "038db3eeca5c4960a443a89b92373cd2"},
+                }
+            ],
+        }
+        assert yaml.safe_load(response.text) == expected_site

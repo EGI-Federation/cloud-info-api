@@ -4,7 +4,8 @@
 import json
 
 import pytest
-from app.glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
+
+from .glue import GlueImage, GlueInstanceType, GlueShare, GlueSite
 
 
 @pytest.fixture
@@ -163,7 +164,7 @@ def site_info():
                 "InterfaceName": "org.openstack.nova",
                 "InterfaceVersion": "2.0",
                 "HealthState": "ok",
-                "HealthStateInfo": "Endpoint funtioning properly",
+                "HealthStateInfo": "Endpoint functioning properly",
                 "ServingState": "production",
                 "Technology": "webservice",
                 "Implementor": "OpenStack Foundation",
