@@ -10,12 +10,15 @@ CLOUD_INFO_CONTAINER="cloud-info"
 
 DIR="$(mktemp -d)"
 chmod 755 "$DIR"
-for f in $(openstack --os-cloud "$CLOUD_INFO_CLOUD" \
-	object list "$CLOUD_INFO_CONTAINER" -f json | jq -r -n 'inputs[] | values[]'); do
+openstack --os-cloud "$CLOUD_INFO_CLOUD" \
+	object list "$CLOUD_INFO_CONTAINER" -f json >"$DIR/objs.json"
+for f in $(jq -r -n 'inputs[] | values[]' <"$DIR/objs.json"); do
 	echo "Downloading: $f"
 	openstack --os-cloud "$CLOUD_INFO_CLOUD" object save \
 		"$CLOUD_INFO_CONTAINER" --file "$DIR/$f" "$f"
 done
+
+rm -f "$DIR/objs.json"
 
 rsync -a --delete-after "$DIR/" "$CLOUD_INFO_DIR"
 
