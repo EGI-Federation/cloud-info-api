@@ -97,7 +97,7 @@
         name: cloud-info-fetcher
         minute: "*/10"
         job: >
-          /cloud-info-api/deploy/fetch-info.sh /var/lib/cloud-info
+          /cloud-info-api/deploy/fetch-info.sh /var/lib/cloud-info 2>&1 | logger -t fetch-info
 
     - name: service file
       ansible.builtin.copy:
