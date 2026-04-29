@@ -57,7 +57,7 @@
 
     - name: Checkout repo at VM
       ansible.builtin.git:
-        repo: 'https://github.com/EGI-Federation/cloud-info-api.git'
+        repo: "https://github.com/EGI-Federation/cloud-info-api.git"
         version: "{{ git_ref }}"
         dest: /cloud-info-api
 
@@ -65,7 +65,7 @@
       ansible.builtin.file:
         path: /var/lib/cloud-info
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: env file
       ansible.builtin.copy:
@@ -85,7 +85,7 @@
       ansible.builtin.file:
         path: /etc/openstack
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Add OpenStack credentials
       ansible.builtin.copy:
@@ -97,7 +97,8 @@
         name: cloud-info-fetcher
         minute: "*/10"
         job: >
-          /cloud-info-api/deploy/fetch-info.sh /var/lib/cloud-info
+          /cloud-info-api/deploy/fetch-info.sh /var/lib/cloud-info 2>&1 | logger
+          -t fetch-info
 
     - name: service file
       ansible.builtin.copy:
