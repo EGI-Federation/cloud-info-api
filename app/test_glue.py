@@ -59,6 +59,12 @@ def test_gluesite_object(site):
 
 
 def test_vo_store_get_vos(ops_portal):
+    vo_store = glue.VOStore(ops_portal_url="https://example.com")
+    vo_store._vos = ["foo", "bar"]
+    assert ["foo", "bar"] == vo_store.get_vos()
+
+
+def test_vo_store_update_vos(ops_portal):
     test_client = httpx.Client(
         transport=httpx.MockTransport(
             lambda request: httpx.Response(
@@ -70,10 +76,10 @@ def test_vo_store_get_vos(ops_portal):
     vo_store = glue.VOStore(
         ops_portal_url="https://example.com", httpx_client=test_client
     )
-    assert vos == vo_store.get_vos()
+    assert vos == vo_store.update_vos()
 
 
-def test_vo_store_get_vos_failure():
+def test_vo_store_update_vos_failure_is_cached():
     test_client = httpx.Client(
         transport=httpx.MockTransport(
             lambda request: httpx.Response(HTTPStatus.FORBIDDEN, content="foo")
@@ -82,7 +88,8 @@ def test_vo_store_get_vos_failure():
     vo_store = glue.VOStore(
         ops_portal_url="https://example.com", httpx_client=test_client
     )
-    assert [] == vo_store.get_vos()
+    vo_store._vos = ["foo", "bar"]
+    assert ["foo", "bar"] == vo_store.update_vos()
 
 
 def test_vo_store_get_disciplines(disciplines_json, discipline):

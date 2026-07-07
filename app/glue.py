@@ -73,7 +73,8 @@ class VOStore:
             self._vos = vos
         except httpx.HTTPError as e:
             logging.error(f"Unable to load VOs: {e}")
-            logging.debug(f"Will use cached list of VOs")
+            logging.debug("Will use cached list of VOs")
+        return self._vos
 
     def get_vos(self):
         return self._vos
