@@ -389,7 +389,7 @@ class S3SiteStore(SiteStore):
         if name in self._sites_info:
             if site["last_modified"] == self._sites_info[name]["last_modified"]:
                 # same update, no need to reload
-                logging.info(f"No update neeeded for {name}")
+                logging.info(f"No update needed for {name}")
                 return {name: self._sites_info[name]}
         try:
             r = self.httpx_client.get(
