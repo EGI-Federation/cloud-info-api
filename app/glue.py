@@ -73,11 +73,10 @@ class VOStore:
             self._vos = vos
         except httpx.HTTPError as e:
             logging.error(f"Unable to load VOs: {e}")
-            self._vos = []
+            logging.debug("Will use cached list of VOs")
+        return self._vos
 
     def get_vos(self):
-        if not self._vos:
-            self.update_vos()
         return self._vos
 
     def get_disciplines(self):
@@ -390,7 +389,7 @@ class S3SiteStore(SiteStore):
         if name in self._sites_info:
             if site["last_modified"] == self._sites_info[name]["last_modified"]:
                 # same update, no need to reload
-                logging.info(f"No update neeeded for {name}")
+                logging.info(f"No update needed for {name}")
                 return {name: self._sites_info[name]}
         try:
             r = self.httpx_client.get(
