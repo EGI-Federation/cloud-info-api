@@ -8,7 +8,7 @@ from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from .glue import VO, Discipline
-from .main import _get_site, app, site_store, vo_store
+from .main import _get_endpoint, _get_site, app, site_store, vo_store
 
 client = TestClient(app)
 
@@ -41,6 +41,7 @@ def test_get_sites_summary(site):
             {
                 "id": "12249G0",
                 "name": "BIFI",
+                "site_name": "BIFI",
                 "url": "https://colossus.cesar.unizar.es:5000/v3",
                 "state": "",
                 "hostname": "foo",
@@ -78,6 +79,26 @@ def test_get_sites_with_name(site, bifi_summary):
         assert response.status_code == 200
         assert response.json() == [bifi_summary]
         m_get_site.assert_called_with("BIFI")
+
+
+def test__get_endpoint(site):
+    with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        m_get_site.return_value = site
+        e = _get_endpoint("bar")
+        assert e == site
+        # supported VO
+        e = _get_endpoint("baz", "ops")
+        assert e == site
+        # unsupported VO
+        with pytest.raises(HTTPException):
+            _get_endpoint("foo", "bar")
+
+
+def test__get_endpoint_not_found():
+    with mock.patch.object(site_store, "get_endpoints_by_site_name") as m_get_ep:
+        m_get_ep.return_value = None
+        with pytest.raises(HTTPException):
+            _get_endpoint("foo")
 
 
 def test__get_site(site):
@@ -206,3 +227,58 @@ def test_get_fedcloud_site(site):
             ],
         }
         assert yaml.safe_load(response.text) == expected_site
+
+
+def test_get_endpoint(site, bifi_summary):
+    with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        m_get_site.return_value = site
+        response = client.get("/endpoint/foo/")
+        assert response.status_code == 200
+        assert response.json() == bifi_summary
+
+
+def test_get_endpoint_404():
+    with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        m_get_site.return_value = None
+        response = client.get("/endpoint/foo/")
+        assert response.status_code == 404
+
+
+def test_get_endpoint_images(site, images):
+    with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        m_get_site.return_value = site
+        response = client.get("/endpoint/foo/images/")
+        assert response.status_code == 200
+        assert response.json() == [images[0]]
+
+
+def test_get_endpoint_vo_images(site, images):
+    with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        m_get_site.return_value = site
+        response = client.get("/endpoint/foo/ops/images/")
+        assert response.status_code == 200
+        assert response.json() == [images[0]]
+
+
+def test_get_endpoint_projects(site):
+    with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        m_get_site.return_value = site
+        response = client.get("/endpoint/foo/projects/")
+        assert response.status_code == 200
+        assert response.json() == [
+            {
+                "id": "038db3eeca5c4960a443a89b92373cd2",
+                "name": "ops",
+            }
+        ]
+
+
+def test_get_endpoint_vo_project(site):
+    with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
+        m_get_site.return_value = site
+        response = client.get("/endpoint/foo/ops/project")
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": "038db3eeca5c4960a443a89b92373cd2",
+            "name": "ops",
+        }
