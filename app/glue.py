@@ -116,6 +116,9 @@ class GlueShare(BaseModel):
 
 
 class GlueSite(BaseModel):
+    # site name is the name in GOCDB
+    site_name: str
+    # this is our internal name, to allow duplicates
     name: str
     url: str
     shares: list[GlueShare]
@@ -139,6 +142,7 @@ class GlueSite(BaseModel):
         site = dict(
             id=self.gocdb_id,
             name=self.name,
+            site_name=self.site_name,
             url=self.url,
             state="",
             hostname=self.hostname,
@@ -268,8 +272,10 @@ class SiteStore:
             )
             shares.append(share)
         gocdb_id = svc["OtherInfo"]["gocdb_id"]
+        site_name = svc["Associations"]["AdminDomain"][0]
         site = GlueSite(
-            name=svc["Associations"]["AdminDomain"][0],
+            site_name=site_name,
+            name=site_name,
             gocdb_id=gocdb_id,
             url=ept["URL"],
             shares=shares,
@@ -298,6 +304,9 @@ class SiteStore:
             if site.name == name:
                 return site
         return None
+
+    def get_endpoints_by_site_name(self, site_name):
+        return list(filter(lambda s: s.site_name == site_name, self._sites()))
 
     def get_site_summary(self, vo_name=None):
         if vo_name:

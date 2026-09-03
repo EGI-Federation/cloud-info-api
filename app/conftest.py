@@ -40,6 +40,7 @@ def ops_portal():
 def site():
     return GlueSite(
         name="BIFI",
+        site_name="BIFI",
         hostname="foo",
         gocdb_id="12249G0",
         shares=[
@@ -68,6 +69,7 @@ def site():
 def another_site():
     return GlueSite(
         name="FAKE",
+        site_name="FAKE",
         hostname="bar",
         gocdb_id="16649G0",
         shares=[
@@ -451,6 +453,7 @@ def bifi_summary():
     return {
         "id": "12249G0",
         "name": "BIFI",
+        "site_name": "BIFI",
         "url": "https://colossus.cesar.unizar.es:5000/v3",
         "state": "",
         "hostname": "foo",
