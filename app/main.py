@@ -325,7 +325,9 @@ def get_endpoint_project_id(ep_id: str, vo_name: str) -> Project:
 
 
 @app.get("/endpoint/{ep_id}/{vo_name}/images", tags=["endpoints"])
-def get_endpoint_vo_images(ep_id: str, vo_name: str, only_egi_images: bool = True) -> list[Image]:
+def get_endpoint_vo_images(
+    ep_id: str, vo_name: str, only_egi_images: bool = True
+) -> list[Image]:
     """Get information about the images of a VO"""
     endpoint = _get_endpoint(ep_id, vo_name)
     return filter_images(
