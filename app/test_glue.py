@@ -24,6 +24,7 @@ def test_gluesite_object(site):
         "hostname": "foo",
         "id": "12249G0",
         "name": "BIFI",
+        "site_name": "BIFI",
         "state": "",
         "url": "https://colossus.cesar.unizar.es:5000/v3",
     }
@@ -31,6 +32,7 @@ def test_gluesite_object(site):
         "hostname": "foo",
         "id": "12249G0",
         "name": "BIFI",
+        "site_name": "BIFI",
         "state": "",
         "url": "https://colossus.cesar.unizar.es:5000/v3",
         "projects": [

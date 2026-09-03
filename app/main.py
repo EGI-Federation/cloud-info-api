@@ -32,9 +32,10 @@ class Project(BaseModel):
     name: str
 
 
-class Site(BaseModel):
+class SiteEndpoint(BaseModel):
     id: str
     name: str
+    site_name: str
     url: str
     state: str
     hostname: str
@@ -74,6 +75,10 @@ tags_metadata = [
     {
         "name": "sites",
         "description": "Discovery of sites.",
+    },
+    {
+        "name": "endpoints",
+        "description": "Discovery of fedcloud endpoints.",
     },
     {
         "name": "images",
@@ -118,6 +123,17 @@ def _get_site(site_name: str, vo_name: str = ""):
     return site
 
 
+def _get_endpoint(ep_id: str, vo_name: str = ""):
+    ep = site_store.get_site_by_goc_id(ep_id)
+    if not ep:
+        raise HTTPException(status_code=404, detail=f"Endpoint {ep_id} not found")
+    if vo_name and not ep.supports_vo(vo_name):
+        raise HTTPException(
+            status_code=404, detail=f"VO {vo_name} not supported by Endpoint {ep_id}"
+        )
+    return ep
+
+
 def filter_images(images: list[Image], only_egi_images: bool = True):
     """Filters images if only_egi_images is True"""
     if only_egi_images:
@@ -144,7 +160,7 @@ def get_disciplines() -> list[Discipline]:
 @app.get("/sites/", tags=["sites"], response_model_exclude_none=True)
 def get_sites(
     vo_name: str = "", site_name: str = "", include_projects: bool = False
-) -> list[Site]:
+) -> list[SiteEndpoint]:
     """Get a list of available sites.
 
     Optionally filter by VO or site name (as listed in GOCDB).
@@ -154,24 +170,26 @@ def get_sites(
         site = site_store.get_site_by_name(site_name)
         if vo_name:
             if site.supports_vo(vo_name):
-                return [Site(**site.summary(include_projects=include_projects))]
+                return [SiteEndpoint(**site.summary(include_projects=include_projects))]
             else:
                 return []
         else:
-            return [Site(**site.summary(include_projects=include_projects))]
+            return [SiteEndpoint(**site.summary(include_projects=include_projects))]
     return [
-        Site(**s.summary(include_projects=include_projects))
+        SiteEndpoint(**s.summary(include_projects=include_projects))
         for s in site_store.get_sites(vo_name)
     ]
 
 
 @app.get("/site/{site_name}/", tags=["sites"], response_model_exclude_none=True)
-def get_site(site_name: str, include_projects: bool = False) -> Site:
+def get_site(site_name: str, include_projects: bool = False) -> SiteEndpoint:
     """Get site information
 
     Name of the site in the GOCDB
     """
-    return Site(**_get_site(site_name).summary(include_projects=include_projects))
+    return SiteEndpoint(
+        **_get_site(site_name).summary(include_projects=include_projects)
+    )
 
 
 @app.get("/site/{site_name}/projects", tags=["sites"])
@@ -243,14 +261,79 @@ def get_fedcloudclient_sites(request: Request) -> list[str]:
 def get_fedcloudclient_site(site_name: str) -> str:
     """Get site information as yaml compatible with fedcloudclient
 
-    Name of the site in the GOCDB
+    ID of the site in GOCDB
     """
     site = _get_site(site_name)
     fedcloud_site = {
-        "gocdb": site.name,
+        "gocdb": site.site_name,
         "endpoint": site.url,
         "vos": [
             {"name": p.vo, "auth": {"project_id": p.project_id}} for p in site.shares
         ],
     }
     return Response(content=yaml.dump(fedcloud_site), media_type="application/yaml")
+
+
+@app.get("/endpoints/", tags=["endpoints"], response_model_exclude_none=True)
+def get_endpoints(
+    vo_name: str = "", site_name: str = "", include_projects: bool = False
+) -> list[SiteEndpoint]:
+    """Get a list of available endpoints.
+
+    Optionally filter by VO or site name (as listed in GOCDB).
+    Optionally add details on projects
+    """
+    if site_name:
+        eps = site_store.get_endpoints_by_site_name(site_name)
+    else:
+        eps = site_store.get_sites()
+    if vo_name:
+        eps = [ep for ep in eps if ep.supports_vo(vo_name)]
+    return [SiteEndpoint(**ep.summary(include_projects=include_projects)) for ep in eps]
+
+
+@app.get("/endpoint/{ep_id}/", tags=["endpoints"], response_model_exclude_none=True)
+def get_endpoint(ep_id: str, include_projects: bool = False) -> SiteEndpoint:
+    """Get endpoint information"""
+    return SiteEndpoint(
+        **_get_endpoint(ep_id).summary(include_projects=include_projects)
+    )
+
+
+@app.get("/endpoint/{ep_id}/projects", tags=["endpoints"])
+def get_endpoint_project_ids(ep_id: str) -> list[Project]:
+    """Get information about the projects supported at a endpoint"""
+    endpoint = _get_endpoint(ep_id)
+    return [Project(**share.get_project()) for share in endpoint.shares]
+
+
+@app.get("/endpoint/{ep_id}/images", tags=["endpoints"])
+def get_endpoint_images(ep_id: str, only_egi_images: bool = True) -> list[Image]:
+    """Get all images from a endpoint"""
+    endpoint = _get_endpoint(ep_id)
+    return filter_images(
+        [Image(**img, endpoint=endpoint.url) for img in endpoint.image_list()],
+        only_egi_images,
+    )
+
+
+@app.get("/endpoint/{ep_id}/{vo_name}/project", tags=["endpoints"])
+def get_endpoint_project_id(ep_id: str, vo_name: str) -> Project:
+    """Get information about the project supporting a VO at a endpoint"""
+    endpoint = _get_endpoint(ep_id, vo_name)
+    return Project(**endpoint.vo_share(vo_name).get_project())
+
+
+@app.get("/endpoint/{ep_id}/{vo_name}/images", tags=["endpoints"])
+def get_endpoint_vo_images(
+    ep_id: str, vo_name: str, only_egi_images: bool = True
+) -> list[Image]:
+    """Get information about the images of a VO"""
+    endpoint = _get_endpoint(ep_id, vo_name)
+    return filter_images(
+        [
+            Image(**img, endpoint=endpoint.url)
+            for img in endpoint.vo_share(vo_name).image_list()
+        ],
+        only_egi_images,
+    )
