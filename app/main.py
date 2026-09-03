@@ -125,8 +125,6 @@ def _get_site(site_name: str, vo_name: str = ""):
 
 def _get_endpoint(ep_id: str, vo_name: str = ""):
     ep = site_store.get_site_by_goc_id(ep_id)
-    print(ep_id)
-    print(ep)
     if not ep:
         raise HTTPException(status_code=404, detail=f"Endpoint {ep_id} not found")
     if vo_name and not ep.supports_vo(vo_name):
@@ -295,7 +293,7 @@ def get_endpoints(
 
 
 @app.get("/endpoint/{ep_id}/", tags=["endpoints"], response_model_exclude_none=True)
-def get_site(ep_id: str, include_projects: bool = False) -> SiteEndpoint:
+def get_endpoint(ep_id: str, include_projects: bool = False) -> SiteEndpoint:
     """Get endpoint information"""
     return SiteEndpoint(
         **_get_endpoint(ep_id).summary(include_projects=include_projects)
@@ -320,14 +318,14 @@ def get_endpoint_images(ep_id: str, only_egi_images: bool = True) -> list[Image]
 
 
 @app.get("/endpoint/{ep_id}/{vo_name}/project", tags=["endpoints"])
-def get_project_id(ep_id: str, vo_name: str) -> Project:
+def get_endpoint_project_id(ep_id: str, vo_name: str) -> Project:
     """Get information about the project supporting a VO at a endpoint"""
     endpoint = _get_endpoint(ep_id, vo_name)
     return Project(**endpoint.vo_share(vo_name).get_project())
 
 
 @app.get("/endpoint/{ep_id}/{vo_name}/images", tags=["endpoints"])
-def get_images(ep_id: str, vo_name: str, only_egi_images: bool = True) -> list[Image]:
+def get_endpoint_vo_images(ep_id: str, vo_name: str, only_egi_images: bool = True) -> list[Image]:
     """Get information about the images of a VO"""
     endpoint = _get_endpoint(ep_id, vo_name)
     return filter_images(
