@@ -66,6 +66,12 @@ def site():
 
 
 @pytest.fixture
+def auditor_site(site):
+    site.auditor_role = True
+    return site
+
+
+@pytest.fixture
 def another_site():
     return GlueSite(
         name="FAKE",
@@ -330,6 +336,12 @@ def site_info():
 @pytest.fixture
 def site_info_json(site_info):
     return json.dumps(site_info)
+
+
+@pytest.fixture
+def auditor_site_info(site_info):
+    site_info["CloudComputingEndpoint"][0]["OtherInfo"] = {"auditor_role": True}
+    return site_info
 
 
 @pytest.fixture
