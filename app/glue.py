@@ -121,6 +121,7 @@ class GlueSite(BaseModel):
     shares: list[GlueShare]
     hostname: str
     gocdb_id: str
+    auditor_role: bool = False
 
     def supports_vo(self, vo_name):
         return any(share.vo == vo_name for share in self.shares)
@@ -274,6 +275,7 @@ class SiteStore:
             url=ept["URL"],
             shares=shares,
             hostname=self._get_gocdb_hostname(gocdb_id),
+            auditor_role=ept.get("OtherInfo", {}).get("auditor_role", False),
         )
         return site
 
