@@ -7,14 +7,16 @@ needed by IM
 
 import asyncio
 from contextlib import asynccontextmanager
-from typing import Optional
+from typing import Annotated
 
 import yaml
-from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
+from fastapi.security import HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
 from .glue import Discipline, FileSiteStore, VOStore
+from .jwks import JWTAuthenticator, User
 
 
 class Image(BaseModel):
@@ -38,7 +40,7 @@ class Site(BaseModel):
     url: str
     state: str
     hostname: str
-    projects: Optional[list[Project]] = None
+    projects: list[Project] | None = None
 
 
 class Settings(BaseSettings):
@@ -52,17 +54,27 @@ class Settings(BaseSettings):
     )
     gocdb_url: str = "https://goc.egi.eu"
     check_glue_validity: bool = True
+    issuer: str = "https://aai.egi.eu/auth/realms/egi"
 
 
 settings = Settings()
 site_store = FileSiteStore(**settings.model_dump())
 vo_store = VOStore(**settings.model_dump())
 
+jwt_auth = JWTAuthenticator(issuer=settings.issuer)
+
+
+async def current_user(
+    credentials: Annotated[HTTPAuthorizationCredentials, Depends(jwt_auth)],
+) -> User | None:
+    return await jwt_auth.get_user(credentials)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     asyncio.create_task(vo_store.start())
     asyncio.create_task(site_store.start())
+    # we want to setup check-in here as well
     yield
 
 
@@ -143,7 +155,9 @@ def get_disciplines() -> list[Discipline]:
 
 @app.get("/sites/", tags=["sites"], response_model_exclude_none=True)
 def get_sites(
-    vo_name: str = "", site_name: str = "", include_projects: bool = False
+    vo_name: str = "",
+    site_name: str = "",
+    include_projects: bool = False,
 ) -> list[Site]:
     """Get a list of available sites.
 

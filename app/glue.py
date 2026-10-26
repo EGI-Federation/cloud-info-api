@@ -9,13 +9,14 @@ import itertools
 import json
 import logging
 import os.path
-from typing import Optional
 
 import dateutil.parser
 import httpx
 import xmltodict
 from pydantic import BaseModel
 from watchfiles import awatch
+
+LOG = logging.getLogger(__name__)
 
 
 class VO(BaseModel):
@@ -26,7 +27,7 @@ class VO(BaseModel):
 class Discipline(BaseModel):
     id: str
     name: str
-    parent: Optional[str] = None
+    parent: str | None = None
     order: int
 
 
@@ -49,8 +50,8 @@ class VOStore:
                 with open(vo_disciplines_file) as f:
                     for d in json.loads(f.read()):
                         self._disciplines.append(Discipline(**d))
-            except Exception as e:
-                logging.warning(f"Unable to load disciplines: {e}")
+            except Exception as e:  # noqa: BLE001
+                LOG.warning(f"Unable to load disciplines: {e}")
         if httpx_client:
             self.httpx_client = httpx_client
         else:
@@ -71,9 +72,9 @@ class VOStore:
                 vo = VO(**vo_info)
                 vos.append(vo)
             self._vos = vos
-        except httpx.HTTPError as e:
-            logging.error(f"Unable to load VOs: {e}")
-            logging.debug("Will use cached list of VOs")
+        except httpx.HTTPError:
+            LOG.exception("Unable to load VOs")
+            LOG.debug("Will use cached list of VOs")
         return self._vos
 
     def get_vos(self):
@@ -112,7 +113,7 @@ class GlueShare(BaseModel):
         return [img.model_dump() for img in self.images]
 
     def get_project(self):
-        return dict(id=self.project_id, name=self.vo)
+        return {"id": self.project_id, "name": self.vo}
 
 
 class GlueSite(BaseModel):
@@ -129,20 +130,19 @@ class GlueSite(BaseModel):
         for share in self.shares:
             if share.vo == vo_name:
                 return share
-        else:
-            return None
+        return None
 
     def image_list(self):
         return itertools.chain.from_iterable(s.image_list() for s in self.shares)
 
     def summary(self, include_projects=False):
-        site = dict(
-            id=self.gocdb_id,
-            name=self.name,
-            url=self.url,
-            state="",
-            hostname=self.hostname,
-        )
+        site = {
+            "id": self.gocdb_id,
+            "name": self.name,
+            "url": self.url,
+            "state": "",
+            "hostname": self.hostname,
+        }
         if include_projects:
             site["projects"] = [share.get_project() for share in self.shares]
         return site
@@ -183,10 +183,10 @@ class SiteStore:
                     self.gocdb_hostnames[endpoint["@PRIMARY_KEY"]] = endpoint[
                         "HOSTNAME"
                     ]
-            except httpx.HTTPError as e:
-                logging.error(f"Unable to load site information: {e}")
+            except httpx.HTTPError:
+                LOG.exception("Unable to load site information")
             except KeyError:
-                logging.error("Unable to load site information")
+                LOG.exception("Unable to load site information")
         return self.gocdb_hostnames.get(gocid, "")
 
     async def start(self):
@@ -200,13 +200,13 @@ class SiteStore:
         return f"{name.replace(' ', '.').lower()}"
 
     def get_mp_image_data(self, image):
-        mp_data = dict(egi_id="", name=image.get("Name", ""), version="")
+        mp_data = {"egi_id": "", "name": image.get("Name", ""), "version": ""}
         other_info = image.get("OtherInfo", {})
         mpuri = image.get("MarketplaceURL")
         if mpuri and "registry.egi.eu" in mpuri:
             egi_id = other_info.get("eu.egi.cloud.image_ref", mpuri)
             version = other_info.get("eu.egi.cloud.tag", "")
-            mp_data.update(dict(egi_id=egi_id, version=version))
+            mp_data.update({"egi_id": egi_id, "version": version})
         return mp_data
 
     def create_site(self, info):
@@ -216,12 +216,12 @@ class SiteStore:
         if self.check_glue_validity:
             creation_time = dateutil.parser.parse(svc["CreationTime"])
             if not creation_time.tzinfo:
-                creation_time = creation_time.replace(tzinfo=datetime.timezone.utc)
+                creation_time = creation_time.replace(tzinfo=datetime.UTC)
             valid_until = creation_time + datetime.timedelta(
                 seconds=int(svc["Validity"])
             )
             if datetime.datetime.now(datetime.UTC) > valid_until:
-                logging.warning(f"Site info was valid until {valid_until}, skipping")
+                LOG.warning(f"Site info was valid until {valid_until}, skipping")
                 raise ValueError("Outdated info for site")
 
         shares = []
@@ -231,7 +231,7 @@ class SiteStore:
                     vo_name = policy["Associations"]["PolicyUserDomain"][0]
                     break
             else:
-                logging.warning("No VO Name!?")
+                LOG.warning("No VO Name!?")
                 continue
             images = []
             for image_info in info["CloudComputingImage"]:
@@ -321,8 +321,8 @@ class FileSiteStore(SiteStore):
         try:
             with open(path) as f:
                 return self.create_site(json.loads(f.read()))
-        except Exception as e:
-            logging.error(f"Unable to load site {path}: {e}")
+        except Exception:
+            LOG.exception(f"Unable to load site {path}")
             return None
 
     def _sites(self):
@@ -335,7 +335,7 @@ class FileSiteStore(SiteStore):
         # with X being the gocdb_id,
         # this is quite hacky but it should work for now
         clean_sites = []
-        for _, named_sites in sites.items():
+        for named_sites in sites.values():
             try:
                 # GOCDB identifiers look like "xxxxxG0" with x being numbers
                 # We assume larger numbers are newer entries, so sorting
@@ -364,9 +364,9 @@ class FileSiteStore(SiteStore):
                     named_sites = sites.get(site.name, [])
                     named_sites.append(site)
                     sites[site.name] = named_sites
-                logging.debug(f"Loaded {file}")
+                LOG.debug(f"Loaded {file}")
         new_sites = self._clean_up_duplicated_sites(sites)
-        logging.info(f"Re-loaded info about {len(new_sites)} sites")
+        LOG.info(f"Re-loaded info about {len(new_sites)} sites")
         self._site_store = new_sites
 
     async def start(self):
@@ -386,11 +386,13 @@ class S3SiteStore(SiteStore):
 
     def _load_site(self, site):
         name = site["name"]
-        if name in self._sites_info:
-            if site["last_modified"] == self._sites_info[name]["last_modified"]:
-                # same update, no need to reload
-                logging.info(f"No update needed for {name}")
-                return {name: self._sites_info[name]}
+        if (
+            name in self._sites_info
+            and site["last_modified"] == self._sites_info[name]["last_modified"]
+        ):
+            # same update, no need to reload
+            LOG.info(f"No update needed for {name}")
+            return {name: self._sites_info[name]}
         try:
             r = self.httpx_client.get(
                 os.path.join(self.s3_url, name),
@@ -401,13 +403,13 @@ class S3SiteStore(SiteStore):
             r.raise_for_status()
             try:
                 site.update({"info": self.create_site(r.json())})
-            except Exception as e:
-                logging.error(f"Unable to load site {name}: {e}")
+            except Exception:
+                LOG.exception(f"Unable to load site {name}")
                 return {}
-            logging.info(f"Loaded info from {name}")
+            LOG.info(f"Loaded info from {name}")
             return {name: site}
-        except httpx.HTTPError as e:
-            logging.error(f"Unable to load site information: {e}")
+        except httpx.HTTPError:
+            LOG.exception("Unable to load site information")
 
     def _update_sites(self):
         new_sites = {}
@@ -420,10 +422,10 @@ class S3SiteStore(SiteStore):
             )
             r.raise_for_status()
             for site in r.json():
-                logging.error(f"Update site {site['name']}")
+                LOG.error(f"Update site {site['name']}")
                 new_sites.update(self._load_site(site))
-        except Exception as e:
-            logging.error(f"Unable to load Sites: {e}")
+        except Exception:
+            LOG.exception("Unable to load Sites")
         # change all at once
         self._sites_info = new_sites
 

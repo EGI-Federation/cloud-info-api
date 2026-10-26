@@ -12,7 +12,6 @@ from . import glue
 
 
 def test_gluesite_object(site):
-    site = site
     # supports a VO?
     assert not site.supports_vo("foo")
     assert site.supports_vo("ops")
@@ -237,4 +236,4 @@ def test_glue_site_load_duplicated(site):
     duplicated = glue.GlueSite(**site.model_dump())
     duplicated.gocdb_id = "0G"
     sites = site_store._clean_up_duplicated_sites({site.name: [duplicated, site]})
-    assert set([s.name for s in sites]) == set(["BIFI", "BIFI-0G"])
+    assert {s.name for s in sites} == {"BIFI", "BIFI-0G"}
