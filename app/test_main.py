@@ -8,14 +8,18 @@ from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from .glue import VO, Discipline
-from .main import _get_endpoint, _get_site, app, site_store, vo_store
+from .main import _get_endpoint, _get_site, app, current_user, site_store, vo_store
 
 client = TestClient(app)
 
 
-class MockAuth:
-    async def get_user(self, **kwargs):
-        return auth.User(usename="foo", vos=[])
+# mock authentication
+async def override_auth(q: str | None = None):
+    return None
+
+
+app.dependency_overrides[current_user] = override_auth
+
 
 def test_get_vos():
     with mock.patch.object(vo_store, "get_vos") as m_get_vos:
@@ -235,7 +239,6 @@ def test_get_fedcloud_site(site):
 
 def test_get_endpoint(site, bifi_summary):
     with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
-        with mock.patch() as m_current_user
         m_get_site.return_value = site
         response = client.get("/endpoint/foo/")
         assert response.status_code == 200

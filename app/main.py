@@ -15,8 +15,8 @@ from fastapi.security import HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
-from .glue import Discipline, FileSiteStore, VOStore
 from .auth import JWTAuthenticator, User
+from .glue import Discipline, FileSiteStore, VOStore
 
 
 class Image(BaseModel):
