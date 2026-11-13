@@ -16,7 +16,7 @@ from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
 from .glue import Discipline, FileSiteStore, VOStore
-from .jwks import JWTAuthenticator, User
+from .auth import JWTAuthenticator, User
 
 
 class Image(BaseModel):
