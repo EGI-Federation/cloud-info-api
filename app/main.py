@@ -61,7 +61,6 @@ class Settings(BaseSettings):
 settings = Settings()
 site_store = FileSiteStore(**settings.model_dump())
 vo_store = VOStore(**settings.model_dump())
-
 jwt_auth = JWTAuthenticator(issuer=settings.issuer)
 
 
@@ -69,6 +68,9 @@ async def current_user(
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(jwt_auth)],
 ) -> User | None:
     return await jwt_auth.get_user(credentials)
+
+
+UserDep = Annotated[User | None, Depends(current_user)]
 
 
 @asynccontextmanager
@@ -286,9 +288,16 @@ def get_fedcloudclient_site(site_name: str) -> str:
     return Response(content=yaml.dump(fedcloud_site), media_type="application/yaml")
 
 
+#
+# Endpoints
+# For now mostly the same as "sites" but with Authentication
+#
 @app.get("/endpoints/", tags=["endpoints"], response_model_exclude_none=True)
 def get_endpoints(
-    vo_name: str = "", site_name: str = "", include_projects: bool = False
+    user: UserDep,
+    vo_name: str = "",
+    site_name: str = "",
+    include_projects: bool = False,
 ) -> list[SiteEndpoint]:
     """Get a list of available endpoints.
 
@@ -305,7 +314,9 @@ def get_endpoints(
 
 
 @app.get("/endpoint/{ep_id}/", tags=["endpoints"], response_model_exclude_none=True)
-def get_endpoint(ep_id: str, include_projects: bool = False) -> SiteEndpoint:
+def get_endpoint(
+    user: UserDep, ep_id: str, include_projects: bool = False
+) -> SiteEndpoint:
     """Get endpoint information"""
     return SiteEndpoint(
         **_get_endpoint(ep_id).summary(include_projects=include_projects)
@@ -313,14 +324,16 @@ def get_endpoint(ep_id: str, include_projects: bool = False) -> SiteEndpoint:
 
 
 @app.get("/endpoint/{ep_id}/projects", tags=["endpoints"])
-def get_endpoint_project_ids(ep_id: str) -> list[Project]:
+def get_endpoint_project_ids(user: UserDep, ep_id: str) -> list[Project]:
     """Get information about the projects supported at a endpoint"""
     endpoint = _get_endpoint(ep_id)
     return [Project(**share.get_project()) for share in endpoint.shares]
 
 
 @app.get("/endpoint/{ep_id}/images", tags=["endpoints"])
-def get_endpoint_images(ep_id: str, only_egi_images: bool = True) -> list[Image]:
+def get_endpoint_images(
+    user: UserDep, ep_id: str, only_egi_images: bool = True
+) -> list[Image]:
     """Get all images from a endpoint"""
     endpoint = _get_endpoint(ep_id)
     return filter_images(
@@ -330,7 +343,7 @@ def get_endpoint_images(ep_id: str, only_egi_images: bool = True) -> list[Image]
 
 
 @app.get("/endpoint/{ep_id}/{vo_name}/project", tags=["endpoints"])
-def get_endpoint_project_id(ep_id: str, vo_name: str) -> Project:
+def get_endpoint_project_id(user: UserDep, ep_id: str, vo_name: str) -> Project:
     """Get information about the project supporting a VO at a endpoint"""
     endpoint = _get_endpoint(ep_id, vo_name)
     return Project(**endpoint.vo_share(vo_name).get_project())
@@ -338,7 +351,7 @@ def get_endpoint_project_id(ep_id: str, vo_name: str) -> Project:
 
 @app.get("/endpoint/{ep_id}/{vo_name}/images", tags=["endpoints"])
 def get_endpoint_vo_images(
-    ep_id: str, vo_name: str, only_egi_images: bool = True
+    user: UserDep, ep_id: str, vo_name: str, only_egi_images: bool = True
 ) -> list[Image]:
     """Get information about the images of a VO"""
     endpoint = _get_endpoint(ep_id, vo_name)
