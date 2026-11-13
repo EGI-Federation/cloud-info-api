@@ -118,7 +118,7 @@ def test_gocdb_info(gocdb):
         assert hostname == "api.cloud.ifca.es"
 
 
-def test_create_site(site_info, site, images):
+def test_create_site(site_info, auditor_site_info, site, auditor_site, images):
     with (
         mock.patch("app.glue.SiteStore.get_mp_image_data") as image_data,
         mock.patch("app.glue.SiteStore._get_gocdb_hostname") as goc_hostname,
@@ -130,6 +130,8 @@ def test_create_site(site_info, site, images):
         site_store = glue.SiteStore()
         loaded_site = site_store.create_site(site_info)
         assert site == loaded_site
+        loaded_site = site_store.create_site(auditor_site_info)
+        assert auditor_site == loaded_site
 
 
 def test_valid_info_check(site_info):
