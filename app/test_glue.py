@@ -12,7 +12,6 @@ from . import glue
 
 
 def test_gluesite_object(site):
-    site = site
     # supports a VO?
     assert not site.supports_vo("foo")
     assert site.supports_vo("ops")
@@ -24,6 +23,7 @@ def test_gluesite_object(site):
         "hostname": "foo",
         "id": "12249G0",
         "name": "BIFI",
+        "site_name": "BIFI",
         "state": "",
         "url": "https://colossus.cesar.unizar.es:5000/v3",
     }
@@ -31,6 +31,7 @@ def test_gluesite_object(site):
         "hostname": "foo",
         "id": "12249G0",
         "name": "BIFI",
+        "site_name": "BIFI",
         "state": "",
         "url": "https://colossus.cesar.unizar.es:5000/v3",
         "projects": [
@@ -126,7 +127,7 @@ def test_create_site(site_info, site, images):
     ):
         goc_hostname.return_value = "foo"
         image_data.return_value = images[0]
-        m_datetime.return_value = datetime.datetime.now()
+        m_datetime.return_value = datetime.datetime.now(tz=datetime.UTC)
         site_store = glue.SiteStore()
         loaded_site = site_store.create_site(site_info)
         assert site == loaded_site
@@ -237,4 +238,4 @@ def test_glue_site_load_duplicated(site):
     duplicated = glue.GlueSite(**site.model_dump())
     duplicated.gocdb_id = "0G"
     sites = site_store._clean_up_duplicated_sites({site.name: [duplicated, site]})
-    assert set([s.name for s in sites]) == set(["BIFI", "BIFI-0G"])
+    assert {s.name for s in sites} == {"BIFI", "BIFI-0G"}
