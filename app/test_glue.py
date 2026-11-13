@@ -127,7 +127,7 @@ def test_create_site(site_info, site, images):
     ):
         goc_hostname.return_value = "foo"
         image_data.return_value = images[0]
-        m_datetime.return_value = datetime.datetime.now()
+        m_datetime.return_value = datetime.datetime.now(tz=datetime.UTC)
         site_store = glue.SiteStore()
         loaded_site = site_store.create_site(site_info)
         assert site == loaded_site
