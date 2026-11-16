@@ -139,7 +139,9 @@ class GlueSite(BaseModel):
     def image_list(self):
         return itertools.chain.from_iterable(s.image_list() for s in self.shares)
 
-    def summary(self, include_projects=False) -> dict[str, str]:
+    def summary(
+        self, include_projects=False, include_endpoint_data=False
+    ) -> dict[str, str]:
         site = {
             "id": self.gocdb_id,
             "name": self.name,
@@ -150,6 +152,11 @@ class GlueSite(BaseModel):
         }
         if include_projects:
             site["projects"] = [share.get_project() for share in self.shares]
+        if include_endpoint_data:
+            site["endpoint_data"] = {
+                "auditor_role": site.auditor_role,
+                "nova_api_version": site.nova_endpoint_version,
+            }
         return site
 
 
@@ -282,6 +289,7 @@ class SiteStore:
             shares=shares,
             hostname=self._get_gocdb_hostname(gocdb_id),
             auditor_role=ept.get("OtherInfo", {}).get("auditor_role", False),
+            nova_api_version=ept.get("ImplementationVersion", None),
         )
         return site
 

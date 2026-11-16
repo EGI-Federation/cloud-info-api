@@ -217,9 +217,7 @@ def get_site(site_name: str, include_projects: bool = False) -> Site:
 
     Name of the site in the GOCDB
     """
-    return Site(
-        **_get_site(site_name).summary(include_projects=include_projects)
-    )
+    return Site(**_get_site(site_name).summary(include_projects=include_projects))
 
 
 @app.get("/site/{site_name}/projects", tags=["sites"])
@@ -326,16 +324,21 @@ def get_endpoints(
         eps = site_store.get_sites()
     if vo_name:
         eps = [ep for ep in eps if ep.supports_vo(vo_name)]
-    return [Endpoint(**ep.summary(include_projects=include_projects)) for ep in eps]
+    return [
+        Endpoint(
+            **ep.summary(include_projects=include_projects, include_endpoint_data=True)
+        )
+        for ep in eps
+    ]
 
 
 @app.get("/endpoint/{ep_id}/", tags=["endpoints"], response_model_exclude_none=True)
-def get_endpoint(
-    user: UserDep, ep_id: str, include_projects: bool = False
-) -> Endpoint:
+def get_endpoint(user: UserDep, ep_id: str, include_projects: bool = False) -> Endpoint:
     """Get endpoint information"""
     return Endpoint(
-        **_get_endpoint(ep_id).summary(include_projects=include_projects)
+        **_get_endpoint(ep_id).summary(
+            include_projects=include_projects, include_endpoint_data=True
+        )
     )
 
 
