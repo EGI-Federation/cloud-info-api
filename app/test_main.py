@@ -237,12 +237,12 @@ def test_get_fedcloud_site(site):
         assert yaml.safe_load(response.text) == expected_site
 
 
-def test_get_endpoint(site, bifi_summary):
+def test_get_endpoint(site, bifi_endpoint_summary):
     with mock.patch.object(site_store, "get_site_by_goc_id") as m_get_site:
         m_get_site.return_value = site
         response = client.get("/endpoint/foo/")
         assert response.status_code == 200
-        assert response.json() == bifi_summary
+        assert response.json() == bifi_endpoint_summary
 
 
 def test_get_endpoint_404():

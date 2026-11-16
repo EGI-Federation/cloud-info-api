@@ -126,6 +126,7 @@ class GlueSite(BaseModel):
     hostname: str
     gocdb_id: str
     auditor_role: bool = False
+    nova_api_version: str | None = None
 
     def supports_vo(self, vo_name):
         return any(share.vo == vo_name for share in self.shares)
@@ -154,8 +155,8 @@ class GlueSite(BaseModel):
             site["projects"] = [share.get_project() for share in self.shares]
         if include_endpoint_data:
             site["endpoint_data"] = {
-                "auditor_role": site.auditor_role,
-                "nova_api_version": site.nova_endpoint_version,
+                "auditor_role": self.auditor_role,
+                "nova_api_version": self.nova_api_version,
             }
         return site
 
@@ -237,7 +238,7 @@ class SiteStore:
                 raise ValueError("Outdated info for site")
 
         shares = []
-        for share_info in info["Share"]:
+        for share_info in info.get("Share", []):
             for policy in info["MappingPolicy"]:
                 if share_info["ID"] in policy["Associations"]["Share"]:
                     vo_name = policy["Associations"]["PolicyUserDomain"][0]

@@ -62,6 +62,7 @@ def site():
             )
         ],
         url="https://colossus.cesar.unizar.es:5000/v3",
+        nova_api_version="2.96",
     )
 
 
@@ -469,4 +470,17 @@ def bifi_summary():
         "url": "https://colossus.cesar.unizar.es:5000/v3",
         "state": "",
         "hostname": "foo",
+    }
+
+
+@pytest.fixture
+def bifi_endpoint_summary():
+    return {
+        "id": "12249G0",
+        "name": "BIFI",
+        "site_name": "BIFI",
+        "url": "https://colossus.cesar.unizar.es:5000/v3",
+        "state": "",
+        "hostname": "foo",
+        "endpoint_data": {"auditor_role": False, "nova_api_version": "2.96"},
     }
