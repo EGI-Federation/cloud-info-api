@@ -22,7 +22,8 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v7
         with:
-          python-version: 3.x
+          # forcing to ensure we don't hit issues later
+          python-version: 3.12
       - name: Install environment
         run: |
           curl -L https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-amd64 > jq
