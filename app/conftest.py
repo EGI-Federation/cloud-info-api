@@ -62,7 +62,14 @@ def site():
             )
         ],
         url="https://colossus.cesar.unizar.es:5000/v3",
+        nova_api_version="2.96",
     )
+
+
+@pytest.fixture
+def auditor_site(site):
+    site.auditor_role = True
+    return site
 
 
 @pytest.fixture
@@ -333,6 +340,12 @@ def site_info_json(site_info):
 
 
 @pytest.fixture
+def auditor_site_info(site_info):
+    site_info["CloudComputingEndpoint"][0]["OtherInfo"] = {"auditor_role": True}
+    return site_info
+
+
+@pytest.fixture
 def gocdb():
     return """
 <?xml version="1.0" encoding="UTF-8"?>
@@ -457,4 +470,17 @@ def bifi_summary():
         "url": "https://colossus.cesar.unizar.es:5000/v3",
         "state": "",
         "hostname": "foo",
+    }
+
+
+@pytest.fixture
+def bifi_endpoint_summary():
+    return {
+        "id": "12249G0",
+        "name": "BIFI",
+        "site_name": "BIFI",
+        "url": "https://colossus.cesar.unizar.es:5000/v3",
+        "state": "",
+        "hostname": "foo",
+        "endpoint_data": {"auditor_role": False, "nova_api_version": "2.96"},
     }

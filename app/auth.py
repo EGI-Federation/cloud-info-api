@@ -54,7 +54,7 @@ class JWTAuthenticator(HTTPBearer):
                 algorithms=["RS256"],
             )
             return User(username=payload["sub"], vos=[])
-        except jwt.exceptions.DecodeError:
+        except jwt.exceptions.InvalidTokenError:
             if self.auto_error:
                 raise self.make_not_authenticated_error()
             else:

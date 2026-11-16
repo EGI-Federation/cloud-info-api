@@ -125,6 +125,8 @@ class GlueSite(BaseModel):
     shares: list[GlueShare]
     hostname: str
     gocdb_id: str
+    auditor_role: bool = False
+    nova_api_version: str | None = None
 
     def supports_vo(self, vo_name):
         return any(share.vo == vo_name for share in self.shares)
@@ -138,7 +140,7 @@ class GlueSite(BaseModel):
     def image_list(self):
         return itertools.chain.from_iterable(s.image_list() for s in self.shares)
 
-    def summary(self, include_projects=False):
+    def summary(self, include_projects=False, include_endpoint_data=False):
         site = {
             "id": self.gocdb_id,
             "name": self.name,
@@ -149,6 +151,11 @@ class GlueSite(BaseModel):
         }
         if include_projects:
             site["projects"] = [share.get_project() for share in self.shares]
+        if include_endpoint_data:
+            site["endpoint_data"] = {
+                "auditor_role": self.auditor_role,
+                "nova_api_version": self.nova_api_version,
+            }
         return site
 
 
@@ -213,7 +220,7 @@ class SiteStore:
             mp_data.update({"egi_id": egi_id, "version": version})
         return mp_data
 
-    def create_site(self, info):
+    def create_site(self, info) -> GlueSite:
         svc = info["CloudComputingService"][0]
         ept = info["CloudComputingEndpoint"][0]
 
@@ -229,7 +236,7 @@ class SiteStore:
                 raise ValueError("Outdated info for site")
 
         shares = []
-        for share_info in info["Share"]:
+        for share_info in info.get("Share", []):
             for policy in info["MappingPolicy"]:
                 if share_info["ID"] in policy["Associations"]["Share"]:
                     vo_name = policy["Associations"]["PolicyUserDomain"][0]
@@ -280,32 +287,34 @@ class SiteStore:
             url=ept["URL"],
             shares=shares,
             hostname=self._get_gocdb_hostname(gocdb_id),
+            auditor_role=ept.get("OtherInfo", {}).get("auditor_role", False),
+            nova_api_version=ept.get("ImplementationVersion", None),
         )
         return site
 
-    def _sites(self):
+    def _sites(self) -> list[GlueSite]:
         return []
 
-    def get_sites(self, vo_name=None):
+    def get_sites(self, vo_name=None) -> list[GlueSite]:
         if vo_name:
             sites = list(filter(lambda s: s.supports_vo(vo_name), self._sites()))
         else:
             sites = self._sites()
         return sites
 
-    def get_site_by_goc_id(self, gocdb_id):
+    def get_site_by_goc_id(self, gocdb_id) -> GlueSite | None:
         for site in self.get_sites():
             if site.gocdb_id == gocdb_id:
                 return site
         return None
 
-    def get_site_by_name(self, name):
+    def get_site_by_name(self, name) -> GlueSite | None:
         for site in self.get_sites():
             if site.name == name:
                 return site
         return None
 
-    def get_endpoints_by_site_name(self, site_name):
+    def get_endpoints_by_site_name(self, site_name) -> list[GlueSite]:
         return list(filter(lambda s: s.site_name == site_name, self._sites()))
 
     def get_site_summary(self, vo_name=None):
@@ -334,7 +343,7 @@ class FileSiteStore(SiteStore):
             LOG.exception(f"Unable to load site {path}")
             return None
 
-    def _sites(self):
+    def _sites(self) -> list[GlueSite]:
         return self._site_store
 
     def _clean_up_duplicated_sites(self, sites):
