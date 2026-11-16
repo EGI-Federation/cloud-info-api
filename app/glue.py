@@ -140,9 +140,7 @@ class GlueSite(BaseModel):
     def image_list(self):
         return itertools.chain.from_iterable(s.image_list() for s in self.shares)
 
-    def summary(
-        self, include_projects=False, include_endpoint_data=False
-    ) -> dict[str, str]:
+    def summary(self, include_projects=False, include_endpoint_data=False) -> dict:
         site = {
             "id": self.gocdb_id,
             "name": self.name,
@@ -319,7 +317,7 @@ class SiteStore:
     def get_endpoints_by_site_name(self, site_name) -> list[GlueSite]:
         return list(filter(lambda s: s.site_name == site_name, self._sites()))
 
-    def get_site_summary(self, vo_name=None) -> dict[str, str]:
+    def get_site_summary(self, vo_name=None):
         if vo_name:
             sites = filter(lambda s: s.supports_vo(vo_name), self.get_sites())
         else:

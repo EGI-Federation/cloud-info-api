@@ -198,6 +198,8 @@ def get_sites(
     """
     if site_name:
         site = site_store.get_site_by_name(site_name)
+        if not site:
+            return []
         if vo_name:
             if site.supports_vo(vo_name):
                 return [Site(**site.summary(include_projects=include_projects))]
