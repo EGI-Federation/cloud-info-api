@@ -139,7 +139,7 @@ class GlueSite(BaseModel):
     def image_list(self):
         return itertools.chain.from_iterable(s.image_list() for s in self.shares)
 
-    def summary(self, include_projects=False):
+    def summary(self, include_projects=False) -> dict[str, str]:
         site = {
             "id": self.gocdb_id,
             "name": self.name,
@@ -214,7 +214,7 @@ class SiteStore:
             mp_data.update({"egi_id": egi_id, "version": version})
         return mp_data
 
-    def create_site(self, info):
+    def create_site(self, info) -> GlueSite:
         svc = info["CloudComputingService"][0]
         ept = info["CloudComputingEndpoint"][0]
 
@@ -285,32 +285,32 @@ class SiteStore:
         )
         return site
 
-    def _sites(self):
+    def _sites(self) -> list[GlueSite]:
         return []
 
-    def get_sites(self, vo_name=None):
+    def get_sites(self, vo_name=None) -> list[GlueSite]:
         if vo_name:
             sites = list(filter(lambda s: s.supports_vo(vo_name), self._sites()))
         else:
             sites = self._sites()
         return sites
 
-    def get_site_by_goc_id(self, gocdb_id):
+    def get_site_by_goc_id(self, gocdb_id) -> GlueSite | None:
         for site in self.get_sites():
             if site.gocdb_id == gocdb_id:
                 return site
         return None
 
-    def get_site_by_name(self, name):
+    def get_site_by_name(self, name) -> GlueSite | None:
         for site in self.get_sites():
             if site.name == name:
                 return site
         return None
 
-    def get_endpoints_by_site_name(self, site_name):
+    def get_endpoints_by_site_name(self, site_name) -> list[GlueSite]:
         return list(filter(lambda s: s.site_name == site_name, self._sites()))
 
-    def get_site_summary(self, vo_name=None):
+    def get_site_summary(self, vo_name=None) -> dict[str, str]:
         if vo_name:
             sites = filter(lambda s: s.supports_vo(vo_name), self.get_sites())
         else:
@@ -336,7 +336,7 @@ class FileSiteStore(SiteStore):
             LOG.exception(f"Unable to load site {path}")
             return None
 
-    def _sites(self):
+    def _sites(self) -> list[GlueSite]:
         return self._site_store
 
     def _clean_up_duplicated_sites(self, sites):

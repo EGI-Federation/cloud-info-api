@@ -34,7 +34,7 @@ class Project(BaseModel):
     name: str
 
 
-class SiteEndpoint(BaseModel):
+class Site(BaseModel):
     id: str
     name: str
     site_name: str
@@ -42,6 +42,22 @@ class SiteEndpoint(BaseModel):
     state: str
     hostname: str
     projects: list[Project] | None = None
+
+
+class EndpointData(BaseModel):
+    auditor_role: bool | None = None
+    nova_api_version: str | None = None
+
+
+class Endpoint(BaseModel):
+    id: str
+    name: str
+    site_name: str
+    url: str
+    state: str
+    hostname: str
+    projects: list[Project] | None = None
+    endpoint_data: EndpointData | None = None
 
 
 class Settings(BaseSettings):
@@ -174,7 +190,7 @@ def get_disciplines() -> list[Discipline]:
 @app.get("/sites/", tags=["sites"], response_model_exclude_none=True)
 def get_sites(
     vo_name: str = "", site_name: str = "", include_projects: bool = False
-) -> list[SiteEndpoint]:
+) -> list[Site]:
     """Get a list of available sites.
 
     Optionally filter by VO or site name (as listed in GOCDB).
@@ -184,24 +200,24 @@ def get_sites(
         site = site_store.get_site_by_name(site_name)
         if vo_name:
             if site.supports_vo(vo_name):
-                return [SiteEndpoint(**site.summary(include_projects=include_projects))]
+                return [Site(**site.summary(include_projects=include_projects))]
             else:
                 return []
         else:
-            return [SiteEndpoint(**site.summary(include_projects=include_projects))]
+            return [Site(**site.summary(include_projects=include_projects))]
     return [
-        SiteEndpoint(**s.summary(include_projects=include_projects))
+        Site(**s.summary(include_projects=include_projects))
         for s in site_store.get_sites(vo_name)
     ]
 
 
 @app.get("/site/{site_name}/", tags=["sites"], response_model_exclude_none=True)
-def get_site(site_name: str, include_projects: bool = False) -> SiteEndpoint:
+def get_site(site_name: str, include_projects: bool = False) -> Site:
     """Get site information
 
     Name of the site in the GOCDB
     """
-    return SiteEndpoint(
+    return Site(
         **_get_site(site_name).summary(include_projects=include_projects)
     )
 
@@ -298,7 +314,7 @@ def get_endpoints(
     vo_name: str = "",
     site_name: str = "",
     include_projects: bool = False,
-) -> list[SiteEndpoint]:
+) -> list[Endpoint]:
     """Get a list of available endpoints.
 
     Optionally filter by VO or site name (as listed in GOCDB).
@@ -310,15 +326,15 @@ def get_endpoints(
         eps = site_store.get_sites()
     if vo_name:
         eps = [ep for ep in eps if ep.supports_vo(vo_name)]
-    return [SiteEndpoint(**ep.summary(include_projects=include_projects)) for ep in eps]
+    return [Endpoint(**ep.summary(include_projects=include_projects)) for ep in eps]
 
 
 @app.get("/endpoint/{ep_id}/", tags=["endpoints"], response_model_exclude_none=True)
 def get_endpoint(
     user: UserDep, ep_id: str, include_projects: bool = False
-) -> SiteEndpoint:
+) -> Endpoint:
     """Get endpoint information"""
-    return SiteEndpoint(
+    return Endpoint(
         **_get_endpoint(ep_id).summary(include_projects=include_projects)
     )
 
