@@ -140,7 +140,7 @@ class GlueSite(BaseModel):
     def image_list(self):
         return itertools.chain.from_iterable(s.image_list() for s in self.shares)
 
-    def summary(self, include_projects=False, include_endpoint_data=False) -> dict:
+    def summary(self, include_projects=False, include_endpoint_data=False):
         site = {
             "id": self.gocdb_id,
             "name": self.name,
