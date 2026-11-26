@@ -75,7 +75,6 @@ services:
       restart_policy:
         condition: any
 
-
 networks:
   default:
     driver: bridge
