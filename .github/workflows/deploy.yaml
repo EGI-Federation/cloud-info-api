@@ -48,6 +48,7 @@ jobs:
           export OIDC_TOKEN="$OIDC_TOKEN"
       - name: Get secrets from our service, configure site
         run: |
+          set -x
           cd deploy
           fedcloud secret get --oidc-access-token $OIDC_TOKEN is-cloud -f json > secrets.json
           export AWS_ACCESS_KEY=$(jq -r '.aws_access_key' secrets.json)
