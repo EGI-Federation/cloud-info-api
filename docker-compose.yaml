@@ -45,6 +45,37 @@ services:
       restart_policy:
         condition: any
 
+  minio:
+    image: pgsty/silo:RELEASE.2026-10-26T00-00-00Z
+    volumes:
+      - ${MINIO_DIR}:/data
+    command:
+      - server
+      - /data
+      - --console-address
+      - ":9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - MINIO_SERVER_URL=${S3_URL}
+      - MINIO_BROWSER_REDIRECT_URL=${S3_CONSOLE_URL}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.minio.service=minio"
+      - "traefik.http.routers.minio.rule=Host(`${S3_URL}`)"
+      - "traefik.http.routers.minio.entrypoints=websecure"
+      - "traefik.http.routers.minio.tls.certresolver=myresolver"
+      - "traefik.http.services.minio.loadbalancer.server.port=9000"
+      - "traefik.http.routers.minio-console.service=minio-console"
+      - "traefik.http.routers.minio-console.rule=Host(`${S3_CONSOLE_URL}`)"
+      - "traefik.http.routers.minio-console.entrypoints=websecure"
+      - "traefik.http.routers.minio-console.tls.certresolver=myresolver"
+      - "traefik.http.services.minio-console.loadbalancer.server.port=9001"
+    deploy:
+      restart_policy:
+        condition: any
+
+
 networks:
   default:
     driver: bridge

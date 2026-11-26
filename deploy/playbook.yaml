@@ -67,6 +67,12 @@
         state: directory
         mode: "0755"
 
+    - name: Create a directory for the s3 persistency
+      ansible.builtin.file:
+        path: /var/lib/s3
+        state: directory
+        mode: "0755"
+
     - name: env file
       ansible.builtin.copy:
         content: |
@@ -74,6 +80,11 @@
           TAG="sha-{{ git_ref[0:7] }}"
           OPS_PORTAL_TOKEN="{{ ops_portal_token }}"
           CLOUD_INFO_DIR="/var/lib/cloud-info"
+          MINIO_DIR="/var/lib/s3"
+          MINIO_ROOT_PASSWORD="{{ minio_root_password }}"
+          MINIO_ROOT_USER="{{ minio_root_user }}"
+          S3_URL="s3.ops.fedcloud.eu"
+          S3_CONSOLE_URL="s3-console.ops.fedcloud.eu"
         dest: /cloud-info-api/.env
 
     - name: Install OpenStack client

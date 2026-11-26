@@ -47,11 +47,18 @@ jobs:
           echo "OIDC_TOKEN=$OIDC_TOKEN" >> "$GITHUB_ENV"
           export OIDC_TOKEN="$OIDC_TOKEN"
           cd deploy
+          fedcloud secret get --oidc-access-token $TOKEN is-cloud -f json > secrets.json
+          export AWS_ACCESS_KEY=$(jq -r '.aws_access_key' secrets.json)
+          export AWS_SECRET_KEY=$(jq -r '.aws_secret_key' secrets.json)
+          echo "::add-mask::$AWS_SECRET_KEY"
+          echo "::add-mask::$AWS_ACCESS_KEY"
+          echo "AWS_ACCESS_KEY=$AWS_ACCESS_KEY" >> "$GITHUB_ENV"
+          echo "AWS_SECRET_KEY=$AWS_SECRET_KEY" >> "$GITHUB_ENV"
           ./site-config.sh
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v4
         with:
-          terraform_version: 1.2.9
+          terraform_version: 1.17.2
       - name: Terraform Format
         id: fmt
         run: |
@@ -111,11 +118,14 @@ jobs:
           terraform output -raw public_ip
       - name: Update IP in DNS
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        env:
-          NSUPDATE_SECRET: ${{ secrets.NSUPDATE_SECRET }}
         run: |
-          curl -u "is.ops.fedcloud.eu:$NSUPDATE_SECRET" \
-               "https://nsupdate.fedcloud.eu/nic/update?myip=${{ steps.public_ip.outputs.stdout }}"
+          cd deploy
+          for host in "is" "s3" "s3-console"; do
+               ns_update_secret=$(jq -r '."'${host}'_nsupdate_secret"' < secrets.json);
+               echo "::add-mask::$ns_update_secret"
+               curl -u "$host.ops.fedcloud.eu:$ns_update_secret" \
+                    "https://nsupdate.fedcloud.eu/nic/update?myip=${{ steps.public_ip.outputs.stdout }}"
+          done
       - name: Configure with ansible
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
@@ -130,7 +140,7 @@ jobs:
           chmod 600 ansible_key
           ansible-playbook -i  inventory \
             --extra-vars ACCESS_TOKEN="${{ env.OIDC_TOKEN }}" \
-            --extra-vars ops_portal_token="${{ secrets.OPS_PORTAL_TOKEN }}" \
+            --extra-vars @secrets.yaml \
             --extra-vars git_ref="${{ github.sha }}" \
             --ssh-common-args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
             -u egi --key-file ansible_key \
