@@ -50,6 +50,8 @@ jobs:
         run: |
           set -x
           cd deploy
+          curl https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/userinfo \
+               -H "Authorization: Bearer $OIDC_TOKEN" -H 'Content-type: application/json' | jq 
           fedcloud secret get --oidc-access-token $OIDC_TOKEN is-cloud -f json > secrets.json
           export AWS_ACCESS_KEY=$(jq -r '.aws_access_key' secrets.json)
           export AWS_SECRET_KEY=$(jq -r '.aws_secret_key' secrets.json)
