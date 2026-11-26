@@ -29,7 +29,7 @@ jobs:
           chmod +x jq
           pip install yq ansible fedcloudclient==1.4.4
           echo "$PWD" >> "$GITHUB_PATH"
-      - name: Get check-in token 
+      - name: Get check-in token
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
@@ -48,7 +48,7 @@ jobs:
           export OIDC_TOKEN="$OIDC_TOKEN"
       - name: Get secrets from our service, configure site
         run: |
-          fedcloud secret get --oidc-access-token $OIDC_TOKEN is-cloud -f json > deploy/secrets.json
+          fedcloud secret get --oidc-access-token "$OIDC_TOKEN" is-cloud -f json > deploy/secrets.json
           cd deploy
           AWS_ACCESS_KEY=$(jq -r '.aws_access_key' secrets.json)
           AWS_SECRET_KEY=$(jq -r '.aws_secret_key' secrets.json)
@@ -123,11 +123,11 @@ jobs:
         run: |
           cd deploy
           for host in "is" "s3" "s3-console"; do
-               secret_name="${host}_nsupdate_secret"
-               ns_update_secret=$(jq -r ."$secret_name" < secrets.json);
-               echo "::add-mask::$ns_update_secret"
-               curl -u "$host.ops.fedcloud.eu:$ns_update_secret" \
-                    "https://nsupdate.fedcloud.eu/nic/update?myip=${{ steps.public_ip.outputs.stdout }}"
+               key="${host}_nsupdate_secret"
+               passwd=$(jq -r --arg k "$key" '.[$k] < secrets.json)
+               echo "::add-mask::$passwd"
+               printf 'user = %s.ops.fedcloud.eu:%s"\n' "$host" "$passwd" | \
+                   curl --config - "https://nsupdate.fedcloud.eu/nic/update?myip=${{ steps.public_ip.outputs.stdout }}"
           done
       - name: Configure with ansible
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
