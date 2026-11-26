@@ -118,7 +118,7 @@ jobs:
           cd deploy
           for host in "is" "s3" "s3-console"; do
                key="${host}_nsupdate_secret"
-               passwd=$(jq -r --arg k "$key" '.[$k] < secrets.json)
+               passwd=$(jq -r --arg k "$key" '.[$k]' < secrets.json)
                echo "::add-mask::$passwd"
                printf 'user = %s.ops.fedcloud.eu:%s"\n' "$host" "$passwd" | \
                    curl --config - "https://nsupdate.fedcloud.eu/nic/update?myip=${{ steps.public_ip.outputs.stdout }}"
