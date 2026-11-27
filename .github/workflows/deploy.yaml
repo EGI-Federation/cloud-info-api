@@ -137,7 +137,7 @@ jobs:
           chmod 600 ansible_key
           ansible-playbook -i  inventory \
             --extra-vars ACCESS_TOKEN="${{ env.OIDC_TOKEN }}" \
-            --extra-vars @secrets.yaml \
+            --extra-vars @secrets.json \
             --extra-vars git_ref="${{ github.sha }}" \
             --ssh-common-args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
             -u egi --key-file ansible_key \
